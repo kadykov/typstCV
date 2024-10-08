@@ -1,0 +1,27 @@
+{
+  "name": "typst",
+  "build": {
+    "dockerfile": "../Dockerfile"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": "true",
+      "username": "vscode",
+      "userUid": "1000",
+      "userGid": "1000",
+      "upgradePackages": "true"
+    },
+    "ghcr.io/devcontainers/features/python:1": {},
+    "ghcr.io/dhoeric/features/hadolint:1": {}
+  },
+  "postCreateCommand": "pipx run pre-commit install",
+  "remoteUser": "vscode",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "exiasr.hadolint",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  }
+}
