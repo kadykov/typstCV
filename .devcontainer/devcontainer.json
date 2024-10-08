@@ -20,7 +20,8 @@
     "vscode": {
       "extensions": [
         "exiasr.hadolint",
-        "ms-azuretools.vscode-docker"
+        "ms-azuretools.vscode-docker",
+        "nvarner.typst-lsp"
       ]
     }
   }
