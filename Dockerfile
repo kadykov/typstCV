@@ -10,11 +10,13 @@ FROM debian:12.7-slim
 COPY --from=Builder typst-x86_64-unknown-linux-musl/typst /usr/bin/typst
 
 ARG FONTS_IBM_PLEX_VERSION=6.1.1-1
+ARG FONTS_PARATYPE_VERSION=20181108-3
 
 RUN sed -i 's/main/main contrib/' /etc/apt/sources.list.d/debian.sources \
     && apt-get -q update \
     && apt-get install -qy --no-install-recommends \
         fonts-ibm-plex=${FONTS_IBM_PLEX_VERSION} \
+        fonts-paratype=${FONTS_PARATYPE_VERSION} \
     && apt-get purge -y --auto-remove software-properties-common \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/log/*
