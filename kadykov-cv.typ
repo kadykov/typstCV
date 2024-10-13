@@ -59,23 +59,24 @@
 )
 
 #set text(
-  // font: "IBM Plex Sans", size: 11.5pt,
-  // font: "IBM Plex Serif", size: 11pt,
-  font: "PT Sans", size: 12pt,
-  // font: "PT Serif", size: 11.5pt,
+  font: "IBM Plex Serif",
+  size: 11pt,
   lang: "en",
 )
 
 #show heading: set text(
-  // font: "IBM Plex Sans", size: 1.2em, // stretch: 100%, // weight: "medium",
-  // font: "IBM Plex Serif", size: 1.2em,
-  // font: "PT Sans", size: 1.35em,
-  font: "PT Serif", size: 1.25em,
+  fill: luma(30%),
+  font: "Fira Sans",
+  size: 1.25em,
+  weight: "medium",
 )
 
-// #show link: underline
 #show link: set text(
   fill: blue,
+)
+
+#show strong: set text(
+  font: "IBM Plex Serif SmBld"
 )
 
 #set page(
@@ -253,8 +254,8 @@ _#link("https://www.openstreetmap.org/#map=17/56.29878/43.97990")[Nizhny Novgoro
 = Languages
 #secline()
 
-- French (Upper-Intermediate)
-- Russian (Native)
+- *French* (Upper-Intermediate)
+- *Russian* (Native)
 
 = Selected Publications
 #secline()

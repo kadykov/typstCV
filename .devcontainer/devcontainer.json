@@ -11,15 +11,13 @@
       "userGid": "1000",
       "upgradePackages": "true"
     },
-    "ghcr.io/devcontainers/features/python:1": {},
-    "ghcr.io/dhoeric/features/hadolint:1": {}
+    "ghcr.io/devcontainers/features/python:1": {}
   },
   "postCreateCommand": "pipx run pre-commit install",
   "remoteUser": "vscode",
   "customizations": {
     "vscode": {
       "extensions": [
-        "exiasr.hadolint",
         "ms-azuretools.vscode-docker",
         "nvarner.typst-lsp"
       ]
