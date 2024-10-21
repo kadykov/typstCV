@@ -19,7 +19,8 @@
     "vscode": {
       "extensions": [
         "ms-azuretools.vscode-docker",
-        "nvarner.typst-lsp"
+        "nvarner.typst-lsp",
+        "skellock.just"
       ]
     }
   }

@@ -1,8 +1,11 @@
+#import "@preview/fontawesome:0.4.0": *
+
 #set document(
   title: "Research Software Engineer",
   author: "Aleksandr Kadykov",
   date: auto,
   keywords: (
+    "résumé",
     "resume",
     "CV",
     "Curriculum vitae",
@@ -58,21 +61,32 @@
   )
 )
 
+#let text_color = black
+#let background_color = white
+#let primary_color = rgb("#4457af")
+
+#let bodywidth = 70%
+
+#let email = {
+  if "EMAIL" in sys.inputs.keys() {sys.inputs.EMAIL}
+  else {"cv@kadykov.com"}
+}
+
 #set text(
-  font: "IBM Plex Serif",
-  size: 11pt,
+  font: "IBM Plex Serif Text",
+  size: 10.5pt,
   lang: "en",
+  hyphenate: true,
 )
 
 #show heading: set text(
-  fill: luma(30%),
-  font: "Fira Sans",
-  size: 1.25em,
-  weight: "medium",
+  fill: primary_color,
+    font: "Fira Sans", weight: "medium",
+    hyphenate: false,
 )
 
 #show link: set text(
-  fill: blue,
+  fill: primary_color,
 )
 
 #show strong: set text(
@@ -83,38 +97,156 @@
   paper: "a4",
   margin: (
     x: 2.5cm,
-    y: 2.5cm,
+    y: 3.5cm,
   ),
+  header: [
+    Aleksandr Kadykov
+    #h(1fr)
+    #if "PHONE" in sys.inputs.keys() [
+      #link("tel:" + sys.inputs.PHONE.replace(regex("[^0-9+]"), ""))[
+        #fa-phone()
+        #sys.inputs.PHONE.replace("_", " ")
+      ]
+      |
+    ]
+    #link("mailto:" + email)[
+      #fa-envelope( )
+      #email
+    ]
+    #v(-0.5em)
+    #line(
+      length: 100%,
+      stroke: 0.5pt,
+    )
+    #v(-0.5em)
+  ],
+  footer: [
+    #v(-0.5em)
+    #line(
+      length: 100%,
+      stroke: 0.5pt,
+    )
+    #v(-0.5em)
+    #fa-arrow-up-right-from-square()
+    #link("https://www.kadykov.com"
+    )[www.kadykov.com]
+    #h(1fr)
+    #text(
+      fill: black,
+    )[#fa-github()]
+    #link("https://github.com/kadykov"
+    )[kadykov]
+    |
+    #text(
+      fill: orange,
+    )[#fa-gitlab()]
+    #link("https://gitlab.com/kadykov"
+    )[kadykov]
+    |
+    #text(
+      fill: blue,
+    )[#fa-linkedin()]
+    #link("https://www.linkedin.com/in/aleksandr-kadykov"
+    )[aleksandr-kadykov]
+  ]
 )
 
 #set par(
-  justify: true,
-  leading: 1em,
+  // justify: true,
+  leading: 0.8em,
 )
 
-#let secline() = {v(-0.3em); line(length: 100%); v(-0.1em)}
+#let secline() = {
+  v(-0.3em)
+  line(
+    length: 100%,
+    stroke: 1.5pt + primary_color,
+  )
+  v(-0.1em)
+}
 
-#image(
-  "photo.jpg",
-  width: 30%,
-)
+#let experience(
+  company_title: str,
+  company_subtitle: str,
+  company_location: str,
+  dates: str,
+  description,
+  ) = [
+  #box()[
+    #secline()
+    #block(width: 100%)[
+      #block(width: bodywidth)[
+        == #company_title
 
-_Specializing in Data Analysis, Signal Processing, Photonics,
-Solid-State Physics, and Cryogenic Measurements_
+        #emph()[#company_subtitle]
+      ]
+      #place(top + right)[
+        #fa-location-dot()
+        #emph()[#company_location]
+      ]
+    ]
+  ]
+  #block(width: 100%)[
+    #place(top + right)[
+      #fa-calendar()
+      #emph()[#dates]
+    ]
+    #block(width: bodywidth)[
+      #description
+    ]
+  ]
+]
 
-Experienced research software engineer with a strong background in
-#link("https://www.multitel.eu/expertise/applied-photonics/")[applied photonics],
-data analysis, signal processing, and instrumentation integration.
-Proven ability to design and execute experiments, develop data
-processing methods, and automate workflows in scientific environments.
-Skilled in #link("https://www.python.org/")[Python] programming,
-test-driven development
-(#link("https://en.wikipedia.org/wiki/Test-driven_development")[TDD]),
-and continuous integration/continuous delivery
-(#link("https://about.gitlab.com/topics/ci-cd/")[CI/CD]).
+#let hidden_section(title) = [
+  // #heading()[
+  //   #v(-1em)
+  //   #text(
+  //     fill: white
+  //   )[#title]
+  //   #v(-1.5em)
+  // ]
+]
 
-= Core Competencies
-#secline()
+#block(width: 100%)[
+  #box(width: bodywidth)[
+    = Research software engineer
+
+    _Specializing in_
+    _data analysis,_
+    _signal processing,_
+    _photonics,_
+    _solid-state physics,_
+    _and_
+    _cryogenic measurements._
+
+    Experienced research software engineer with a strong background in
+    #link("https://www.multitel.eu/expertise/applied-photonics/")[applied photonics],
+    data analysis, signal processing, and instrumentation integration.
+    Proven ability to design and execute experiments, develop data
+    processing methods, and automate workflows in scientific environments.
+    Skilled in #link("https://www.python.org/")[Python] programming,
+    test-driven development
+    (#link("https://en.wikipedia.org/wiki/Test-driven_development")[TDD]),
+    and continuous integration/continuous delivery
+    (#link("https://about.gitlab.com/topics/ci-cd/")[CI/CD]).
+  ]
+  #place(top + right)[
+    #box(
+      clip: true,
+      stroke: 1.5pt + primary_color,
+      radius: 100%,
+    )[
+      #image(
+        "photo.jpg",
+        width: 25%,
+      )
+    ]
+  ]
+]
+
+// = Core Competencies
+
+// #secline()
 
 - Data Analysis & Signal Processing
 - #link("https://www.python.org/")[Python] Programming
@@ -125,88 +257,154 @@ and continuous integration/continuous delivery
 - Experimental Design & Execution
 - Photonics & Cryogenics Measurements
 
-= Professional Experience
-#secline()
+#hidden_section()[
+  Professional Experience
+]
 
-== #link("https://www.multitel.eu/expertise/applied-photonics/terahertz-spectroscopy-and-imaging/")[Multitel A.S.B.L.]
+#experience(
+  company_title: [
+    #link("https://www.multitel.eu/expertise/applied-photonics/terahertz-spectroscopy-and-imaging/"
+    )[Multitel A.S.B.L.]
+  ],
+  company_subtitle: [
+    Non-profit
+    innovation center specializing in
+    #link("https://www.multitel.eu/expertise/applied-photonics/"
+    )[applied photonics],
+    #link("https://www.multitel.eu/expertise/artificial-intelligence/"
+    )[AI],
+    // #link("https://www.multitel.eu/expertise/iot-embedded-systems/"
+    // )[IoT],
+    // #link("https://www.multitel.eu/expertise/network-engineering/"
+    // )[network engineering],
+    // #link("https://railways.multitel.be/"
+    // )[railway certification],
+    etc.
+  ],
+  dates: [Jul.~2021 \ Aug.~2024],
+  company_location: [
+    #link("https://www.openstreetmap.org/#map=19/50.45756/3.92540"
+    )[Mons, Belgium]
+  ],
+)[
+  === Research Engineer in THz Spectroscopy and Imaging
 
-_Jul.~2021 -- Aug.~2024_
-_#link("https://www.openstreetmap.org/#map=19/50.45756/3.92540")[Mons, Belgium]_
-_| Innovation center specializing in_
-_#link("https://www.multitel.eu/expertise/applied-photonics/")[applied photonics],_
-_#link("https://www.multitel.eu/expertise/iot-embedded-systems/")[IoT],_
-_#link("https://www.multitel.eu/expertise/artificial-intelligence/")[AI],_
-_and #link("https://railways.multitel.be/")[railway certification]._
+  - Developed advanced methods for THz-TDS data processing, improving
+    results extraction for the
+    #link("https://www.multitel.eu/projects/tera4all/"
+    )[TERA4ALL] project.
+  - Offloaded
+    #link("https://en.wikipedia.org/wiki/Transfer-matrix_method_(optics)"
+    )[Transfer Matrix Method (TMM)]
+    calculations to a GPU, significantly enhancing refraction index
+    profile extraction.
+  - Automated laboratory workflows by implementing
+    #link("https://www.python.org/")[Python] tools for measurement
+    orchestration, data management, analysis, and result presentation.
+  - Led the #link("https://www.multitel.eu/projects/saphire/")[SAPHIRE]
+    project, developing THz-based _in-situ_ solutions for pill coating
+    thickness and humidity control.
+  - Ensured robust software development practices by incorporating unit
+    testing, #link("https://about.gitlab.com/topics/ci-cd/")[CI/CD]
+    pipelines, and comprehensive documentation.
+]
 
-=== Research Software Engineer in THz Spectroscopy and Imaging
+#experience(
+  company_title: [
+    #link("https://www.lne.fr/en/research-and-development"
+    )[Laboratoire National de Métrologie et d'Essais (LNE)]
+  ],
+  company_subtitle: [
+    French National Laboratory of Metrology and Testing
+    // with~1000 employees.
+  ],
+  dates: [Sep.~2018\ Sep.~2020],
+  company_location: [
+    #link("https://www.openstreetmap.org/#map=17/48.76090/1.98370"
+    )[
+      Trappes,
+      // Île-de-France,
+      France
+    ]
+  ]
+)[
+  === Research Engineer in Quantum Hall Effect Metrology
 
-- Developed advanced methods for THz-TDS data processing, improving
-  results extraction for the
-  #link("https://www.multitel.eu/projects/tera4all/")[TERA4ALL] project.
-- Offloaded Transfer Matrix Method
-  #link("https://en.wikipedia.org/wiki/Transfer-matrix_method_(optics)")[TMM]
-  calculations to a GPU, significantly enhancing refraction index
-  profile extraction.
-- Automated laboratory workflows by implementing
-  #link("https://www.python.org/")[Python] tools for measurement
-  orchestration, data management, analysis, and result presentation.
-- Led the #link("https://www.multitel.eu/projects/saphire/")[SAPHIRE]
-  project, developing THz-based in-situ solutions for pill coating
-  thickness and humidity control.
-- Ensured robust software development practices by incorporating unit
-  testing, #link("https://about.gitlab.com/topics/ci-cd/")[CI/CD]
-  pipelines, and comprehensive documentation.
+  - Designed a flexible #link("https://www.python.org/")[Python] software
+    package using #link("https://pymeasure.readthedocs.io")[PyMeasure],
+    optimizing scientific equipment orchestration.
+  - Led low-noise cryogenic quantum Hall measurements on graphene,
+    exploring its potential as a resistance standard.
+  - Participated in the nanofabrication of hBN-encapsulated graphene
+    samples, advancing quantum Hall research.
+]
 
-== #link("https://www.lne.fr/en/research-and-development")[Laboratoire National de Métrologie et d'Essais (LNE)]
+#experience(
+  company_title: [
+    #link("http://www.ipmras.ru/en/institute/scientific-departments/department-110/"
+    )[Institute for Physics of Microstructures RAS]
+  ],
+  company_subtitle: [
+    State-owned research institute
+    specializing in solid state physics.
+  ],
+  company_location: [
+    #link("https://www.openstreetmap.org/#map=17/56.29878/43.97990"
+    )[Nizhny Novgorod, \ Russia]
+  ],
+  dates: [May~2017 \ Sep.~2018],
+)[
+  === Research Engineer in Photonics of Narrow-Gap Semiconductors
 
-_Sep.~2018 -- Sep.~2020_
-_Trappes, France | National Metrological Laboratory_
-_with~1000 employees._
+  - Conducted THz and FTIR cryogenic measurements of photoluminescence and
+    photoconductivity.
+  - Achieved laser emission in HgCdTe heterostructures at
+    #link("https://doi.org/10.1063/1.4996966")[a record wavelength].
+]
 
-=== Research Engineer in Quantum Hall Effect Metrology
+#hidden_section()[
+  Education
+]
 
-- Designed a flexible #link("https://www.python.org/")[Python] software
-  package using #link("https://pymeasure.readthedocs.io")[PyMeasure],
-  optimizing scientific equipment orchestration.
-- Led low-noise cryogenic quantum Hall measurements on graphene,
-  exploring its potential as a resistance standard.
-- Participated in the nanofabrication of hBN-encapsulated graphene
-  samples, advancing quantum Hall research.
+#experience(
+  company_title: [
+    #link("https://coulomb.umontpellier.fr/?lang=en"
+    )[Laboratoire Charles Coulomb (L2C)]
+    |
+    #link("http://www.ipmras.ru/en/institute/scientific-departments/department-110/"
+    )[IPM RAS]
+  ],
+  company_subtitle: [
+    #link("https://edi2s.umontpellier.fr/"
+    )[I2S Doctorlal School]
+    at the
+    #link("https://www.umontpellier.fr/en/"
+    )[University of Montpellier]
+  ],
+  company_location: [
+    #link("https://www.openstreetmap.org/#map=18/43.63339/3.86312"
+    )[Montpellier, France]
+    \
+    #link("https://www.openstreetmap.org/#map=17/56.29878/43.97990"
+    )[Nizhny Novgorod, Russia]
+  ],
+  dates: [Sep.~2014 \ Dec.~2017],
+)[
 
-== #link("http://www.ipmras.ru/en/institute/scientific-departments/department-110/")[Institute for Physics of Microstructures RAS]
+  === Ph.D.~in Physics
 
-_May~2017 -- Sep.~2018_
-_#link("https://www.openstreetmap.org/#map=17/56.29878/43.97990")[Nizhny Novgorod, Russia]_
-_| State-owned research institute specializing in photonics._
+  Thesis:
+  #link("https://www.theses.fr/en/2017MONTS086")[
+    Physical properties of HgCdTe-based heterostructures:
+    towards terahertz emission and detection
+  ]
 
-=== Research Engineer in Photonics of Narrow-Gap Semiconductors
-
-- Conducted THz and FTIR cryogenic measurements of photoluminescence and
-  photoconductivity.
-- Achieved laser emission in HgCdTe heterostructures at
-  #link("https://doi.org/10.1063/1.4996966")[a record wavelength].
-
-= Education
-#secline()
-
-== Ph.D.~in Physics
-
-_#link("https://coulomb.umontpellier.fr/?lang=en")[Laboratoire Charles Coulomb (L2C)]_
-_\/_
-_#link("http://www.ipmras.ru/en/institute/scientific-departments/department-110/")[IPM RAS]_
-_| Sep.~2014 -- Dec.~2017_
-_#link("https://www.openstreetmap.org/#map=18/43.63339/3.86312")[Montpellier, France]_
-_\/_
-_#link("https://www.openstreetmap.org/#map=17/56.29878/43.97990")[Nizhny Novgorod, Russia]_
-
-*Thesis*:
-#link("https://www.theses.fr/en/2017MONTS086")[Physical properties of HgCdTe-based heterostructures: towards terahertz emission and detection]
-
-- Implemented a double-modulation technique, enabling the extraction of
-  critical magnetic fields in a topological insulator.
-- First to observe
-  #link("https://dx.doi.org/10.1103/PhysRevLett.120.086401")[a temperature-driven phase transition]
-  in a topological insulator using magnetotransport.
+  - Implemented a double-modulation technique, enabling the extraction of
+    critical magnetic fields in a topological insulator.
+  - First to observe
+    #link("https://dx.doi.org/10.1103/PhysRevLett.120.086401")[a temperature-driven phase transition]
+    in a topological insulator using magnetotransport.
+]
 
 = Technical skills
 #secline()
@@ -254,8 +452,10 @@ _#link("https://www.openstreetmap.org/#map=17/56.29878/43.97990")[Nizhny Novgoro
 = Languages
 #secline()
 
-- *French* (Upper-Intermediate)
-- *Russian* (Native)
+- *French* (#link("https://www.duolingo.com/profile/aleksandrkadykov"
+    )[upper-intermediate]
+  )
+- *Russian* (native)
 
 = Selected Publications
 #secline()
