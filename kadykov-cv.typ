@@ -1,7 +1,7 @@
 #import "@preview/fontawesome:0.4.0": *
 
 #set document(
-  title: "Research Software Engineer",
+  title: "Research Engineer",
   author: "Aleksandr Kadykov",
   date: auto,
   keywords: (
@@ -61,9 +61,9 @@
   )
 )
 
-#let text_color = black
-#let background_color = white
-#let primary_color = rgb("#4457af")
+#let text-color = black
+#let background-color = white
+#let primary-color = rgb("#4457af")
 
 #let bodywidth = 70%
 
@@ -76,17 +76,18 @@
   font: "IBM Plex Serif Text",
   size: 10.5pt,
   lang: "en",
+  fill: text-color,
   hyphenate: true,
 )
 
 #show heading: set text(
-  fill: primary_color,
+  fill: primary-color,
     font: "Fira Sans", weight: "medium",
     hyphenate: false,
 )
 
 #show link: set text(
-  fill: primary_color,
+  fill: primary-color,
 )
 
 #show strong: set text(
@@ -160,15 +161,15 @@
   v(-0.3em)
   line(
     length: 100%,
-    stroke: 1.5pt + primary_color,
+    stroke: 1.5pt + primary-color,
   )
   v(-0.1em)
 }
 
 #let experience(
-  company_title: str,
-  company_subtitle: str,
-  company_location: str,
+  company-title: str,
+  company-subtitle: str,
+  company-location: str,
   dates: str,
   description,
   ) = [
@@ -176,13 +177,13 @@
     #secline()
     #block(width: 100%)[
       #block(width: bodywidth)[
-        == #company_title
+        == #company-title
 
-        #emph()[#company_subtitle]
+        #emph()[#company-subtitle]
       ]
       #place(top + right)[
         #fa-location-dot()
-        #emph()[#company_location]
+        #emph()[#company-location]
       ]
     ]
   ]
@@ -197,43 +198,48 @@
   ]
 ]
 
-#let hidden_section(title) = [
-  // #heading()[
-  //   #v(-1em)
-  //   #text(
-  //     fill: white
-  //   )[#title]
-  //   #v(-1.5em)
-  // ]
+#let hidden-section(title) = [
+  #heading()[
+    #v(-1.15em)
+    #text(
+      fill: background-color,
+    )[#title]
+    #v(-0.5em)
+  ]
 ]
 
 #block(width: 100%)[
   #box(width: bodywidth)[
-    = Research software engineer
+    = Research Engineer
 
-    _Specializing in_
-    _data analysis,_
-    _signal processing,_
-    _photonics,_
-    _solid-state physics,_
-    _and_
-    _cryogenic measurements._
+    // _Specializing in_
+    // _data analysis,_
+    // _signal processing,_
+    // _photonics,_
+    // _solid-state physics,_
+    // _and_
+    // _cryogenic measurements._
 
-    Experienced research software engineer with a strong background in
-    #link("https://www.multitel.eu/expertise/applied-photonics/")[applied photonics],
-    data analysis, signal processing, and instrumentation integration.
+    // Experienced research engineer with a
     Proven ability to design and execute experiments, develop data
     processing methods, and automate workflows in scientific environments.
-    Skilled in #link("https://www.python.org/")[Python] programming,
-    test-driven development
-    (#link("https://en.wikipedia.org/wiki/Test-driven_development")[TDD]),
-    and continuous integration/continuous delivery
-    (#link("https://about.gitlab.com/topics/ci-cd/")[CI/CD]).
+    Strong background in
+    THz and IR
+    applied photonics,
+    cryogenic measurements,
+    data analysis,
+    signal processing,
+    and instrumentation integration.
+    // Skilled in #link("https://www.python.org/")[Python] programming,
+    // test-driven development
+    // (#link("https://en.wikipedia.org/wiki/Test-driven_development")[TDD]),
+    // and continuous integration/continuous delivery
+    // (#link("https://about.gitlab.com/topics/ci-cd/")[CI/CD]).
   ]
   #place(top + right)[
     #box(
       clip: true,
-      stroke: 1.5pt + primary_color,
+      stroke: 1.5pt + primary-color,
       radius: 100%,
     )[
       #image(
@@ -244,45 +250,38 @@
   ]
 ]
 
-// = Core Competencies
+#hidden-section()[
+  Core competencies
+]
 
 // #secline()
 
-- Data Analysis & Signal Processing
-- #link("https://www.python.org/")[Python] Programming
-- Test-Driven Development
-  (#link("https://en.wikipedia.org/wiki/Test-driven_development")[TDD])
-  & #link("https://about.gitlab.com/topics/ci-cd/")[CI/CD]
-- Instrumentation Integration & Automation
-- Experimental Design & Execution
-- Photonics & Cryogenics Measurements
+- Experimental design & execution
+- Instrumentation integration & automation
+- Data analysis & signal processing
+- #link("https://www.python.org/")[Python] programming
+- THz & IR photonics
 
-#hidden_section()[
-  Professional Experience
+#hidden-section()[
+  Professional experience
 ]
 
 #experience(
-  company_title: [
+  company-title: [
     #link("https://www.multitel.eu/expertise/applied-photonics/terahertz-spectroscopy-and-imaging/"
-    )[Multitel A.S.B.L.]
+    )[Multitel ASBL]
   ],
-  company_subtitle: [
+  company-subtitle: [
     Non-profit
     innovation center specializing in
     #link("https://www.multitel.eu/expertise/applied-photonics/"
     )[applied photonics],
     #link("https://www.multitel.eu/expertise/artificial-intelligence/"
     )[AI],
-    // #link("https://www.multitel.eu/expertise/iot-embedded-systems/"
-    // )[IoT],
-    // #link("https://www.multitel.eu/expertise/network-engineering/"
-    // )[network engineering],
-    // #link("https://railways.multitel.be/"
-    // )[railway certification],
     etc.
   ],
   dates: [Jul.~2021 \ Aug.~2024],
-  company_location: [
+  company-location: [
     #link("https://www.openstreetmap.org/#map=19/50.45756/3.92540"
     )[Mons, Belgium]
   ],
@@ -310,20 +309,18 @@
 ]
 
 #experience(
-  company_title: [
+  company-title: [
     #link("https://www.lne.fr/en/research-and-development"
     )[Laboratoire National de Métrologie et d'Essais (LNE)]
   ],
-  company_subtitle: [
+  company-subtitle: [
     French National Laboratory of Metrology and Testing
-    // with~1000 employees.
   ],
   dates: [Sep.~2018\ Sep.~2020],
-  company_location: [
+  company-location: [
     #link("https://www.openstreetmap.org/#map=17/48.76090/1.98370"
     )[
       Trappes,
-      // Île-de-France,
       France
     ]
   ]
@@ -340,17 +337,17 @@
 ]
 
 #experience(
-  company_title: [
+  company-title: [
     #link("http://www.ipmras.ru/en/institute/scientific-departments/department-110/"
-    )[Institute for Physics of Microstructures RAS]
+    )[Institute for Physics of Microstructures (IPM RAS)]
   ],
-  company_subtitle: [
+  company-subtitle: [
     State-owned research institute
     specializing in solid state physics.
   ],
-  company_location: [
+  company-location: [
     #link("https://www.openstreetmap.org/#map=17/56.29878/43.97990"
-    )[Nizhny Novgorod, \ Russia]
+    )[Nizhny Novgorod, Russia]
   ],
   dates: [May~2017 \ Sep.~2018],
 )[
@@ -362,26 +359,26 @@
     #link("https://doi.org/10.1063/1.4996966")[a record wavelength].
 ]
 
-#hidden_section()[
+#hidden-section()[
   Education
 ]
 
 #experience(
-  company_title: [
+  company-title: [
     #link("https://coulomb.umontpellier.fr/?lang=en"
     )[Laboratoire Charles Coulomb (L2C)]
-    |
+    &
     #link("http://www.ipmras.ru/en/institute/scientific-departments/department-110/"
     )[IPM RAS]
   ],
-  company_subtitle: [
+  company-subtitle: [
     #link("https://edi2s.umontpellier.fr/"
     )[I2S Doctorlal School]
     at the
     #link("https://www.umontpellier.fr/en/"
     )[University of Montpellier]
   ],
-  company_location: [
+  company-location: [
     #link("https://www.openstreetmap.org/#map=18/43.63339/3.86312"
     )[Montpellier, France]
     \
@@ -406,10 +403,10 @@
     in a topological insulator using magnetotransport.
 ]
 
-= Technical skills
 #secline()
+= Technical skills
 
-- *Programming & Data Analysis*:
+- *Programming & data analysis*:
   #link("https://www.python.org/")[Python],
   #link("https://jupyter.org/")[Jupyter],
   #link("https://numpy.org/")[NumPy],
@@ -419,26 +416,26 @@
   #link("https://pytorch.org/")[PyTorch],
   #link("https://scikit-learn.org/")[scikit-learn],
   #link("https://www.mathworks.com/products/matlab.html")[MATLAB]
-- *Data Visualization*:
+- *Data visualization*:
   #link("https://matplotlib.org/")[Matplotlib],
   #link("https://hvplot.holoviz.org/")[hvPlot],
   #link("https://plotly.com/python/")[Plotly],
   #link("https://bokeh.org/")[Bokeh],
   #link("https://panel.holoviz.org/")[Panel],
   #link("https://www.originlab.com/")[OriginPro]
-- *Measurement & Automation*:
+- *Measurement & automation*:
   #link("https://pymeasure.readthedocs.io")[PyMeasure],
   #link("https://blueskyproject.io/")[Bluesky],
   #link("https://yaq.fyi/")[yaq],
   #link("https://www.ni.com/en/shop/labview.html")[LabVIEW]
-- *Data Management & Integration*:
+- *Data management & integration*:
   #link("https://intake.readthedocs.io")[Intake],
   #link("https://en.wikipedia.org/wiki/SQL")[SQL]
-- *Document Preparation*:
+- *Document preparation*:
   #link("https://quarto.org/")[Quarto],
   #link("https://pandoc.org/")[Pandoc],
   #link("https://www.latex-project.org/")[LaTeX]
-- *Other Tools*:
+- *Other tools*:
   #link("https://code.visualstudio.com/")[VSCode],
   #link("https://git-scm.com/")[Git],
   #link("https://www.linux.com/what-is-linux/")[Linux],
@@ -449,16 +446,16 @@
   #link("https://git-scm.com/")[Git]Lab,
   #link("https://en.wikipedia.org/wiki/Test-driven_development")[TDD]
 
-= Languages
 #secline()
+= Languages
 
 - *French* (#link("https://www.duolingo.com/profile/aleksandrkadykov"
     )[upper-intermediate]
   )
 - *Russian* (native)
 
-= Selected Publications
 #secline()
+= Selected publications
 
 + Kadykov, A.M., Torres, J., Krishtopenko, S.S. et al.,
   #link("https://dx.doi.org/10.1063/1.4955018")[_Terahertz imaging of Landau levels in HgTe-based topological insulators_],
