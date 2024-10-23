@@ -50,6 +50,7 @@
     "Intake",
     "SQL",
     "Quarto",
+    "Typst",
     "Pandoc",
     "LaTeX",
     "VSCode",
@@ -65,7 +66,7 @@
 #let background-color = white
 #let primary-color = rgb("#4457af")
 
-#let bodywidth = 70%
+#let bodywidth = 73%
 
 #let email = {
   if "EMAIL" in sys.inputs.keys() {sys.inputs.EMAIL}
@@ -82,7 +83,9 @@
 
 #show heading: set text(
   fill: primary-color,
-    font: "Fira Sans", weight: "medium",
+    font: "Fira Sans",
+    weight: "medium",
+    size: 1.1em,
     hyphenate: false,
 )
 
@@ -153,7 +156,7 @@
 )
 
 #set par(
-  // justify: true,
+  justify: false,
   leading: 0.8em,
 )
 
@@ -209,38 +212,30 @@
 ]
 
 #block(width: 100%)[
-  #box(width: bodywidth)[
+  #box(width: calc.min(bodywidth, 70%))[
     = Research Engineer
 
-    // _Specializing in_
-    // _data analysis,_
-    // _signal processing,_
-    // _photonics,_
-    // _solid-state physics,_
-    // _and_
-    // _cryogenic measurements._
-
-    // Experienced research engineer with a
     Proven ability to design and execute experiments, develop data
     processing methods, and automate workflows in scientific environments.
     Strong background in
     THz and IR
     applied photonics,
+    solid-state physics,
     cryogenic measurements,
     data analysis,
     signal processing,
     and instrumentation integration.
-    // Skilled in #link("https://www.python.org/")[Python] programming,
-    // test-driven development
-    // (#link("https://en.wikipedia.org/wiki/Test-driven_development")[TDD]),
-    // and continuous integration/continuous delivery
-    // (#link("https://about.gitlab.com/topics/ci-cd/")[CI/CD]).
   ]
   #place(top + right)[
     #box(
       clip: true,
       stroke: 1.5pt + primary-color,
-      radius: 100%,
+      radius: (
+        bottom-left: 0%,
+        bottom-right: 50%,
+        top-left: 50%,
+        top-right: 0%,
+      ),
     )[
       #image(
         "photo.jpg",
@@ -254,13 +249,19 @@
   Core competencies
 ]
 
-// #secline()
+#block(
+width: calc.min(bodywidth, 70%),
+)[
+  #secline()
 
-- Experimental design & execution
-- Instrumentation integration & automation
-- Data analysis & signal processing
-- #link("https://www.python.org/")[Python] programming
-- THz & IR photonics
+  - Experimental design & execution
+  - Instrumentation integration & automation
+  - Data analysis & signal processing
+  - #link("https://github.com/search?q=language%3APython+author%3Akadykov&type=pullrequests"
+    )[Python] programming
+  - THz & IR photonics
+  - Solid-state physics
+]
 
 #hidden-section()[
   Professional experience
@@ -283,7 +284,7 @@
   dates: [Jul.~2021 \ Aug.~2024],
   company-location: [
     #link("https://www.openstreetmap.org/#map=19/50.45756/3.92540"
-    )[Mons, Belgium]
+    )[Mons \ Belgium]
   ],
 )[
   === Research Engineer in THz Spectroscopy and Imaging
@@ -292,20 +293,17 @@
     results extraction for the
     #link("https://www.multitel.eu/projects/tera4all/"
     )[TERA4ALL] project.
-  - Offloaded
-    #link("https://en.wikipedia.org/wiki/Transfer-matrix_method_(optics)"
-    )[Transfer Matrix Method (TMM)]
+  - Offloaded Transfer Matrix Method (TMM)
     calculations to a GPU, significantly enhancing refraction index
     profile extraction.
   - Automated laboratory workflows by implementing
-    #link("https://www.python.org/")[Python] tools for measurement
+    Python tools for measurement
     orchestration, data management, analysis, and result presentation.
   - Led the #link("https://www.multitel.eu/projects/saphire/")[SAPHIRE]
     project, developing THz-based _in-situ_ solutions for pill coating
     thickness and humidity control.
   - Ensured robust software development practices by incorporating unit
-    testing, #link("https://about.gitlab.com/topics/ci-cd/")[CI/CD]
-    pipelines, and comprehensive documentation.
+    testing, CI/CD pipelines, and comprehensive documentation.
 ]
 
 #experience(
@@ -320,18 +318,18 @@
   company-location: [
     #link("https://www.openstreetmap.org/#map=17/48.76090/1.98370"
     )[
-      Trappes,
+      Trappes \
       France
     ]
   ]
 )[
   === Research Engineer in Quantum Hall Effect Metrology
 
-  - Designed a flexible #link("https://www.python.org/")[Python] software
-    package using #link("https://pymeasure.readthedocs.io")[PyMeasure],
-    optimizing scientific equipment orchestration.
   - Led low-noise cryogenic quantum Hall measurements on graphene,
     exploring its potential as a resistance standard.
+  - Designed a flexible Python software
+    package using PyMeasure,
+    optimizing scientific equipment orchestration.
   - Participated in the nanofabrication of hBN-encapsulated graphene
     samples, advancing quantum Hall research.
 ]
@@ -347,7 +345,7 @@
   ],
   company-location: [
     #link("https://www.openstreetmap.org/#map=17/56.29878/43.97990"
-    )[Nizhny Novgorod, Russia]
+    )[Nizhny Novgorod \ Russia]
   ],
   dates: [May~2017 \ Sep.~2018],
 )[
@@ -404,7 +402,7 @@
 ]
 
 #secline()
-= Technical skills
+== Technical skills
 
 - *Programming & data analysis*:
   #link("https://www.python.org/")[Python],
@@ -433,6 +431,8 @@
   #link("https://en.wikipedia.org/wiki/SQL")[SQL]
 - *Document preparation*:
   #link("https://quarto.org/")[Quarto],
+  #link("https://github.com/search?q=owner%3Akadykov+language%3ATypst&type=repositories"
+  )[Typst],
   #link("https://pandoc.org/")[Pandoc],
   #link("https://www.latex-project.org/")[LaTeX]
 - *Other tools*:
@@ -442,12 +442,12 @@
   #link("https://www.docker.com/")[Docker],
   #link("https://about.gitlab.com/topics/ci-cd/")[CI/CD],
   #link("https://www.zotero.org/")[Zotero],
-  #link("https://git-scm.com/")[Git]Hub,
-  #link("https://git-scm.com/")[Git]Lab,
+  #link("https://github.com/kadykov/")[GitHub],
+  #link("https://gitlab.com/kadykov/")[GitLab],
   #link("https://en.wikipedia.org/wiki/Test-driven_development")[TDD]
 
 #secline()
-= Languages
+== Languages
 
 - *French* (#link("https://www.duolingo.com/profile/aleksandrkadykov"
     )[upper-intermediate]
