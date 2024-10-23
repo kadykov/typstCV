@@ -1,4 +1,4 @@
-#import "@preview/fontawesome:0.4.0": *
+#import "style.typ": *
 
 #let name = "Aleksandr Kadykov"
 #let post-name = "Research Engineer"
@@ -7,213 +7,23 @@
 #let gitlab = "kadykov"
 #let linkedin = "aleksandr-kadykov"
 
+// Optional email input
 #let email = {
   if "EMAIL" in sys.inputs.keys() {sys.inputs.EMAIL}
   else {"cv@kadykov.com"}
 }
 
-#let text-color = black
-#let background-color = white
-#let primary-color = rgb("#4457af")
-
-#let bodywidth = 73%
-
-#set document(
-  title: post-name,
-  author: name,
-  date: auto,
-  keywords: (
-    "résumé",
-    "resume",
-    "CV",
-    "Curriculum vitae",
-    "Research Software Engineer",
-    "Research Engineer",
-    "Software Engineer",
-    "THz",
-    "terahertz",
-    "THz-TDS",
-    "spectroscopy",
-    "cryogenics",
-    "optics",
-    "photonics",
-    "measurements",
-    "data analysis",
-    "programming",
-    "DevOps",
-    "CI/CD",
-    "TDD",
-    "Test-Driven Development",
-    "Python",
-    "Jupyter",
-    "NumPy",
-    "Pandas",
-    "Xarray",
-    "Scipy",
-    "Python array API",
-    "scikit-learn",
-    "PyTorch",
-    "MATLAB",
-    "Matplotlib",
-    "hvPlot",
-    "Plotly",
-    "Bokeh",
-    "Panel",
-    "holoviz",
-    "OriginPro",
-    "PyMeasure",
-    "Bluesky",
-    "yaq",
-    "LabVIEW",
-    "Intake",
-    "SQL",
-    "Quarto",
-    "Typst",
-    "Pandoc",
-    "LaTeX",
-    "VSCode",
-    "Git",
-    "Linux",
-    "Docker",
-    "Docker-compose",
-    "Zotero",
-  )
+// Call the function from `style.typ` and pass variables to set up the document style
+#show: setup-style.with(
+  name: name,
+  email: email,
+  website: website,
+  github: github,
+  gitlab: gitlab,
+  linkedin: linkedin,
 )
 
-#set text(
-  font: "IBM Plex Serif Text",
-  size: 10.5pt,
-  lang: "en",
-  fill: text-color,
-  hyphenate: true,
-)
-
-#show heading: set text(
-  fill: primary-color,
-    font: "Fira Sans",
-    weight: "medium",
-    size: 1.1em,
-    hyphenate: false,
-)
-
-#show strong: set text(
-  font: "IBM Plex Serif SmBld"
-)
-
-#set page(
-  paper: "a4",
-  margin: (
-    x: 2.5cm,
-    y: 3.5cm,
-  ),
-  header: [
-    #name
-    #h(1fr)
-    #if "PHONE" in sys.inputs.keys() [
-      #link("tel:" + sys.inputs.PHONE.replace(regex("[^0-9+]"), ""))[
-        #fa-phone()
-        #sys.inputs.PHONE.replace("_", " ")
-      ]
-      |
-    ]
-    #link("mailto:" + email)[
-      #fa-envelope( )
-      #email
-    ]
-    #v(-0.5em)
-    #line(
-      length: 100%,
-      stroke: 0.5pt,
-    )
-    #v(-0.5em)
-  ],
-  footer: [
-    #v(-0.5em)
-    #line(
-      length: 100%,
-      stroke: 0.5pt,
-    )
-    #v(-0.5em)
-    #fa-arrow-up-right-from-square()
-    #link("https://" + website
-    )[#website]
-    #h(1fr)
-    #text(
-      fill: black,
-    )[#fa-github()]
-    #link("https://github.com/" + github
-    )[#github]
-    |
-    #text(
-      fill: orange,
-    )[#fa-gitlab()]
-    #link("https://gitlab.com/" + gitlab
-    )[#gitlab]
-    |
-    #text(
-      fill: blue,
-    )[#fa-linkedin()]
-    #link("https://www.linkedin.com/in/" + linkedin
-    )[#linkedin]
-  ]
-)
-
-#set par(
-  justify: false,
-  leading: 0.8em,
-)
-
-#let secline() = {
-  v(-0.3em)
-  line(
-    length: 100%,
-    stroke: 1.5pt + primary-color,
-  )
-  v(-0.1em)
-}
-
-#let experience(
-  company-title: str,
-  company-subtitle: str,
-  company-location: str,
-  dates: str,
-  description,
-  ) = [
-  #box()[
-    #secline()
-    #block(width: 100%)[
-      #block(width: bodywidth)[
-        == #company-title
-
-        #emph()[#company-subtitle]
-      ]
-      #place(top + right)[
-        #fa-location-dot()
-        #emph()[#company-location]
-      ]
-    ]
-  ]
-  #block(width: 100%)[
-    #place(top + right)[
-      #fa-calendar()
-      #emph()[#dates]
-    ]
-    #block(width: bodywidth)[
-      #description
-    ]
-  ]
-]
-
-#let hidden-section(title) = [
-  #heading()[
-    #v(-1.15em)
-    #text(
-      fill: background-color,
-    )[#title]
-    #v(-0.5em)
-  ]
-]
-
+// Main content starts here
 #block(width: 100%)[
   #box(width: calc.min(bodywidth, 70%))[
     = #post-name
