@@ -22,7 +22,7 @@
     size: 10.5pt,
     lang: "en",
     fill: text-color,
-    hyphenate: true,
+    hyphenate: auto,
   )
 
   show heading: set text(

@@ -1,11 +1,19 @@
 set dotenv-load
+cv-name := "kadykov-cv"
+letter-name := "kadykov-letter"
 
 build:
   typst compile \
-  kadykov-cv.typ
+  {{cv-name}}.typ
 
 build-private:
   typst compile \
-  kadykov-cv.typ \
-  --input EMAIL='{{env_var("EMAIL")}}' \
-  --input PHONE='{{env_var("PHONE")}}'
+  {{cv-name}}.typ \
+  --input EMAIL="$EMAIL" \
+  --input PHONE="$PHONE"
+
+build-letter:
+  typst compile \
+  {{letter-name}}.typ \
+  --input EMAIL="$EMAIL" \
+  --input PHONE="$PHONE"
