@@ -3,7 +3,7 @@
 #let text-color = black
 #let background-color = white
 #let primary-color = rgb("#4457af")
-#let bodywidth = 73%
+#let bodywidth = 70%
 // Define a function to set up style that accepts external variables
 #let setup-style(
   name: "Aleksandr Kadykov",
@@ -30,7 +30,7 @@
     font: "Fira Sans",
     weight: "medium",
     size: 1.1em,
-    hyphenate: false,
+    hyphenate: auto,
   )
 
   show strong: set text(
@@ -90,7 +90,7 @@
   #box()[
     #secline()
     #block(width: 100%)[
-      #block(width: bodywidth)[
+      #block(width: bodywidth + 5%)[
         == #company-title
         #emph()[#company-subtitle]
       ]

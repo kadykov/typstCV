@@ -25,19 +25,19 @@
 
 // Main content starts here
 #block(width: 100%)[
-  #box(width: calc.min(bodywidth, 70%))[
+  #box(width: bodywidth)[
     = #post-name
 
-    Proven ability to design and execute experiments, develop data
-    processing methods, and automate workflows in scientific environments.
+    Proven ability to
+    design and execute experiments,
+    analyse and present data,
+    develop scientific Python software.
+    //
     Strong background in
-    THz and IR
-    applied photonics,
-    solid-state physics,
-    cryogenic measurements,
-    data analysis,
-    signal processing,
-    and instrumentation integration.
+    applied and basic research
+    in THz photonics
+    and
+    solid-state physics.
   ]
   #place(top + right)[
     #box(
@@ -62,18 +62,15 @@
   Core competencies
 ]
 
-#block(
-width: calc.min(bodywidth, 70%),
-)[
+#block(width: bodywidth)[
   #secline()
 
+  - Data analysis & presentation
   - Experimental design & execution
-  - Instrumentation integration & automation
-  - Data analysis & signal processing
-  - #link("https://github.com/search?q=language%3APython+author%3Akadykov&type=pullrequests"
-    )[Python] programming
-  - THz & IR photonics
-  - Solid-state physics
+  - Instrumentation integration & orchestration
+  - Scientific
+    #link("https://github.com/search?q=language%3APython+author%3Akadykov&type=pullrequests"
+    )[Python] development
 ]
 
 #hidden-section()[
@@ -102,27 +99,64 @@ width: calc.min(bodywidth, 70%),
 )[
   === Research Engineer in THz Spectroscopy and Imaging
 
-  - Developed advanced methods for THz-TDS data processing, improving
-    results extraction for the
-    #link("https://www.multitel.eu/projects/tera4all/"
-    )[TERA4ALL] project.
-  - Offloaded Transfer Matrix Method (TMM)
-    calculations to a GPU, significantly enhancing refraction index
-    profile extraction.
-  - Automated laboratory workflows by implementing
-    Python tools for measurement
-    orchestration, data management, analysis, and result presentation.
-  - Led the #link("https://www.multitel.eu/projects/saphire/")[SAPHIRE]
-    project, developing THz-based _in-situ_ solutions for pill coating
-    thickness and humidity control.
-  - Ensured robust software development practices by incorporating unit
-    testing, CI/CD pipelines, and comprehensive documentation.
+  - Developed
+    a THz time-domain spectroscopy (THz-TDS)
+    data pipeline
+    with an improved signal-to-noise ratio
+    by utilizing sensitivity profile-shaped filtering.
+
+  - Developed
+    a computationally cheap
+    THz-TDS data processing method
+    for refractive index and thickness extraction
+    in low-absorption materials.
+
+  - Streamlined
+    refractive index profile reconstruction
+    from THz-TDS data
+    by offloading calculations
+    to a GPU
+    and utilizing backpropagation-based
+    optimization algorithms.
+
+  - Implemented
+    a low-cost operation
+    and
+    high spectral quality
+    broadband THz-TDS setup
+    by suppressing atmospheric absorption
+    with silica gel-based dehumidification.
+
+  - Automated laboratory workflows
+    by implementing Python tools
+    for measurement orchestration,
+    data management,
+    analysis,
+    and result presentation.
+
+  - Ensured best software development practices
+    by implementing unit testing,
+    CI/CD pipelines,
+    and documentation.
+
+  - Led the #link("https://www.multitel.eu/projects/saphire/"
+    )[SAPHIRE] project,
+    developing
+    non-destructive
+    _in-situ_ solutions
+    to control
+    pill coating thickness
+    and humidity.
+
+  - Led the development of
+    THz-TDS-based methods
+    for polymer wastes sorting.
 ]
 
 #experience(
   company-title: [
     #link("https://www.lne.fr/en/research-and-development"
-    )[Laboratoire National de Métrologie et d'Essais (LNE)]
+    )[Laboratoire National de Métrologie et~d'Essais~(LNE)]
   ],
   company-subtitle: [
     French National Laboratory of Metrology and Testing
@@ -140,11 +174,16 @@ width: calc.min(bodywidth, 70%),
 
   - Led low-noise cryogenic quantum Hall measurements on graphene,
     exploring its potential as a resistance standard.
+
   - Designed a flexible Python software
     package using PyMeasure,
     optimizing scientific equipment orchestration.
+
   - Participated in the nanofabrication of hBN-encapsulated graphene
     samples, advancing quantum Hall research.
+
+  - Improved performance
+    of a helium gas recuperation system.
 ]
 
 #experience(
