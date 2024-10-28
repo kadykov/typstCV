@@ -20,7 +20,8 @@
       "extensions": [
         "ms-azuretools.vscode-docker",
         "nvarner.typst-lsp",
-        "skellock.just"
+        "skellock.just",
+        "ritwickdey.LiveServer"
       ]
     }
   }

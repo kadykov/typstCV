@@ -40,3 +40,24 @@ jobs:
           tags: kadykov/typst-cv:latest
           cache-from: type=registry,ref=kadykov/typst-cv:latest
           cache-to: type=inline
+
+  render:
+    name: Render and publish CV
+    needs: docker
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Render with TypstCV
+        uses: kadykov/typstCV@main
+
+      - name: Deploy CV to GitHub pages
+        uses: peaceiris/actions-gh-pages@v4
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public

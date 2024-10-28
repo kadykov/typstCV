@@ -1,0 +1,7 @@
+---
+name: 'Typst CV'
+description: 'Render PDF files with Typst'
+runs:
+  using: 'docker'
+  image: 'docker://kadykov/typst-cv:latest'
+  entrypoint: 'entrypoint.sh'
