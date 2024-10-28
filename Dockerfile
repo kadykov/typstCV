@@ -17,3 +17,5 @@ RUN dnf update -yq \
         fontawesome-6-brands-fonts \
         fontawesome-6-free-fonts \
     && dnf clean all
+
+ENV TYPST_FONT_PATHS=/usr/share/fonts/

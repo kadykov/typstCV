@@ -13,7 +13,7 @@
     },
     "ghcr.io/kadykov/devcontainer-features/pre-commit:1": {}
   },
-  "postCreateCommand": "pre-commit install",
+  "postCreateCommand": "sudo dnf install -y fontconfig && pre-commit install",
   "remoteUser": "vscode",
   "customizations": {
     "vscode": {
