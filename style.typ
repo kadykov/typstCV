@@ -13,12 +13,13 @@
   github: "kadykov",
   gitlab: "kadykov",
   linkedin: "aleksandr-kadykov",
+  keywords: ("CV",),
   doc
 ) = {
 
   // Document settings
   set text(
-    font: "IBM Plex Serif Text",
+    font: "IBM Plex Serif",
     size: 10.5pt,
     lang: "en",
     fill: text-color,
@@ -37,9 +38,16 @@
     font: "IBM Plex Serif SmBld"
   )
 
+  set document(
+    title: post-name,
+    author: name,
+    date: auto,
+    keywords: keywords,
+  )
+
   set page(
     paper: "a4",
-    margin: (x: 2.5cm, y: 3.5cm),
+    margin: (x: 2.5cm, y: 3.0cm),
     header: [
       #name
       #h(1fr)
@@ -56,10 +64,10 @@
       ]
       #v(-0.5em)
       #line(length: 100%, stroke: 0.5pt)
-      #v(-0.5em)
+      #v(-1em)
     ],
     footer: [
-      #v(-0.5em)
+      #v(-1em)
       #line(length: 100%, stroke: 0.5pt)
       #v(-0.5em)
       #fa-arrow-up-right-from-square()
@@ -86,9 +94,18 @@
   v(-0.1em)
 }
 
-#let experience(company-title: str, company-subtitle: str, company-location: str, dates: str, description) = [
+#let experience(
+  company-title: [Best Company, Inc],
+  company-subtitle: [The best company in the world],
+  company-location: [City, \ Country],
+  dates: [Jan 1970 \ present],
+  description
+) = [
   #box()[
-    #secline()
+    #context {
+      let current-position = here().position().y
+      if current-position > 100pt [#secline()]
+    }
     #block(width: 100%)[
       #block(width: bodywidth + 5%)[
         == #company-title

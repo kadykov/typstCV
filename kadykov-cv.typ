@@ -21,6 +21,62 @@
   github: github,
   gitlab: gitlab,
   linkedin: linkedin,
+  keywords: (
+    "résumé",
+    "resume",
+    "CV",
+    "Curriculum vitae",
+    "Research Software Engineer",
+    "Research Engineer",
+    "Software Engineer",
+    "THz",
+    "terahertz",
+    "THz-TDS",
+    "spectroscopy",
+    "cryogenics",
+    "optics",
+    "photonics",
+    "measurements",
+    "data analysis",
+    "programming",
+    "DevOps",
+    "CI/CD",
+    "TDD",
+    "Test-Driven Development",
+    "Python",
+    "Jupyter",
+    "NumPy",
+    "Pandas",
+    "Xarray",
+    "Scipy",
+    "Python array API",
+    "scikit-learn",
+    "PyTorch",
+    "MATLAB",
+    "Matplotlib",
+    "hvPlot",
+    "Plotly",
+    "Bokeh",
+    "Panel",
+    "holoviz",
+    "OriginPro",
+    "PyMeasure",
+    "Bluesky",
+    "yaq",
+    "LabVIEW",
+    "Intake",
+    "SQL",
+    "Quarto",
+    "Typst",
+    "Pandoc",
+    "LaTeX",
+    "VSCode",
+    "Git",
+    "Linux",
+    "Docker",
+    "Docker-compose",
+    "Zotero",
+  )
 )
 
 // Main content starts here
@@ -119,13 +175,13 @@
     and utilizing backpropagation-based
     optimization algorithms.
 
-  - Implemented
-    a low-cost operation
-    and
-    high spectral quality
-    broadband THz-TDS setup
-    by suppressing atmospheric absorption
-    with silica gel-based dehumidification.
+  // - Implemented
+  //   a low-cost operation
+  //   and
+  //   high spectral quality
+  //   broadband THz-TDS setup
+  //   by suppressing atmospheric absorption
+  //   with silica gel-based dehumidification.
 
   - Automated laboratory workflows
     by implementing Python tools
@@ -139,18 +195,18 @@
     CI/CD pipelines,
     and documentation.
 
-  - Led the #link("https://www.multitel.eu/projects/saphire/"
-    )[SAPHIRE] project,
-    developing
-    non-destructive
-    _in-situ_ solutions
-    to control
-    pill coating thickness
-    and humidity.
+  // - Led the #link("https://www.multitel.eu/projects/saphire/"
+  //   )[SAPHIRE] project,
+  //   developing
+  //   non-destructive
+  //   _in-situ_ solutions
+  //   to control
+  //   pill coating thickness
+  //   and humidity.
 
-  - Led the development of
-    THz-TDS-based methods
-    for polymer wastes sorting.
+  // - Led the development of
+  //   THz-TDS-based methods
+  //   for polymer wastes sorting.
 ]
 
 #experience(
@@ -172,18 +228,26 @@
 )[
   === Research Engineer in Quantum Hall Effect Metrology
 
-  - Led low-noise cryogenic quantum Hall measurements on graphene,
-    exploring its potential as a resistance standard.
+  - Led low-noise
+    cryogenic
+    quantum Hall measurements
+    on graphene,
+    exploring its potential
+    as a resistance standard.
 
-  - Designed a flexible Python software
-    package using PyMeasure,
+  - Designed
+    a flexible Python software
+    package,
+    // based on PyMeasure,
     optimizing scientific equipment orchestration.
 
-  - Participated in the nanofabrication of hBN-encapsulated graphene
-    samples, advancing quantum Hall research.
+  - Participated
+    in the nanofabrication
+    of hBN-encapsulated graphene stacks.
 
   - Improved performance
     of a helium gas recuperation system.
+
 ]
 
 #experience(
@@ -203,10 +267,15 @@
 )[
   === Research Engineer in Photonics of Narrow-Gap Semiconductors
 
-  - Conducted THz and FTIR cryogenic measurements of photoluminescence and
-    photoconductivity.
-  - Achieved laser emission in HgCdTe heterostructures at
-    #link("https://doi.org/10.1063/1.4996966")[a record wavelength].
+  - Led
+    THz and FTIR cryogenic measurements
+    of photoluminescence and photoconductivity.
+
+  - Achieved
+    laser emission
+    in HgCdTe heterostructures at
+    #link("https://doi.org/10.1063/1.4996966"
+    )[a record wavelength].
 ]
 
 #hidden-section()[
@@ -238,72 +307,75 @@
   dates: [Sep.~2014 \ Dec.~2017],
 )[
 
-  === Ph.D.~in Physics
+  === Ph.D.~in Solid State Physics
 
-  Thesis:
-  #link("https://www.theses.fr/en/2017MONTS086")[
-    Physical properties of HgCdTe-based heterostructures:
-    towards terahertz emission and detection
-  ]
+  - Thesis:
+    #link("https://www.theses.fr/en/2017MONTS086")[
+      Physical properties of HgCdTe-based heterostructures:
+      towards terahertz emission and detection
+    ]
 
-  - Implemented a double-modulation technique, enabling the extraction of
-    critical magnetic fields in a topological insulator.
+  - Implemented
+    a double-modulation technique,
+    enabling the extraction of critical magnetic fields
+    in a topological insulator.
+
   - First to observe
-    #link("https://dx.doi.org/10.1103/PhysRevLett.120.086401")[a temperature-driven phase transition]
-    in a topological insulator using magnetotransport.
+    #link("https://dx.doi.org/10.1103/PhysRevLett.120.086401"
+    )[a temperature-driven phase transition]
+    in a topological insulator
+    using magnetotransport.
 ]
 
-#secline()
-== Technical skills
-
-- *Programming & data analysis*:
-  #link("https://www.python.org/")[Python],
-  #link("https://jupyter.org/")[Jupyter],
-  #link("https://numpy.org/")[NumPy],
-  #link("https://pandas.pydata.org/")[Pandas],
-  #link("https://xarray.dev/")[Xarray], SciPy,
-  #link("https://docs.pytest.org/")[PyTest],
-  #link("https://pytorch.org/")[PyTorch],
-  #link("https://scikit-learn.org/")[scikit-learn],
-  #link("https://www.mathworks.com/products/matlab.html")[MATLAB]
-- *Data visualization*:
-  #link("https://matplotlib.org/")[Matplotlib],
-  #link("https://hvplot.holoviz.org/")[hvPlot],
-  #link("https://plotly.com/python/")[Plotly],
-  #link("https://bokeh.org/")[Bokeh],
-  #link("https://panel.holoviz.org/")[Panel],
-  #link("https://www.originlab.com/")[OriginPro]
-- *Measurement & automation*:
-  #link("https://pymeasure.readthedocs.io")[PyMeasure],
-  #link("https://blueskyproject.io/")[Bluesky],
-  #link("https://yaq.fyi/")[yaq],
-  #link("https://www.ni.com/en/shop/labview.html")[LabVIEW]
-- *Data management & integration*:
-  #link("https://intake.readthedocs.io")[Intake],
-  #link("https://en.wikipedia.org/wiki/SQL")[SQL]
-- *Document preparation*:
-  #link("https://quarto.org/")[Quarto],
-  #link("https://github.com/search?q=owner%3Akadykov+language%3ATypst&type=repositories"
-  )[Typst],
-  #link("https://pandoc.org/")[Pandoc],
-  #link("https://www.latex-project.org/")[LaTeX]
-- *Other tools*:
-  #link("https://code.visualstudio.com/")[VSCode],
-  #link("https://git-scm.com/")[Git],
-  #link("https://www.linux.com/what-is-linux/")[Linux],
-  #link("https://www.docker.com/")[Docker],
-  #link("https://about.gitlab.com/topics/ci-cd/")[CI/CD],
-  #link("https://www.zotero.org/")[Zotero],
-  #link("https://github.com/kadykov/")[GitHub],
-  #link("https://gitlab.com/kadykov/")[GitLab],
-  #link("https://en.wikipedia.org/wiki/Test-driven_development")[TDD]
+#hidden-section()[Technical stack]
 
 #secline()
-== Languages
 
+*Data analysis & presentation*:
+#link("https://www.python.org/")[Python],
+#link("https://numpy.org/")[NumPy],
+#link("https://pandas.pydata.org/")[Pandas],
+#link("https://xarray.dev/")[Xarray],
+#link("https://scipy.org/")[SciPy],
+#link("https://matplotlib.org/")[Matplotlib],
+#link("https://hvplot.holoviz.org/")[hvPlot],
+#link("https://plotly.com/python/")[Plotly],
+#link("https://bokeh.org/")[Bokeh],
+#link("https://panel.holoviz.org/")[Panel],
+#link("https://intake.readthedocs.io")[Intake],
+
+*Instrumentation integration & orchestration*:
+#link("https://pymeasure.readthedocs.io")[PyMeasure],
+#link("https://blueskyproject.io/")[Bluesky],
+#link("https://yaq.fyi/")[yaq],
+#link("https://www.ni.com/en/shop/labview.html")[LabVIEW]
+
+*Reporting*:
+#link("https://quarto.org/")[Quarto],
+#link("https://jupyter.org/")[Jupyter],
+#link("https://typst.app/")[Typst],
+#link("https://www.latex-project.org/")[LaTeX],
+#link("https://revealjs.com/")[RevealJS]
+
+*Programming*:
+#link("https://code.visualstudio.com/")[VSCode],
+#link("https://git-scm.com/")[Git],
+#link("https://www.linux.com/what-is-linux/")[Linux],
+#link("https://www.docker.com/")[Docker],
+#link("https://docs.pytest.org/")[PyTest],
+#link("https://pre-commit.com/")[Pre-Commit],
+#link("https://gitlab.com/kadykov/")[GitLab CI/CD],
+#link("https://github.com/kadykov/")[GitHub Actions],
+#link("https://en.wikipedia.org/wiki/Test-driven_development")[TDD],
+#link("https://containers.dev/")[Devcontainers]
+
+#hidden-section()[Languages]
+
+#secline()
+
+- *English* (upper-intermediate)
 - *French* (#link("https://www.duolingo.com/profile/aleksandrkadykov"
-    )[upper-intermediate]
-  )
+    )[upper-intermediate])
 - *Russian* (native)
 
 // #secline()
