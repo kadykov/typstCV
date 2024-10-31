@@ -2,11 +2,11 @@
 
 #let text-color = black
 #let background-color = white
-#let primary-color = rgb("#4457af")
+#let primary-color = rgb("#3A468C")
 #let bodywidth = 70%
 // Define a function to set up style that accepts external variables
 #let setup-style(
-  name: "Aleksandr Kadykov",
+  name: "Aleksandr KADYKOV",
   email: "cv@kadykov.com",
   post-name: "Research Engineer",
   website: "www.kadykov.com",
@@ -53,13 +53,13 @@
       #h(1fr)
       #if "PHONE" in sys.inputs.keys() [
         #link("tel:" + sys.inputs.PHONE.replace(regex("[^0-9+]"), ""))[
-          #fa-phone()
+          #text(fill: primary-color)[#fa-phone()]
           #sys.inputs.PHONE.replace("_", " ")
         ]
         |
       ]
       #link("mailto:" + email)[
-        #fa-envelope()
+        #text(fill: primary-color)[#fa-envelope()]
         #email
       ]
       #v(-0.5em)
@@ -70,7 +70,7 @@
       #v(-1em)
       #line(length: 100%, stroke: 0.5pt)
       #v(-0.5em)
-      #fa-arrow-up-right-from-square()
+      #text(fill: primary-color)[#fa-arrow-up-right-from-square()]
       #link("https://" + website)[#website]
       #h(1fr)
       #text(fill: black)[#fa-github()]
@@ -112,14 +112,14 @@
         #emph()[#company-subtitle]
       ]
       #place(top + right)[
-        #fa-location-dot()
+        #text(fill: primary-color)[#fa-location-dot()]
         #emph()[#company-location]
       ]
     ]
   ]
   #block(width: 100%)[
     #place(top + right)[
-      #fa-calendar()
+      #text(fill: primary-color)[#fa-calendar()]
       #emph()[#dates]
     ]
     #block(width: bodywidth)[

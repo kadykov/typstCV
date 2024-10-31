@@ -1,6 +1,6 @@
 #import "style.typ": *
 
-#let name = "Aleksandr Kadykov"
+#let name = "Aleksandr KADYKOV"
 #let post-name = "Research Engineer"
 #let website = "www.kadykov.com"
 #let github = "kadykov"
@@ -114,9 +114,7 @@
   ]
 ]
 
-#hidden-section()[
-  Core competencies
-]
+#hidden-section()[Core competencies]
 
 #block(width: bodywidth)[
   #secline()
@@ -129,9 +127,7 @@
     )[Python] development
 ]
 
-#hidden-section()[
-  Professional experience
-]
+#hidden-section()[Professional experience]
 
 #experience(
   company-title: [
@@ -278,9 +274,7 @@
     )[a record wavelength].
 ]
 
-#hidden-section()[
-  Education
-]
+#hidden-section()[Education]
 
 #experience(
   company-title: [
