@@ -76,12 +76,6 @@
 #align(right)[
   #block(width: bodywidth)[
     #set align(left)
-    *Subject*:
-    Explainig my interest
-    in working in your company
-
-    #v(1em)
-
     Dear Future Employer,
 
     #lorem(20)

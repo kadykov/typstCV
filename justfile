@@ -1,19 +1,44 @@
 set dotenv-load
-cv-name := "kadykov-cv"
-letter-name := "kadykov-letter"
+filename := "kadykov"
+cv := "cv"
+letter := "letter"
+english := "en"
+french := "fr"
 
 build:
-  typst compile \
-  {{cv-name}}.typ
+  just english
 
 build-private:
+  just english-private
+
+english:
   typst compile \
-  {{cv-name}}.typ \
+  {{filename}}-{{cv}}-{{english}}.typ
+  typst compile \
+  {{filename}}-{{letter}}-{{english}}.typ
+
+english-private:
+  typst compile \
+  {{filename}}-{{cv}}-{{english}}.typ \
+  --input EMAIL="$EMAIL" \
+  --input PHONE="$PHONE"
+  typst compile \
+  {{filename}}-{{letter}}-{{english}}.typ \
   --input EMAIL="$EMAIL" \
   --input PHONE="$PHONE"
 
-build-letter:
+french:
   typst compile \
-  {{letter-name}}.typ \
+  {{filename}}-{{cv}}-{{french}}.typ
+  typst compile \
+  {{filename}}-{{letter}}-{{french}}.typ
+
+french-private:
+  typst compile \
+  {{filename}}-{{cv}}-{{french}}.typ \
+  --input EMAIL="$EMAIL" \
+  --input PHONE="$PHONE"
+  typst compile \
+  {{filename}}-{{letter}}-{{french}}.typ \
   --input EMAIL="$EMAIL" \
   --input PHONE="$PHONE"
