@@ -1,18 +1,5 @@
 #import "style.typ": *
 
-#let name = "Aleksandr Kadykov"
-#let post-name = "Research Engineer"
-#let website = "www.kadykov.com"
-#let github = "kadykov"
-#let gitlab = "kadykov"
-#let linkedin = "aleksandr-kadykov"
-
-// Optional email input
-#let email = {
-  if "EMAIL" in sys.inputs.keys() {sys.inputs.EMAIL}
-  else {"cv@kadykov.com"}
-}
-
 #let today = datetime.today()
 #let suffix = {
   let day = today.day()
@@ -23,41 +10,27 @@
 }
 
 // Call the function from `style.typ` and pass variables to set up the document style
-#show: setup-style.with(
-  name: name,
-  email: email,
-  website: website,
-  github: github,
-  gitlab: gitlab,
-  linkedin: linkedin,
-)
-
+#show: setup-style.with()
 
 #let from-content = [
-  *From*:
-
-  #name
-
   Mons,
   Belgium
 
   #today.display(
-    "[month repr:long] [day]"
-  )#super(suffix) \
+    "[month repr:long] [day padding:none]"
+  )#super(suffix),
   #today.year()
 ]
 
 #let to-content = [
-  *To*:
+  // Future Employer
 
-  Future Employer
+  // Company
 
-  Company
-
-  Street 123\
-  City\
-  00000 \
-  Country
+  // Street 123\
+  // City\
+  // 00000 \
+  // Country
 ]
 
 #context {

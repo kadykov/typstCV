@@ -1,12 +1,14 @@
 #import "@preview/fontawesome:0.4.0": *
 
+#let name = "Aleksandr KADYKOV"
+
 #let text-color = black
 #let background-color = white
 #let primary-color = rgb("#3A468C")
 #let bodywidth = 70%
 // Define a function to set up style that accepts external variables
 #let setup-style(
-  name: "Aleksandr KADYKOV",
+  name: name,
   email: "cv@kadykov.com",
   post-name: "Research Engineer",
   website: "www.kadykov.com",
@@ -58,6 +60,10 @@
         ]
         |
       ]
+      #let email = {
+        if "EMAIL" in sys.inputs.keys() {sys.inputs.EMAIL}
+        else {"cv@kadykov.com"}
+      }
       #link("mailto:" + email)[
         #text(fill: primary-color)[#fa-envelope()]
         #email

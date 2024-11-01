@@ -1,26 +1,9 @@
 #import "style.typ": *
 
-#let name = "Aleksandr KADYKOV"
 #let post-name = "Research Engineer"
-#let website = "www.kadykov.com"
-#let github = "kadykov"
-#let gitlab = "kadykov"
-#let linkedin = "aleksandr-kadykov"
-
-// Optional email input
-#let email = {
-  if "EMAIL" in sys.inputs.keys() {sys.inputs.EMAIL}
-  else {"cv@kadykov.com"}
-}
 
 // Call the function from `style.typ` and pass variables to set up the document style
 #show: setup-style.with(
-  name: name,
-  email: email,
-  website: website,
-  github: github,
-  gitlab: gitlab,
-  linkedin: linkedin,
   keywords: (
     "résumé",
     "resume",
