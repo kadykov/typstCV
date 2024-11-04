@@ -68,12 +68,11 @@
   #box(width: bodywidth)[
     = #post-name
 
-    Compétences prouvées pour
-    concevoir et exécuter des expériences,
+    Concevoir et exécuter des expériences,
     analyser et présenter des données,
     développer des logiciels scientifiques Python.
     //
-    Solides connaissances en
+    Connaissances en
     recherche appliquée et fondamentale
     en photonique THz
     et
@@ -138,20 +137,23 @@
 
   - Développé
     un pipeline de données de spectroscopie THz en domaine temporel (THz-TDS)
-    avec un rapport signal-bruit amélioré
-    en utilisant un filtrage en forme de profil de sensibilité.
+    avec un rapport signal-bruit amélioré,
+    en utilisant un filtrage avancé.
+    // en forme de profil de sensibilité.
 
   - Développé
-    une méthode de traitement de données THz-TDS peu coûteuse en ressources informatiques
+    une méthode de traitement de données THz-TDS
+    // peu coûteuse en ressources informatiques
     pour l'extraction de l'indice de réfraction et de l'épaisseur
     dans les matériaux à faible absorption.
 
-  - Rationalisé
+  - Optimisé
     la reconstruction de profils d'indice de réfraction
     à partir de données THz-TDS
     en déchargeant les calculs
     sur une carte graphique (GPU)
-    et en utilisant des algorithmes d'optimisation basés sur la rétropropagation.
+    et en utilisant des algorithmes avancés.
+    // d'optimisation basés sur la rétropropagation.
 
   // - Mise en œuvre
   //   d'un dispositif THz-TDS à large bande
@@ -209,9 +211,9 @@
 
   - Dirigé des mesures de magnéto-transport à faible bruit
     et à basses températures
-    sur du graphène,
-    explorant son potentiel
-    comme étalon de résistance.
+    sur du graphène.
+    // explorant son potentiel
+    // comme étalon de résistance.
 
   - Conçu
     un package logiciel Python flexible,
@@ -219,7 +221,7 @@
 
   - Participé
     à la nano-fabrication
-    de piles de graphène encapsulées dans du hBN.
+    de piles de graphène/hBN.
 
   - Amélioré les performances
     d'un système de récupération de gaz hélium.
@@ -247,7 +249,7 @@
     par spectroscopie infrarouge à transformée de Fourier (FTIR)
     de puits quantiques HgTe/HgCdTe.
 
-    A obtenu
+  - A obtenu
     une émission laser
     dans des hétérostructures HgCdTe
     à une longueur d'onde record.
@@ -356,7 +358,7 @@
 + Kadykov, A.M., Krishtopenko, S.S., Jouault, B. et al., #link("https://dx.doi.org/10.1103/PhysRevLett.120.086401")[_Temperature-Induced Topological Phase Transition in HgTe Quantum Wells_], *Physical Review Letters*, 120(8), _086401_, 2018
 + Kadykov, A.M., Torres, J., Krishtopenko, S.S. et al., #link("https://dx.doi.org/10.1063/1.4955018")[_Terahertz imaging of Landau levels in HgTe-based topological insulators_], *Applied Physics Letters*, 108(26), _262102_, 2016
 + Teppe, F., Marcinkiewicz, M., Krishtopenko, S.S. et al., #link("https://dx.doi.org/10.1038/ncomms12576")[_Temperature-driven massless Kane fermions in HgCdTe crystals_], *Nature Communications*, 7, _12576_, 2016
-+ Kadykov, A.M., Teppe, F., Consejo, C. et al., #link("https://dx.doi.org/10.1063/1.4932943")[_Terahertz detection of magnetic field-driven topological phase transition in HgTe-based transistors_], *Applied Physics Letters*, 107(15), _152101_, 2015
+// + Kadykov, A.M., Teppe, F., Consejo, C. et al., #link("https://dx.doi.org/10.1063/1.4932943")[_Terahertz detection of magnetic field-driven topological phase transition in HgTe-based transistors_], *Applied Physics Letters*, 107(15), _152101_, 2015
 // + Krishtopenko, S.S., Ruffenach, S., Gonzalez-Posada, F. et al., #link("https://dx.doi.org/10.1103/PhysRevB.97.245419")[_Temperature-dependent terahertz spectroscopy of inverted-band three-layer InAs / GaSb / InAs quantum well_], *Physical Review B*, 97(24), _245419_, 2018
 // + Ruffenach, S., Kadykov, A.M., Rumyantsev, V.V. et al., #link("https://dx.doi.org/10.1063/1.4977781")[_HgCdTe-based heterostructures for terahertz photonics_], *APL Materials*, 5(3), _035503_, 2017
 // + Yahniuk, I., Krishtopenko, S.S., Grabecki, G. et al., #link("https://dx.doi.org/10.1038/s41535-019-0154-3")[_Magneto-transport in inverted HgTe quantum wells_], *npj Quantum Materials*, 4(1), _1--8_, 2019

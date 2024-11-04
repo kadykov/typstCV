@@ -3,7 +3,7 @@
 #let name = "Aleksandr KADYKOV"
 
 #let text-color = black
-#let background-color = white
+#let background-color = luma(100%, 0%) // Transparent white
 #let primary-color = rgb("#3A468C")
 #let bodywidth = 70%
 // Define a function to set up style that accepts external variables
