@@ -77,7 +77,7 @@
     in THz photonics
     and
     magnetotransport
-    in 2D-materials.
+    in 2D~materials.
   ]
   #place(top + right)[
     #box(
