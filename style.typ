@@ -16,7 +16,7 @@
   gitlab: "kadykov",
   linkedin: "aleksandr-kadykov",
   keywords: ("CV",),
-  doc
+  doc,
 ) = {
 
   // Document settings
@@ -36,9 +36,7 @@
     hyphenate: auto,
   )
 
-  show strong: set text(
-    font: "IBM Plex Serif SmBld"
-  )
+  show strong: set text(font: "IBM Plex Serif SmBld")
 
   set document(
     title: post-name,
@@ -61,8 +59,11 @@
         |
       ]
       #let email = {
-        if "EMAIL" in sys.inputs.keys() {sys.inputs.EMAIL}
-        else {"cv@kadykov.com"}
+        if "EMAIL" in sys.inputs.keys() {
+          sys.inputs.EMAIL
+        } else {
+          "cv@kadykov.com"
+        }
       }
       #link("mailto:" + email)[
         #text(fill: primary-color)[#fa-envelope()]
@@ -85,7 +86,7 @@
       #link("https://gitlab.com/" + gitlab)[#gitlab] |
       #text(fill: blue)[#fa-linkedin()]
       #link("https://www.linkedin.com/in/" + linkedin)[#linkedin]
-    ]
+    ],
   )
 
   // Paragraph settings
@@ -105,7 +106,7 @@
   company-subtitle: [The best company in the world],
   company-location: [City, \ Country],
   dates: [Jan 1970 \ present],
-  description
+  description,
 ) = [
   #box()[
     #context {

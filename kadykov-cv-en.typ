@@ -3,64 +3,62 @@
 #let post-name = "Research Engineer"
 
 // Call the function from `style.typ` and pass variables to set up the document style
-#show: setup-style.with(
-  keywords: (
-    "résumé",
-    "resume",
-    "CV",
-    "Curriculum vitae",
-    "Research Software Engineer",
-    "Research Engineer",
-    "Software Engineer",
-    "THz",
-    "terahertz",
-    "THz-TDS",
-    "spectroscopy",
-    "cryogenics",
-    "optics",
-    "photonics",
-    "measurements",
-    "data analysis",
-    "programming",
-    "DevOps",
-    "CI/CD",
-    "TDD",
-    "Test-Driven Development",
-    "Python",
-    "Jupyter",
-    "NumPy",
-    "Pandas",
-    "Xarray",
-    "Scipy",
-    "Python array API",
-    "scikit-learn",
-    "PyTorch",
-    "MATLAB",
-    "Matplotlib",
-    "hvPlot",
-    "Plotly",
-    "Bokeh",
-    "Panel",
-    "holoviz",
-    "OriginPro",
-    "PyMeasure",
-    "Bluesky",
-    "yaq",
-    "LabVIEW",
-    "Intake",
-    "SQL",
-    "Quarto",
-    "Typst",
-    "Pandoc",
-    "LaTeX",
-    "VSCode",
-    "Git",
-    "Linux",
-    "Docker",
-    "Docker-compose",
-    "Zotero",
-  )
-)
+#show: setup-style.with(keywords: (
+  "résumé",
+  "resume",
+  "CV",
+  "Curriculum vitae",
+  "Research Software Engineer",
+  "Research Engineer",
+  "Software Engineer",
+  "THz",
+  "terahertz",
+  "THz-TDS",
+  "spectroscopy",
+  "cryogenics",
+  "optics",
+  "photonics",
+  "measurements",
+  "data analysis",
+  "programming",
+  "DevOps",
+  "CI/CD",
+  "TDD",
+  "Test-Driven Development",
+  "Python",
+  "Jupyter",
+  "NumPy",
+  "Pandas",
+  "Xarray",
+  "Scipy",
+  "Python array API",
+  "scikit-learn",
+  "PyTorch",
+  "MATLAB",
+  "Matplotlib",
+  "hvPlot",
+  "Plotly",
+  "Bokeh",
+  "Panel",
+  "holoviz",
+  "OriginPro",
+  "PyMeasure",
+  "Bluesky",
+  "yaq",
+  "LabVIEW",
+  "Intake",
+  "SQL",
+  "Quarto",
+  "Typst",
+  "Pandoc",
+  "LaTeX",
+  "VSCode",
+  "Git",
+  "Linux",
+  "Docker",
+  "Docker-compose",
+  "Zotero",
+))
 
 // Main content starts here
 #block(width: 100%)[
@@ -107,30 +105,30 @@
   - Experimental design & execution
   - Instrumentation integration & orchestration
   - Scientific
-    #link("https://github.com/search?q=language%3APython+author%3Akadykov&type=pullrequests"
-    )[Python] development
+    #link("https://github.com/search?q=language%3APython+author%3Akadykov&type=pullrequests")[
+      Python] development
 ]
 
 #hidden-section()[Professional experience]
 
 #experience(
   company-title: [
-    #link("https://www.multitel.eu/expertise/applied-photonics/terahertz-spectroscopy-and-imaging/"
-    )[Multitel ASBL]
+    #link("https://www.multitel.eu/expertise/applied-photonics/terahertz-spectroscopy-and-imaging/")[
+      Multitel ASBL]
   ],
   company-subtitle: [
     Non-profit
     innovation center specializing in
-    #link("https://www.multitel.eu/expertise/applied-photonics/"
-    )[applied photonics],
-    #link("https://www.multitel.eu/expertise/artificial-intelligence/"
-    )[AI],
+    #link("https://www.multitel.eu/expertise/applied-photonics/")[
+      applied photonics],
+    #link("https://www.multitel.eu/expertise/artificial-intelligence/")[
+      AI],
     etc.
   ],
   dates: [Jul.~2021 \ Aug.~2024],
   company-location: [
-    #link("https://www.openstreetmap.org/#map=19/50.45756/3.92540"
-    )[Mons \ Belgium]
+    #link("https://www.openstreetmap.org/#map=19/50.45756/3.92540")[
+      Mons \ Belgium]
   ],
 )[
   === Research Engineer in THz Spectroscopy and Imaging
@@ -191,20 +189,17 @@
 
 #experience(
   company-title: [
-    #link("https://www.lne.fr/en/research-and-development"
-    )[Laboratoire National de Métrologie et~d'Essais~(LNE)]
+    #link("https://www.lne.fr/en/research-and-development")[
+      Laboratoire National de Métrologie et~d'Essais~(LNE)]
   ],
   company-subtitle: [
     French National Laboratory of Metrology and Testing
   ],
   dates: [Sep.~2018\ Sep.~2020],
   company-location: [
-    #link("https://www.openstreetmap.org/#map=17/48.76090/1.98370"
-    )[
-      Trappes \
-      France
-    ]
-  ]
+    #link("https://www.openstreetmap.org/#map=17/48.76090/1.98370")[
+      Trappes \ France]
+  ],
 )[
   === Research Engineer in Quantum Hall Effect Metrology
 
@@ -232,16 +227,16 @@
 
 #experience(
   company-title: [
-    #link("http://www.ipmras.ru/en/institute/scientific-departments/department-110/"
-    )[Institute for Physics of Microstructures (IPM RAS)]
+    #link("http://www.ipmras.ru/en/institute/scientific-departments/department-110/")[
+      Institute for Physics of Microstructures (IPM RAS)]
   ],
   company-subtitle: [
     State-owned research institute
     specializing in solid state physics.
   ],
   company-location: [
-    #link("https://www.openstreetmap.org/#map=17/56.29878/43.97990"
-    )[Nizhny Novgorod \ Russia]
+    #link("https://www.openstreetmap.org/#map=17/56.29878/43.97990")[
+      Nizhny Novgorod \ Russia]
   ],
   dates: [May~2017 \ Sep.~2018],
 )[
@@ -255,33 +250,33 @@
   - Achieved
     laser emission
     in HgCdTe heterostructures at
-    #link("https://doi.org/10.1063/1.4996966"
-    )[a record wavelength].
+    #link("https://doi.org/10.1063/1.4996966")[
+      a record wavelength].
 ]
 
 #hidden-section()[Education]
 
 #experience(
   company-title: [
-    #link("https://coulomb.umontpellier.fr/?lang=en"
-    )[Laboratoire Charles Coulomb (L2C)]
+    #link("https://coulomb.umontpellier.fr/?lang=en")[
+      Laboratoire Charles Coulomb (L2C)]
     &
-    #link("http://www.ipmras.ru/en/institute/scientific-departments/department-110/"
-    )[IPM RAS]
+    #link("http://www.ipmras.ru/en/institute/scientific-departments/department-110/")[
+      IPM RAS]
   ],
   company-subtitle: [
-    #link("https://edi2s.umontpellier.fr/"
-    )[I2S Doctorlal School]
+    #link("https://edi2s.umontpellier.fr/")[
+      I2S Doctorlal School]
     at the
-    #link("https://www.umontpellier.fr/en/"
-    )[University of Montpellier]
+    #link("https://www.umontpellier.fr/en/")[
+      University of Montpellier]
   ],
   company-location: [
-    #link("https://www.openstreetmap.org/#map=18/43.63339/3.86312"
-    )[Montpellier, France]
+    #link("https://www.openstreetmap.org/#map=18/43.63339/3.86312")[
+      Montpellier, France]
     \
-    #link("https://www.openstreetmap.org/#map=17/56.29878/43.97990"
-    )[Nizhny Novgorod, Russia]
+    #link("https://www.openstreetmap.org/#map=17/56.29878/43.97990")[
+      Nizhny Novgorod, Russia]
   ],
   dates: [Sep.~2014 \ Dec.~2017],
 )[
@@ -300,8 +295,8 @@
     in a topological insulator.
 
   - First to observe
-    #link("https://dx.doi.org/10.1103/PhysRevLett.120.086401"
-    )[a temperature-driven phase transition]
+    #link("https://dx.doi.org/10.1103/PhysRevLett.120.086401")[
+      a temperature-driven phase transition]
     in a HgTe/CdHgTe topological insulator
     using magnetotransport.
 ]
@@ -353,8 +348,8 @@
 #secline()
 
 - *English* (upper-intermediate)
-- *French* (#link("https://www.duolingo.com/profile/aleksandrkadykov"
-    )[upper-intermediate])
+- *French* (#link("https://www.duolingo.com/profile/aleksandrkadykov")[
+    upper-intermediate])
 - *Russian* (native)
 
 #secline()

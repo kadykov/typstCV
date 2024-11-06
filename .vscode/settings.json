@@ -1,0 +1,6 @@
+{
+  "tinymist.formatterMode": "typstyle",
+  "[typst]": {
+    "editor.formatOnSave": true
+  }
+}

@@ -3,65 +3,63 @@
 #let post-name = "Ingénieur de Recherche"
 
 // Call the function from `style.typ` and pass variables to set up the document style
-#show: setup-style.with(
-  keywords: (
-    "résumé",
-    "resume",
-    "CV",
-    "Curriculum vitae",
-    "Research Software Engineer",
-    "Research Engineer",
-    "Ingénieur de Recherche",
-    "Software Engineer",
-    "THz",
-    "terahertz",
-    "THz-TDS",
-    "spectroscopy",
-    "cryogenics",
-    "optics",
-    "photonics",
-    "measurements",
-    "data analysis",
-    "programming",
-    "DevOps",
-    "CI/CD",
-    "TDD",
-    "Test-Driven Development",
-    "Python",
-    "Jupyter",
-    "NumPy",
-    "Pandas",
-    "Xarray",
-    "Scipy",
-    "Python array API",
-    "scikit-learn",
-    "PyTorch",
-    "MATLAB",
-    "Matplotlib",
-    "hvPlot",
-    "Plotly",
-    "Bokeh",
-    "Panel",
-    "holoviz",
-    "OriginPro",
-    "PyMeasure",
-    "Bluesky",
-    "yaq",
-    "LabVIEW",
-    "Intake",
-    "SQL",
-    "Quarto",
-    "Typst",
-    "Pandoc",
-    "LaTeX",
-    "VSCode",
-    "Git",
-    "Linux",
-    "Docker",
-    "Docker-compose",
-    "Zotero",
-  )
-)
+#show: setup-style.with(keywords: (
+  "résumé",
+  "resume",
+  "CV",
+  "Curriculum vitae",
+  "Research Software Engineer",
+  "Research Engineer",
+  "Ingénieur de Recherche",
+  "Software Engineer",
+  "THz",
+  "terahertz",
+  "THz-TDS",
+  "spectroscopy",
+  "cryogenics",
+  "optics",
+  "photonics",
+  "measurements",
+  "data analysis",
+  "programming",
+  "DevOps",
+  "CI/CD",
+  "TDD",
+  "Test-Driven Development",
+  "Python",
+  "Jupyter",
+  "NumPy",
+  "Pandas",
+  "Xarray",
+  "Scipy",
+  "Python array API",
+  "scikit-learn",
+  "PyTorch",
+  "MATLAB",
+  "Matplotlib",
+  "hvPlot",
+  "Plotly",
+  "Bokeh",
+  "Panel",
+  "holoviz",
+  "OriginPro",
+  "PyMeasure",
+  "Bluesky",
+  "yaq",
+  "LabVIEW",
+  "Intake",
+  "SQL",
+  "Quarto",
+  "Typst",
+  "Pandoc",
+  "LaTeX",
+  "VSCode",
+  "Git",
+  "Linux",
+  "Docker",
+  "Docker-compose",
+  "Zotero",
+))
 
 // Main content starts here
 #block(width: 100%)[
@@ -107,30 +105,30 @@
   - Conception et exécution d'expériences
   - Intégration et orchestration d'instrumentation
   - Développement de logiciels scientifiques
-    #link("https://github.com/search?q=language%3APython+author%3Akadykov&type=pullrequests"
-    )[Python]
+    #link("https://github.com/search?q=language%3APython+author%3Akadykov&type=pullrequests")[
+      Python]
 ]
 
 #hidden-section()[Expérience professionnelle]
 
 #experience(
   company-title: [
-    #link("https://www.multitel.be/expertises/photonique-appliquee/imagerie-spectroscopie-terahertz/"
-    )[Multitel ASBL]
+    #link("https://www.multitel.be/expertises/photonique-appliquee/imagerie-spectroscopie-terahertz/")[
+      Multitel ASBL]
   ],
   company-subtitle: [
     Centre d'innovation sans but lucratif
     en
-    #link("https://www.multitel.be/expertises/photonique-appliquee/"
-    )[photonique appliquée],
-    #link("https://www.multitel.be/expertises/intelligence-artificielle/"
-    )[IA],
+    #link("https://www.multitel.be/expertises/photonique-appliquee/")[
+      photonique appliquée],
+    #link("https://www.multitel.be/expertises/intelligence-artificielle/")[
+      IA],
     etc.
   ],
   dates: [Juil.~2021 \ Août~2024],
   company-location: [
-    #link("https://www.openstreetmap.org/#map=19/50.45756/3.92540"
-    )[Mons \ Belgique]
+    #link("https://www.openstreetmap.org/#map=19/50.45756/3.92540")[
+      Mons \ Belgique]
   ],
 )[
   === Ingénieur de Recherche en Spectroscopie et Imagerie THz
@@ -190,22 +188,18 @@
 
 #experience(
   company-title: [
-    #link("https://www.lne.fr/fr/recherche-et-developpement/activites-r-et-d"
-    )[Laboratoire National de Métrologie et~d'Essais~(LNE)]
+    #link("https://www.lne.fr/fr/recherche-et-developpement/activites-r-et-d")[Laboratoire National de Métrologie et~d'Essais~(LNE)]
   ],
   company-subtitle: [
     Établissement public à caractère industriel et commercial
-    (#link("https://fr.wikipedia.org/wiki/%C3%89tablissement_public_%C3%A0_caract%C3%A8re_industriel_et_commercial_en_France"
-    )[EPIC])
+    (#link("https://fr.wikipedia.org/wiki/%C3%89tablissement_public_%C3%A0_caract%C3%A8re_industriel_et_commercial_en_France")[
+      EPIC])
   ],
   dates: [Sept.~2018\ Sept.~2020],
   company-location: [
-    #link("https://www.openstreetmap.org/#map=17/48.76090/1.98370"
-    )[
-      Trappes \
-      France
-    ]
-  ]
+    #link("https://www.openstreetmap.org/#map=17/48.76090/1.98370")[
+      Trappes \ France]
+  ],
 )[
   === Ingénieur de Recherche en Métrologie Électrique Quantique
 
@@ -229,16 +223,16 @@
 
 #experience(
   company-title: [
-    #link("http://www.ipmras.ru/en/institute/scientific-departments/department-110/"
-    )[Institute for Physics of Microstructures (IPM RAS)]
+    #link("http://www.ipmras.ru/en/institute/scientific-departments/department-110/")[
+      Institute for Physics of Microstructures (IPM RAS)]
   ],
   company-subtitle: [
     Institut de recherche public
     spécialisé en physique de l'état solide
   ],
   company-location: [
-    #link("https://www.openstreetmap.org/#map=17/56.29878/43.97990"
-    )[Nijni Novgorod \ Russie]
+    #link("https://www.openstreetmap.org/#map=17/56.29878/43.97990")[
+      Nijni Novgorod \ Russie]
   ],
   dates: [Mai~2017 \ Sept.~2018],
 )[
@@ -259,26 +253,26 @@
 
 #experience(
   company-title: [
-    #link("https://coulomb.umontpellier.fr/"
-    )[Laboratoire Charles Coulomb (L2C)]
+    #link("https://coulomb.umontpellier.fr/")[
+      Laboratoire Charles Coulomb (L2C)]
     &
-    #link("http://www.ipmras.ru/en/institute/scientific-departments/department-110/"
-    )[IPM RAS]
+    #link("http://www.ipmras.ru/en/institute/scientific-departments/department-110/")[
+      IPM RAS]
   ],
   company-subtitle: [
     École doctorale
-    #link("https://edi2s.umontpellier.fr/"
-    )[I2S]
+    #link("https://edi2s.umontpellier.fr/")[
+      I2S]
     de
-    #link("https://www.umontpellier.fr/"
-    )[l'Université de Montpellier]
+    #link("https://www.umontpellier.fr/")[
+      l'Université de Montpellier]
   ],
   company-location: [
-    #link("https://www.openstreetmap.org/#map=18/43.63339/3.86312"
-    )[Montpellier, France]
+    #link("https://www.openstreetmap.org/#map=18/43.63339/3.86312")[
+      Montpellier, France]
     \
-    #link("https://www.openstreetmap.org/#map=17/56.29878/43.97990"
-    )[Nijni Novgorod, Russie]
+    #link("https://www.openstreetmap.org/#map=17/56.29878/43.97990")[
+      Nijni Novgorod, Russie]
   ],
   dates: [Sept.~2014 \ Déc.~2017],
 )[
@@ -348,8 +342,8 @@
 #secline()
 
 - *Anglais* (niveau avancé)
-- *Français* (#link("https://www.duolingo.com/profile/aleksandrkadykov"
-    )[niveau avancé])
+- *Français* (#link("https://www.duolingo.com/profile/aleksandrkadykov")[
+    niveau avancé])
 - *Russe* (langue maternelle)
 
 #secline()

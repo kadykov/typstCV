@@ -19,7 +19,7 @@
     "vscode": {
       "extensions": [
         "ms-azuretools.vscode-docker",
-        "nvarner.typst-lsp",
+        "myriad-dreamin.tinymist",
         "skellock.just",
         "ritwickdey.LiveServer"
       ]
