@@ -16,6 +16,8 @@
   gitlab: "kadykov",
   linkedin: "aleksandr-kadykov",
   keywords: ("CV",),
+  language: "en",
+  hyphenate: auto,
   doc,
 ) = {
 
@@ -23,9 +25,9 @@
   set text(
     font: "IBM Plex Serif",
     size: 10.5pt,
-    lang: "en",
+    lang: language,
     fill: text-color,
-    hyphenate: auto,
+    hyphenate: hyphenate,
   )
 
   show heading: set text(

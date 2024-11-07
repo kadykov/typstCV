@@ -15,9 +15,7 @@
 }
 
 // Call the function from `style.typ` and pass variables to set up the document style
-#show: setup-style.with()
-
-#set text(hyphenate: true)
+#show: setup-style.with(hyphenate: true)
 
 #let from-content = [
   Mons,
