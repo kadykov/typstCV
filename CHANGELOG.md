@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- English and French version.
+- English and French versions.
 - CV and cover letter in Typst
 - `just` for rendering
 - GitHub actions for rendering and publishing to GitHub Pages

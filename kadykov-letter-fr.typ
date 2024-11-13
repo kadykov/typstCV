@@ -182,6 +182,6 @@
     Je vous remercie pour votre temps et votre considération.
 
     Cordialement, \
-    #name
+    #author
   ]
 ]

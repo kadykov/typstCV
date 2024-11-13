@@ -1,6 +1,6 @@
 #import "style.typ": *
 
-#let post-name = "Ingénieur de Recherche"
+#let title = "Ingénieur de Recherche"
 
 // Call the function from `style.typ` and pass variables to set up the document style
 #show: setup-style.with(keywords: (
@@ -64,7 +64,7 @@
 // Main content starts here
 #block(width: 100%)[
   #box(width: bodywidth)[
-    = #post-name
+    = #title
 
     Concevoir et exécuter des expériences,
     analyser et présenter des données,

@@ -179,6 +179,6 @@
     Thank you for your time and consideration.
 
     Best regards,\
-    #name
+    #author
   ]
 ]

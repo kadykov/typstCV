@@ -1,6 +1,6 @@
 #import "style.typ": *
 
-#let post-name = "Research Engineer"
+#let title = "Research Engineer"
 
 // Call the function from `style.typ` and pass variables to set up the document style
 #show: setup-style.with(keywords: (
@@ -63,7 +63,7 @@
 // Main content starts here
 #block(width: 100%)[
   #box(width: bodywidth)[
-    = #post-name
+    = #title
 
     Proven ability to
     design and execute experiments,

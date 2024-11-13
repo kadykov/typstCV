@@ -1,6 +1,6 @@
 #import "@preview/fontawesome:0.5.0": *
 
-#let name = "Aleksandr KADYKOV"
+#let author = "Aleksandr KADYKOV"
 
 #let text-color = black
 #let background-color = luma(100%, 0%) // Transparent white
@@ -8,9 +8,9 @@
 #let bodywidth = 70%
 // Define a function to set up style that accepts external variables
 #let setup-style(
-  name: name,
+  author: author,
   email: "cv@kadykov.com",
-  post-name: "Research Engineer",
+  title: "Research Engineer",
   website: "www.kadykov.com",
   github: "kadykov",
   gitlab: "kadykov",
@@ -41,8 +41,8 @@
   show strong: set text(font: "IBM Plex Serif SmBld")
 
   set document(
-    title: post-name,
-    author: name,
+    title: title,
+    author: author,
     date: auto,
     keywords: keywords,
   )
@@ -51,7 +51,7 @@
     paper: "a4",
     margin: (x: 2.5cm, y: 3.0cm),
     header: [
-      #name
+      #author
       #h(1fr)
       #if "PHONE" in sys.inputs.keys() [
         #link("tel:" + sys.inputs.PHONE.replace(regex("[^0-9+]"), ""))[
