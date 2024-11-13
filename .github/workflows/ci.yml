@@ -30,5 +30,3 @@ jobs:
 
       - name: Render with TypstCV
         uses: kadykov/typstCV@main
-        with:
-          image: Dockerfile

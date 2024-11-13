@@ -36,16 +36,9 @@ jobs:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and export to Docker
-        uses: docker/build-push-action@v6
-        with:
-          load: true
-          tags: ${{ env.IMAGE }}:test
-
-      - name: Test rendering
+      - name: Render PDFs
         uses: kadykov/typstCV@main
         with:
-          image: ${{ env.IMAGE }}:test
           output-folder: ${{ env.OUTPUT_DIR }}
 
       - name: Upload rendered PDFs
@@ -58,9 +51,10 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
+          cache-from: type=registry,ref=${{ env.IMAGE }}:latest
+          cache-to: type=inline
 
   publish:
     name: Publish to GitHub pages

@@ -2,15 +2,11 @@
 name: 'Typst CV'
 description: 'Render PDF files with Typst'
 inputs:
-  image:
-    description: 'Docker image to use'
-    required: false
-    default: 'kadykov/typst-cv:latest'
   output-folder:
     description: 'Output folder'
     required: false
     default: 'public'
 runs:
   using: 'docker'
-  image: ${{ inputs.image }}
+  image: 'Dockerfile'
   entrypoint: './entrypoint.sh'
