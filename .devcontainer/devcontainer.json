@@ -13,7 +13,7 @@
     },
     "ghcr.io/kadykov/devcontainer-features/pre-commit:1": {}
   },
-  "postCreateCommand": "sudo dnf install -y fontconfig && pre-commit install",
+  "postCreateCommand": "pre-commit install",
   "remoteUser": "vscode",
   "customizations": {
     "vscode": {
@@ -21,7 +21,8 @@
         "ms-azuretools.vscode-docker",
         "myriad-dreamin.tinymist",
         "skellock.just",
-        "ritwickdey.LiveServer"
+        "ritwickdey.LiveServer",
+        "GitHub.vscode-github-actions"
       ]
     }
   }

@@ -1,4 +1,4 @@
-#import "@preview/fontawesome:0.4.0": *
+#import "@preview/fontawesome:0.5.0": *
 
 #let name = "Aleksandr KADYKOV"
 

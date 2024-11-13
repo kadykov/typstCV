@@ -38,8 +38,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: kadykov/typst-cv:latest
-          cache-from: type=registry,ref=kadykov/typst-cv:latest
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUB_REPOSITORY }}:latest
+          cache-from: type=registry,ref=${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUB_REPOSITORY }}:latest
           cache-to: type=inline
 
   render:

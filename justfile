@@ -7,9 +7,11 @@ french := "fr"
 
 build:
   just english
+  just french
 
 build-private:
   just english-private
+  just french-private
 
 english:
   typst compile \
