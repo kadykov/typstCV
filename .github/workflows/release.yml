@@ -85,6 +85,9 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Get version from tag
         id: tag_name
         run: echo "current_version=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
@@ -114,4 +117,4 @@ jobs:
           draft: ${{ steps.changelog_reader.outputs.status == 'unreleased' }}
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: ${{ env.OUTPUT_DIR }}/
+          artifacts: ${{ env.OUTPUT_DIR }}/*.pdf
