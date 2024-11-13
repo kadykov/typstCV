@@ -2,6 +2,9 @@
 
 set -e
 
+# Render default PDF files
+just build
+
 # Use the correct environment variable for the input
 output_folder="${INPUT_OUTPUT-FOLDER}"
 
