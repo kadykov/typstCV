@@ -6,7 +6,7 @@ set -e
 just build
 
 # Use the correct environment variable for the input
-output_folder="${INPUT_OUTPUT-FOLDER}"
+output_folder="${OUTPUT_FOLDER}"
 
 # Ensure the output folder exists
 mkdir -p "$output_folder"

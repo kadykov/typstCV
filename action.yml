@@ -10,3 +10,5 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   entrypoint: './entrypoint.sh'
+  env:
+    OUTPUT_FOLDER: ${{ inputs.output-folder }}
