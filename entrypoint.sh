@@ -3,7 +3,7 @@
 set -e
 
 # Use the correct environment variable for the input
-output_folder="${INPUT_OUTPUT_FOLDER}"
+output_folder="${INPUT_OUTPUT-FOLDER}"
 
 # Ensure the output folder exists
 mkdir -p "$output_folder"
