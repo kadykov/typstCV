@@ -2,7 +2,7 @@
 
 set -e
 just build
-mkdir -p public
-cp *.pdf *.html public/
-files=$(ls public/)
-echo -e "Files in the public folder:\n$files"
+mkdir -p ${INPUTS_OUTPUT_FOLDER}
+cp *.pdf *.html ${INPUTS_OUTPUT_FOLDER}/
+files=$(ls ${INPUTS_OUTPUT_FOLDER}/)
+echo -e "Files in the ${INPUTS_OUTPUT_FOLDER} folder:\n$files"

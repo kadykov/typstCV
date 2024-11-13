@@ -1,4 +1,4 @@
-FROM alpine:3.20 AS Builder
+FROM alpine:3.20 AS builder
 
 ARG TYPST_VERSION=v0.12.0
 
@@ -7,7 +7,7 @@ RUN wget -qO typst.tar.xz https://github.com/typst/typst/releases/download/${TYP
 
 FROM fedora:40
 
-COPY --from=Builder typst-x86_64-unknown-linux-musl/typst /usr/bin/typst
+COPY --from=builder typst-x86_64-unknown-linux-musl/typst /usr/bin/typst
 
 RUN dnf update -yq \
     && dnf install -yq \
