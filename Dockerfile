@@ -12,6 +12,7 @@ COPY --from=builder typst-x86_64-unknown-linux-musl/typst /usr/bin/typst
 RUN dnf update -yq \
     && dnf install -yq \
         just \
+        pandoc \
         mozilla-fira-sans-fonts \
         ibm-plex-serif-fonts \
         fontawesome-6-brands-fonts \

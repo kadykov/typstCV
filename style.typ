@@ -9,7 +9,7 @@
 // Define a function to set up style that accepts external variables
 #let setup-style(
   author: author,
-  email: "cv@kadykov.com",
+  public-email: "cv@kadykov.com",
   title: "Research Engineer",
   website: "www.kadykov.com",
   github: "kadykov",
@@ -17,6 +17,7 @@
   linkedin: "aleksandr-kadykov",
   keywords: ("CV",),
   language: "en",
+  date: auto,
   hyphenate: auto,
   doc,
 ) = {
@@ -43,7 +44,7 @@
   set document(
     title: title,
     author: author,
-    date: auto,
+    date: date,
     keywords: keywords,
   )
 
@@ -64,7 +65,7 @@
         if "EMAIL" in sys.inputs.keys() {
           sys.inputs.EMAIL
         } else {
-          "cv@kadykov.com"
+          public-email
         }
       }
       #link("mailto:" + email)[

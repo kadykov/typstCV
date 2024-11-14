@@ -16,31 +16,71 @@ build-private:
 english:
   typst compile \
   {{filename}}-{{cv}}-{{english}}.typ
-  typst compile \
-  {{filename}}-{{letter}}-{{english}}.typ
+  pandoc \
+  {{filename}}-{{letter}}-{{english}}.md \
+  -o {{filename}}-{{letter}}-{{english}}.pdf \
+  --pdf-engine=typst \
+  --template=typst-{{letter}}.typ
 
 english-private:
   typst compile \
   {{filename}}-{{cv}}-{{english}}.typ \
   --input EMAIL="$EMAIL" \
   --input PHONE="$PHONE"
+  pandoc \
+  {{filename}}-{{letter}}-{{english}}.md \
+  -o {{filename}}-{{letter}}-{{english}}.typ \
+  --template=typst-letter.typ
   typst compile \
   {{filename}}-{{letter}}-{{english}}.typ \
   --input EMAIL="$EMAIL" \
   --input PHONE="$PHONE"
+  rm {{filename}}-{{letter}}-{{english}}.typ
 
 french:
   typst compile \
   {{filename}}-{{cv}}-{{french}}.typ
-  typst compile \
-  {{filename}}-{{letter}}-{{french}}.typ
+  pandoc \
+  {{filename}}-{{letter}}-{{french}}.md \
+  -o {{filename}}-{{letter}}-{{french}}.pdf \
+  --pdf-engine=typst \
+  --template=typst-{{letter}}.typ
 
 french-private:
   typst compile \
   {{filename}}-{{cv}}-{{french}}.typ \
   --input EMAIL="$EMAIL" \
   --input PHONE="$PHONE"
+  pandoc \
+  {{filename}}-{{letter}}-{{french}}.md \
+  -o {{filename}}-{{letter}}-{{french}}.typ \
+  --template=typst-{{letter}}.typ
   typst compile \
   {{filename}}-{{letter}}-{{french}}.typ \
   --input EMAIL="$EMAIL" \
   --input PHONE="$PHONE"
+  rm {{filename}}-{{letter}}-{{french}}.typ
+
+typst:
+  pandoc \
+  {{filename}}-{{letter}}-{{english}}.md \
+  -o {{filename}}-{{letter}}-{{english}}.typ \
+  --template=typst-{{letter}}.typ
+
+letter:
+  pandoc \
+  {{filename}}-{{letter}}-{{english}}.md \
+  -o {{filename}}-{{letter}}-{{english}}.pdf \
+  --pdf-engine=typst \
+  --template=typst-{{letter}}.typ
+
+letter-private:
+  pandoc \
+  {{filename}}-{{letter}}-{{english}}.md \
+  -o {{filename}}-{{letter}}-{{english}}.typ \
+  --template=typst-{{letter}}.typ
+  typst compile \
+  {{filename}}-{{letter}}-{{english}}.typ \
+  --input EMAIL="$EMAIL" \
+  --input PHONE="$PHONE"
+  rm {{filename}}-{{letter}}-{{english}}.typ
