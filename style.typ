@@ -6,6 +6,10 @@
 #let background-color = luma(100%, 0%) // Transparent white
 #let primary-color = rgb("#3A468C")
 #let bodywidth = 70%
+// To avoid messing up with contexts
+// #let layoutwidth = layout(size => {return size.width})
+// #layoutwidth
+#let full-width = 453.45pt
 // Define a function to set up style that accepts external variables
 #let setup-style(
   author: author,

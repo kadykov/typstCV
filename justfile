@@ -84,3 +84,18 @@ letter-private:
   --input EMAIL="$EMAIL" \
   --input PHONE="$PHONE"
   rm {{filename}}-{{letter}}-{{english}}.typ
+
+cv:
+  pandoc \
+  test-{{cv}}-{{english}}.md \
+  -o test-{{cv}}-{{english}}.typ \
+  --template=typst-{{cv}}.typ \
+  --lua-filter=typst-cv.lua
+
+cv-pdf:
+  pandoc \
+  test-{{cv}}-{{english}}.md \
+  -o test-{{cv}}-{{english}}.pdf \
+  --template=typst-{{cv}}.typ \
+  --pdf-engine=typst \
+  --lua-filter=typst-cv.lua

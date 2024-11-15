@@ -23,7 +23,9 @@
         "skellock.just",
         "ritwickdey.LiveServer",
         "GitHub.vscode-github-actions",
-        "eamodio.gitlens"
+        "eamodio.gitlens",
+        "sumneko.lua",
+        "yinfei.luahelper"
       ]
     }
   }
