@@ -80,3 +80,11 @@ function Header(el)
     -- If no attributes or no matching key, return the header unchanged
     return el
 end
+
+function OrderedList(el)
+  local typst_blocks = {}
+  table.insert(typst_blocks, pandoc.RawBlock("typst", "#block(width: full-width)["))
+  table.insert(typst_blocks, el)
+  table.insert(typst_blocks, pandoc.RawBlock("typst", "]"))
+  return typst_blocks
+end
