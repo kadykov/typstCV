@@ -1,6 +1,6 @@
 ---
 author: Aleksandr KADYKOV
-title: Letter to Future Employer
+title: Research Engineer
 public-email: cv@kadykov.com
 github: kadykov
 gitlab: kadykov
