@@ -108,6 +108,10 @@
   v(-0.1em)
 }
 
+#let horizontalrule = {
+  line(length: full-width, stroke: 1.5pt + primary-color)
+}
+
 #let experience(
   company-title: [Best Company, Inc],
   company-subtitle: [The best company in the world],
@@ -149,3 +153,15 @@
     #v(-0.5em)
   ]
 ]
+
+#let hidden-heading(title) = (
+  context {
+    let heading-size = measure(title)
+    [
+      #show heading: set text(fill: background-color)
+      #v(-1.5 * heading-size.height)
+      #title
+      #v(-heading-size.height)
+    ]
+  }
+)

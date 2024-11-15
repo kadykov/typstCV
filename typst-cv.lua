@@ -70,6 +70,13 @@ function Header(el)
         end
     end
 
+    if el.classes:includes("hidden") then
+        local typst_blocks = {}
+        table.insert(typst_blocks, pandoc.RawBlock("typst", "#hidden-heading()["))
+        table.insert(typst_blocks, el)
+        table.insert(typst_blocks, pandoc.RawBlock("typst", "]"))
+        return typst_blocks
+    end
     -- If no attributes or no matching key, return the header unchanged
     return el
 end

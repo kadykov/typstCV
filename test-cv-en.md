@@ -78,7 +78,7 @@ and
 magnetotransport
 in 2D~materials.
 
-# Core competencies
+# Core competencies {.hidden}
 
 - Data analysis & presentation
 - Experimental design & execution
@@ -87,8 +87,9 @@ in 2D~materials.
   [Python](https://github.com/search?q=language%3APython+author%3Akadykov&type=pullrequests)
   development
 
+# Professional experience {.hidden}
 
-# Professional experience
+---
 
 ## Multitel ASBL {location="Mons \\ Belgium"}
 
