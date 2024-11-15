@@ -99,7 +99,7 @@ innovation center specializing in
 [AI](https://www.multitel.eu/expertise/artificial-intelligence/),
 etc._
 
-### Research Engineer in THz Spectroscopy and Imaging {dates="Jul.~2021 \\ Aug.~2024"}
+### Research Engineer in THz Spectroscopy and Imaging {date="Jul.~2021 \\ Aug.~2024"}
 
 Developed
 a THz time-domain spectroscopy (THz-TDS)
@@ -161,7 +161,7 @@ for polymer wastes sorting. -->
 
 _[French National Laboratory of Metrology and Testing (LNE)](https://www.lne.fr/en/research-and-development)_
 
-### Research Engineer in Quantum Hall Effect Metrology {dates="Sep.~2018 \\ Sep.~2020"}
+### Research Engineer in Quantum Hall Effect Metrology {date="Sep.~2018 \\ Sep.~2020"}
 
 Led low-noise
 cryogenic
@@ -188,7 +188,7 @@ of a helium gas recuperation system.
 [_State-owned research institute
 specializing in solid state physics._](http://www.ipmras.ru/en/institute/scientific-departments/department-110/)
 
-### Research Engineer in Photonics of 2D Narrow-Gap Heterostructures {dates="May~2017 \\ Sep.~2018"}
+### Research Engineer in Photonics of 2D Narrow-Gap Heterostructures {date="May~2017 \\ Sep.~2018"}
 
 Led
 photoluminescence and photoconductivity
@@ -212,7 +212,7 @@ at the
 &
 [L2C](https://coulomb.umontpellier.fr/?lang=en)
 
-### Ph.D.~in Solid State Physics {dates="Sep.~2014 \\ Dec.~2017"}
+### Ph.D.~in Solid State Physics {date="Sep.~2014 \\ Dec.~2017"}
 
 Thesis:
 [

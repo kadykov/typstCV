@@ -165,3 +165,47 @@
     ]
   }
 )
+
+#let place-right(body) = [
+  #box()[
+    #place(
+      right,
+      dy: -2.5em,
+      dx: full-width,
+    )[
+      #body
+    ]
+  ]
+  #h(-0.25em)
+]
+
+#let company-location(body) = [
+  #text(fill: primary-color)[#fa-location-dot()]
+  #emph(body)
+]
+
+#let event-date(body) = [
+  #text(fill: primary-color)[#fa-calendar()]
+  #emph(body)
+]
+
+#let profile-photo(
+  photo-path,
+  width: 120pt,
+) = [
+  #box(
+    clip: true,
+    stroke: 1.5pt + primary-color,
+    radius: (
+      bottom-left: 0pt,
+      bottom-right: 50%,
+      top-left: 50%,
+      top-right: 0pt,
+    ),
+  )[
+    #image(
+      photo-path,
+      width: width,
+    )
+  ]
+]
