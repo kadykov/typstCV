@@ -18,7 +18,7 @@
     $endfor$
   ),
   $endif$
-  hyphenate: true,
+  hyphenate: auto,
 )
 
 #block(width: bodywidth)[
