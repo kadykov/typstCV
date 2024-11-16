@@ -96,6 +96,7 @@ cv:
   pandoc \
   test-{{cv}}-{{english}}.md \
   -o test-{{cv}}-{{english}}.typ \
+  --wrap=preserve \
   --template=typst-{{cv}}.typ \
   --lua-filter=typst-cv.lua
 
@@ -104,5 +105,7 @@ cv-pdf:
   test-{{cv}}-{{english}}.md \
   -o test-{{cv}}-{{english}}.pdf \
   --template=typst-{{cv}}.typ \
+  --wrap=preserve \
   --pdf-engine=typst \
+  --lua-filter=linkify.lua \
   --lua-filter=typst-cv.lua

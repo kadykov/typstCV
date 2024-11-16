@@ -62,6 +62,30 @@ keywords:
   - Docker
   - Docker-compose
   - Zotero
+links:
+  Multitel: https://www.multitel.eu/expertise/applied-photonics/terahertz-spectroscopy-and-imaging/
+  ASBL: https://fr.wikipedia.org/wiki/Association_sans_but_lucratif
+  SAPHIRE: https://www.multitel.eu/projects/saphire/
+  LNE: https://www.lne.fr/en/research-and-development
+  EPIC: https://en.wikipedia.org/wiki/%C3%89tablissement_public_%C3%A0_caract%C3%A8re_industriel_et_commercial
+  I2S: https://edi2s.umontpellier.fr/
+  L2C: https://coulomb.umontpellier.fr/?lang=en
+  IPM: http://www.ipmras.ru/en/institute/scientific-departments/department-110/
+  RAS: https://en.wikipedia.org/wiki/Russian_Academy_of_Sciences
+  TDS: https://en.wikipedia.org/wiki/Terahertz_time-domain_spectroscopy
+  THz: https://en.wikipedia.org/wiki/Terahertz_radiation
+  hBN: https://en.wikipedia.org/wiki/Boron_nitride
+  HgCdTe: https://en.wikipedia.org/wiki/Mercury_cadmium_telluride
+  graphene: https://en.wikipedia.org/wiki/Graphene
+  helium: https://en.wikipedia.org/wiki/Liquid_helium
+  Python: https://github.com/search?q=language%3APython+author%3Akadykov&type=pullrequests
+  wavelength: https://doi.org/10.1063/1.4996966
+  FTIR: https://en.wikipedia.org/wiki/Fourier-transform_infrared_spectroscopy
+  Mons: https://www.openstreetmap.org/#map=19/50.45756/3.92540
+  Trappes: https://www.openstreetmap.org/#map=17/48.76090/1.98370
+  Nizhny: https://www.openstreetmap.org/#map=17/56.29878/43.97990
+  Novgorod: https://www.openstreetmap.org/#map=17/56.29878/43.97990
+  Thesis: https://www.theses.fr/en/2017MONTS086
 ---
 
 # Research Engineer {photo="photo.jpg"}
@@ -83,9 +107,7 @@ in 2D~materials.
 - Data analysis & presentation
 - Experimental design & execution
 - Instrumentation integration & orchestration
-- Scientific
-  [Python](https://github.com/search?q=language%3APython+author%3Akadykov&type=pullrequests)
-  development
+- Scientific Python development
 
 # Professional experience {.hidden}
 
@@ -95,9 +117,7 @@ in 2D~materials.
 
 _Non-profit
 innovation center specializing in
-[applied photonics](https://www.multitel.eu/expertise/applied-photonics/),
-[AI](https://www.multitel.eu/expertise/artificial-intelligence/),
-etc._
+applied photonics, AI, etc._
 
 ### Research Engineer in THz Spectroscopy and Imaging {date="Jul.~2021 \\ Aug.~2024"}
 
@@ -141,9 +161,8 @@ by implementing unit testing,
 CI/CD pipelines,
 and documentation.
 
-<!-- Led the
-[SAPHIRE](https://www.multitel.eu/projects/saphire/)
-project,
+<!-- Led
+the SAPHIRE project,
 developing
 non-destructive
 _in-situ_ solutions
@@ -159,7 +178,7 @@ for polymer wastes sorting. -->
 
 ## Laboratoire National de Métrologie et d'Essais {location="Trappes \\ France"}
 
-_[French National Laboratory of Metrology and Testing (LNE)](https://www.lne.fr/en/research-and-development)_
+_French National Laboratory of Metrology and Testing (LNE)_
 
 ### Research Engineer in Quantum Hall Effect Metrology {date="Sep.~2018 \\ Sep.~2020"}
 
@@ -185,8 +204,8 @@ of a helium gas recuperation system.
 
 ## Institute for Physics of Microstructures (IPM RAS) {location="Nizhny Novgorod \\ Russia"}
 
-[_State-owned research institute
-specializing in solid state physics._](http://www.ipmras.ru/en/institute/scientific-departments/department-110/)
+_State-owned research institute
+specializing in solid state physics._
 
 ### Research Engineer in Photonics of 2D Narrow-Gap Heterostructures {date="May~2017 \\ Sep.~2018"}
 
@@ -198,7 +217,7 @@ of HgTe/HgCdTe quantum wells.
 Achieved
 laser emission
 in HgCdTe heterostructures at
-[a record wavelength](https://doi.org/10.1063/1.4996966).
+a record wavelength.
 
 ---
 
@@ -206,11 +225,9 @@ in HgCdTe heterostructures at
 
 ## Laboratoire Charles Coulomb (L2C) & IPM RAS {location="Montpellier, France \\ Nizhny Novgorod, Russia"}
 
-[I2S Doctorlal School](https://edi2s.umontpellier.fr/)
-at the
-[University of Montpellier](https://www.umontpellier.fr/en/)
-&
-[L2C](https://coulomb.umontpellier.fr/?lang=en)
+I2S Doctorlal School
+at the University of Montpellier
+& L2C
 
 ### Ph.D.~in Solid State Physics {date="Sep.~2014 \\ Dec.~2017"}
 

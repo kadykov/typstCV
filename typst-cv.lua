@@ -1,3 +1,5 @@
+local pandoc = require 'pandoc'
+
 function Header(el)
     -- Check if the header has attributes
     if el.attributes then
