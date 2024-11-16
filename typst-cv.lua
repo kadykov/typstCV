@@ -6,19 +6,21 @@ function Header(el)
 
         for key, value in pairs(el.attributes) do
             if key == "date" then
+                table.insert(typst_blocks, pandoc.RawBlock("typst", "#body-side(["))
                 table.insert(typst_blocks, el)
                 table.insert(typst_blocks,
-                    pandoc.RawBlock("typst", string.format("#place-right()[#company-location()[%s]]", value)))
+                    pandoc.RawBlock("typst", string.format("], side: company-location()[%s])", value)))
                 return typst_blocks
             elseif key == "location" then
+                table.insert(typst_blocks, pandoc.RawBlock("typst", "#body-side(["))
                 table.insert(typst_blocks, el)
-                table.insert(typst_blocks,
-                    pandoc.RawBlock("typst", string.format("#place-right()[#event-date()[%s]]", value)))
+                table.insert(typst_blocks, pandoc.RawBlock("typst", string.format("], side: event-date()[%s])", value)))
                 return typst_blocks
             elseif key == "photo" then
+                table.insert(typst_blocks, pandoc.RawBlock("typst", "#body-side(["))
                 table.insert(typst_blocks, el)
                 table.insert(typst_blocks,
-                    pandoc.RawBlock("typst", string.format("#place-right()[#profile-photo(\"%s\")]", value)))
+                    pandoc.RawBlock("typst", string.format("], side: profile-photo(\"%s\"))", value)))
                 return typst_blocks
             end
         end

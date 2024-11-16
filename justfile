@@ -20,6 +20,7 @@ english:
   {{filename}}-{{letter}}-{{english}}.md \
   -o {{filename}}-{{letter}}-{{english}}.pdf \
   --pdf-engine=typst \
+  --wrap=preserve \
   --template=typst-{{letter}}.typ
 
 english-private:
@@ -30,7 +31,8 @@ english-private:
   pandoc \
   {{filename}}-{{letter}}-{{english}}.md \
   -o {{filename}}-{{letter}}-{{english}}.typ \
-  --template=typst-letter.typ
+  --wrap=preserve \
+  --template=typst-{{letter}}.typ
   typst compile \
   {{filename}}-{{letter}}-{{english}}.typ \
   --input EMAIL="$EMAIL" \
@@ -44,6 +46,7 @@ french:
   {{filename}}-{{letter}}-{{french}}.md \
   -o {{filename}}-{{letter}}-{{french}}.pdf \
   --pdf-engine=typst \
+  --wrap=preserve \
   --template=typst-{{letter}}.typ
 
 french-private:
@@ -54,6 +57,7 @@ french-private:
   pandoc \
   {{filename}}-{{letter}}-{{french}}.md \
   -o {{filename}}-{{letter}}-{{french}}.typ \
+  --wrap=preserve \
   --template=typst-{{letter}}.typ
   typst compile \
   {{filename}}-{{letter}}-{{french}}.typ \
@@ -65,6 +69,7 @@ typst:
   pandoc \
   {{filename}}-{{letter}}-{{english}}.md \
   -o {{filename}}-{{letter}}-{{english}}.typ \
+  --wrap=preserve \
   --template=typst-{{letter}}.typ
 
 letter:
@@ -72,12 +77,14 @@ letter:
   {{filename}}-{{letter}}-{{english}}.md \
   -o {{filename}}-{{letter}}-{{english}}.pdf \
   --pdf-engine=typst \
+  --wrap=preserve \
   --template=typst-{{letter}}.typ
 
 letter-private:
   pandoc \
   {{filename}}-{{letter}}-{{english}}.md \
   -o {{filename}}-{{letter}}-{{english}}.typ \
+  --wrap=preserve \
   --template=typst-{{letter}}.typ
   typst compile \
   {{filename}}-{{letter}}-{{english}}.typ \

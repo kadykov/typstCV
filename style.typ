@@ -5,11 +5,12 @@
 #let text-color = black
 #let background-color = luma(100%, 0%) // Transparent white
 #let primary-color = rgb("#3A468C")
-#let bodywidth = 70%
 // To avoid messing up with contexts
 // #let layoutwidth = layout(size => {return size.width})
 // #layoutwidth
 #let full-width = 453.45pt
+#let bodywidth = 317.41pt
+#let line-spacing = 0.8em
 // Define a function to set up style that accepts external variables
 #let setup-style(
   author: author,
@@ -97,7 +98,11 @@
   )
 
   // Paragraph settings
-  set par(justify: false, leading: 0.8em)
+
+  set par(
+    justify: false,
+    leading: line-spacing,
+  )
 
   doc
 }
@@ -166,18 +171,23 @@
   }
 )
 
-#let place-right(body) = [
-  #box()[
-    #place(
-      right,
-      dy: -2.5em,
-      dx: full-width,
-    )[
+#let body-side(body, side: []) = (
+  context {
+    let body-after-text = measure(block()[Text \ #body], width: bodywidth)
+    let text-only = measure([Text])
+    [
       #body
+      #box()[
+        #place(
+          right,
+          dy: -(body-after-text.height - text-only.height),
+          dx: full-width,
+        )[#side]
+      ]
+      #h(-0.25em)
     ]
-  ]
-  #h(-0.25em)
-]
+  }
+)
 
 #let company-location(body) = [
   #text(fill: primary-color)[#fa-location-dot()]
