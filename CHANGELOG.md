@@ -9,7 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Cover letters are now in Markdown format and converted to Typst with a pandoc template
+- CVs and cover letters are now written in Markdown and converted to Typst using a Pandoc template
+
+### Added
+
+- `linkify` Pandoc Lua filter that automatically converts keywords in the document into hyperlinks
 
 ## [0.1.0] - 2024-11-13
 

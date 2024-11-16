@@ -4,6 +4,11 @@ cv := "cv"
 letter := "letter"
 english := "en"
 french := "fr"
+typst := "typst compile"
+pandoc := "pandoc --wrap=preserve --pdf-engine=typst --lua-filter=linkify.lua --lua-filter=typst-cv.lua"
+pandoc-to-typst := "--to=typst | typst compile -"
+private-args := '--input EMAIL="$EMAIL" --input PHONE="$PHONE"'
+
 
 build:
   just english
@@ -14,98 +19,49 @@ build-private:
   just french-private
 
 english:
-  typst compile \
-  {{filename}}-{{cv}}-{{english}}.typ
-  pandoc \
+  {{pandoc}} \
+  {{filename}}-{{cv}}-{{english}}.md \
+  -o {{filename}}-{{cv}}-{{english}}.pdf \
+  --template=typst-{{cv}}.typ
+  {{pandoc}} \
   {{filename}}-{{letter}}-{{english}}.md \
   -o {{filename}}-{{letter}}-{{english}}.pdf \
-  --pdf-engine=typst \
-  --wrap=preserve \
   --template=typst-{{letter}}.typ
 
 english-private:
-  typst compile \
-  {{filename}}-{{cv}}-{{english}}.typ \
-  --input EMAIL="$EMAIL" \
-  --input PHONE="$PHONE"
-  pandoc \
+  {{pandoc}} \
+  {{filename}}-{{cv}}-{{english}}.md \
+  --template=typst-{{cv}}.typ \
+  {{pandoc-to-typst}} \
+  {{filename}}-{{cv}}-{{english}}.pdf \
+  {{private-args}}
+  {{pandoc}} \
   {{filename}}-{{letter}}-{{english}}.md \
-  -o {{filename}}-{{letter}}-{{english}}.typ \
-  --wrap=preserve \
-  --template=typst-{{letter}}.typ
-  typst compile \
-  {{filename}}-{{letter}}-{{english}}.typ \
-  --input EMAIL="$EMAIL" \
-  --input PHONE="$PHONE"
-  rm {{filename}}-{{letter}}-{{english}}.typ
+  --template=typst-{{letter}}.typ \
+  {{pandoc-to-typst}} \
+  {{filename}}-{{letter}}-{{english}}.pdf \
+  {{private-args}}
 
 french:
-  typst compile \
-  {{filename}}-{{cv}}-{{french}}.typ
-  pandoc \
+  {{pandoc}} \
+  {{filename}}-{{cv}}-{{french}}.md \
+  -o {{filename}}-{{cv}}-{{french}}.pdf \
+  --template=typst-{{cv}}.typ
+  {{pandoc}} \
   {{filename}}-{{letter}}-{{french}}.md \
   -o {{filename}}-{{letter}}-{{french}}.pdf \
-  --pdf-engine=typst \
-  --wrap=preserve \
   --template=typst-{{letter}}.typ
 
 french-private:
-  typst compile \
-  {{filename}}-{{cv}}-{{french}}.typ \
-  --input EMAIL="$EMAIL" \
-  --input PHONE="$PHONE"
-  pandoc \
+  {{pandoc}} \
+  {{filename}}-{{cv}}-{{french}}.md \
+  --template=typst-{{cv}}.typ \
+  {{pandoc-to-typst}} \
+  {{filename}}-{{cv}}-{{french}}.pdf \
+  {{private-args}}
+  {{pandoc}} \
   {{filename}}-{{letter}}-{{french}}.md \
-  -o {{filename}}-{{letter}}-{{french}}.typ \
-  --wrap=preserve \
-  --template=typst-{{letter}}.typ
-  typst compile \
-  {{filename}}-{{letter}}-{{french}}.typ \
-  --input EMAIL="$EMAIL" \
-  --input PHONE="$PHONE"
-  rm {{filename}}-{{letter}}-{{french}}.typ
-
-typst:
-  pandoc \
-  {{filename}}-{{letter}}-{{english}}.md \
-  -o {{filename}}-{{letter}}-{{english}}.typ \
-  --wrap=preserve \
-  --template=typst-{{letter}}.typ
-
-letter:
-  pandoc \
-  {{filename}}-{{letter}}-{{english}}.md \
-  -o {{filename}}-{{letter}}-{{english}}.pdf \
-  --pdf-engine=typst \
-  --wrap=preserve \
-  --template=typst-{{letter}}.typ
-
-letter-private:
-  pandoc \
-  {{filename}}-{{letter}}-{{english}}.md \
-  -o {{filename}}-{{letter}}-{{english}}.typ \
-  --wrap=preserve \
-  --template=typst-{{letter}}.typ
-  typst compile \
-  {{filename}}-{{letter}}-{{english}}.typ \
-  --input EMAIL="$EMAIL" \
-  --input PHONE="$PHONE"
-  rm {{filename}}-{{letter}}-{{english}}.typ
-
-cv:
-  pandoc \
-  test-{{cv}}-{{english}}.md \
-  -o test-{{cv}}-{{english}}.typ \
-  --wrap=preserve \
-  --template=typst-{{cv}}.typ \
-  --lua-filter=typst-cv.lua
-
-cv-pdf:
-  pandoc \
-  test-{{cv}}-{{english}}.md \
-  -o test-{{cv}}-{{english}}.pdf \
-  --template=typst-{{cv}}.typ \
-  --wrap=preserve \
-  --pdf-engine=typst \
-  --lua-filter=linkify.lua \
-  --lua-filter=typst-cv.lua
+  --template=typst-{{letter}}.typ \
+  {{pandoc-to-typst}} \
+  {{filename}}-{{letter}}-{{french}}.pdf \
+  {{private-args}}
