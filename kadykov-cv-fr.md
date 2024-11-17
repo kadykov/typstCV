@@ -83,6 +83,7 @@ links:
   Python: https://github.com/search?q=language%3APython+author%3Akadykov&type=pullrequests
   d'onde: https://doi.org/10.1063/1.4996966
   FTIR: https://fr.wikipedia.org/wiki/Spectroscopie_infrarouge_%C3%A0_transform%C3%A9e_de_Fourier
+  FAIR: https://fr.wikipedia.org/wiki/Fair_data
   Mons: https://www.openstreetmap.org/#map=19/50.45756/3.92540
   Trappes: https://www.openstreetmap.org/#map=17/48.76090/1.98370
   Nizhnij: https://www.openstreetmap.org/#map=17/56.29878/43.97990

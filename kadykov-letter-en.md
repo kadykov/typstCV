@@ -17,7 +17,84 @@ from: Mons, Belgium
 keywords:
   - CV
   - Cover Letter
+  - résumé
+  - resume
+  - Curriculum vitae
+  - Research Software Engineer
   - Research Engineer
+  - Software Engineer
+  - THz
+  - terahertz
+  - THz-TDS
+  - spectroscopy
+  - cryogenics
+  - optics
+  - photonics
+  - measurements
+  - data analysis
+  - programming
+  - DevOps
+  - CI/CD
+  - TDD
+  - Test-Driven Development
+  - Python
+  - Jupyter
+  - NumPy
+  - Pandas
+  - Xarray
+  - Scipy
+  - Python array API
+  - scikit-learn
+  - PyTorch
+  - MATLAB
+  - Matplotlib
+  - hvPlot
+  - Plotly
+  - Bokeh
+  - Panel
+  - holoviz
+  - OriginPro
+  - PyMeasure
+  - Bluesky
+  - yaq
+  - LabVIEW
+  - Intake
+  - SQL
+  - Quarto
+  - Typst
+  - Pandoc
+  - LaTeX
+  - VSCode
+  - Git
+  - Linux
+  - Docker
+  - Docker-compose
+  - Zotero
+links:
+  Multitel: https://www.multitel.eu/expertise/applied-photonics/terahertz-spectroscopy-and-imaging/
+  ASBL: https://fr.wikipedia.org/wiki/Association_sans_but_lucratif
+  SAPHIRE: https://www.multitel.eu/projects/saphire/
+  LNE: https://www.lne.fr/en/research-and-development
+  EPIC: https://en.wikipedia.org/wiki/%C3%89tablissement_public_%C3%A0_caract%C3%A8re_industriel_et_commercial
+  I2S: https://edi2s.umontpellier.fr/
+  L2C: https://coulomb.umontpellier.fr/?lang=en
+  IPM: http://www.ipmras.ru/en/institute/scientific-departments/department-110/
+  RAS: https://en.wikipedia.org/wiki/Russian_Academy_of_Sciences
+  TDS: https://en.wikipedia.org/wiki/Terahertz_time-domain_spectroscopy
+  THz: https://en.wikipedia.org/wiki/Terahertz_radiation
+  hBN: https://en.wikipedia.org/wiki/Boron_nitride
+  HgCdTe: https://en.wikipedia.org/wiki/Mercury_cadmium_telluride
+  graphene: https://en.wikipedia.org/wiki/Graphene
+  helium: https://en.wikipedia.org/wiki/Liquid_helium
+  Python: https://github.com/search?q=language%3APython+author%3Akadykov&type=pullrequests
+  wavelength: https://doi.org/10.1063/1.4996966
+  FTIR: https://en.wikipedia.org/wiki/Fourier-transform_infrared_spectroscopy
+  FAIR: https://en.wikipedia.org/wiki/FAIR_data
+  Mons: https://www.openstreetmap.org/#map=19/50.45756/3.92540
+  Trappes: https://www.openstreetmap.org/#map=17/48.76090/1.98370
+  Nizhny: https://www.openstreetmap.org/#map=17/56.29878/43.97990
+  Novgorod: https://www.openstreetmap.org/#map=17/56.29878/43.97990
+  Thesis: https://www.theses.fr/en/2017MONTS086
 ---
 
 # Letter to Future Employer

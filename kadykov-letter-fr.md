@@ -17,7 +17,86 @@ from: Mons, Belgique
 keywords:
   - CV
   - Cover Letter
+  - résumé
+  - resume
+  - Curriculum vitae
+  - Research Software Engineer
   - Research Engineer
+  - Ingénieur de Recherche
+  - Software Engineer
+  - THz
+  - terahertz
+  - THz-TDS
+  - spectroscopy
+  - cryogenics
+  - optics
+  - photonics
+  - measurements
+  - data analysis
+  - programming
+  - DevOps
+  - CI/CD
+  - TDD
+  - Test-Driven Development
+  - Python
+  - Jupyter
+  - NumPy
+  - Pandas
+  - Xarray
+  - Scipy
+  - Python array API
+  - scikit-learn
+  - PyTorch
+  - MATLAB
+  - Matplotlib
+  - hvPlot
+  - Plotly
+  - Bokeh
+  - Panel
+  - holoviz
+  - OriginPro
+  - PyMeasure
+  - Bluesky
+  - yaq
+  - LabVIEW
+  - Intake
+  - SQL
+  - Quarto
+  - Typst
+  - Pandoc
+  - LaTeX
+  - VSCode
+  - Git
+  - Linux
+  - Docker
+  - Docker-compose
+  - Zotero
+links:
+  Multitel: https://www.multitel.be/expertises/photonique-appliquee/imagerie-spectroscopie-terahertz/
+  ASBL: https://fr.wikipedia.org/wiki/Association_sans_but_lucratif
+  SAPHIRE: https://www.multitel.be/projets/saphire/
+  LNE: https://www.lne.fr/fr/recherche-et-developpement/activites-r-et-d
+  EPIC: https://fr.wikipedia.org/wiki/%C3%89tablissement_public_%C3%A0_caract%C3%A8re_industriel_et_commercial_en_France
+  I2S: https://edi2s.umontpellier.fr/
+  L2C: https://coulomb.umontpellier.fr/
+  IPM: http://www.ipmras.ru/en/institute/scientific-departments/department-110/
+  RAS: https://fr.wikipedia.org/wiki/Acad%C3%A9mie_des_sciences_de_Russie
+  TDS: https://fr.wikipedia.org/wiki/Spectroscopie_t%C3%A9rahertz_dans_le_domaine_temporel
+  THz: https://fr.wikipedia.org/wiki/T%C3%A9rahertz
+  térahertz: https://fr.wikipedia.org/wiki/T%C3%A9rahertz
+  hBN: https://fr.wikipedia.org/wiki/Nitrure_de_bore
+  HgCdTe: https://fr.wikipedia.org/wiki/Tellurure_de_mercure-cadmium
+  graphène: https://fr.wikipedia.org/wiki/Graph%C3%A8ne
+  hélium: https://fr.wikipedia.org/wiki/H%C3%A9lium_liquide
+  Python: https://github.com/search?q=language%3APython+author%3Akadykov&type=pullrequests
+  d'onde: https://doi.org/10.1063/1.4996966
+  FTIR: https://fr.wikipedia.org/wiki/Spectroscopie_infrarouge_%C3%A0_transform%C3%A9e_de_Fourier
+  FAIR: https://fr.wikipedia.org/wiki/Fair_data
+  Mons: https://www.openstreetmap.org/#map=19/50.45756/3.92540
+  Trappes: https://www.openstreetmap.org/#map=17/48.76090/1.98370
+  Nizhnij: https://www.openstreetmap.org/#map=17/56.29878/43.97990
+  Novgorod: https://www.openstreetmap.org/#map=17/56.29878/43.97990
+  Thèse: https://www.theses.fr/en/2017MONTS086
 ---
 
 # Lettre au Futur Employeur

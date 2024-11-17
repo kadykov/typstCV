@@ -81,6 +81,7 @@ links:
   Python: https://github.com/search?q=language%3APython+author%3Akadykov&type=pullrequests
   wavelength: https://doi.org/10.1063/1.4996966
   FTIR: https://en.wikipedia.org/wiki/Fourier-transform_infrared_spectroscopy
+  FAIR: https://en.wikipedia.org/wiki/FAIR_data
   Mons: https://www.openstreetmap.org/#map=19/50.45756/3.92540
   Trappes: https://www.openstreetmap.org/#map=17/48.76090/1.98370
   Nizhny: https://www.openstreetmap.org/#map=17/56.29878/43.97990
