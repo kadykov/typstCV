@@ -62,8 +62,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
     steps:
       - name: Download rendered PDFs
         uses: actions/download-artifact@v4
