@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- The horizontal rule (`---`) will not be visible if it is placed at the very top or very bottom of the page.
+- Include necessary files in the Docker image
+
 ## [0.2.0] - 2024-11-17
 
 ### Changed

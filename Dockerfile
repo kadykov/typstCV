@@ -20,3 +20,9 @@ RUN dnf update -yq \
     && dnf clean all
 
 ENV TYPST_FONT_PATHS=/usr/share/fonts/
+
+WORKDIR /data
+
+COPY *.typ *.lua justfile /data/
+
+ENTRYPOINT [ "just", "build" ]
