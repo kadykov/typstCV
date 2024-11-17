@@ -203,6 +203,8 @@ of hBN-encapsulated graphene stacks.
 Improved performance
 of a helium gas recuperation system.
 
+---
+
 ## Institute for Physics of Microstructures (IPM RAS) {location="Nizhny Novgorod \\ Russia"}
 
 _State-owned research institute

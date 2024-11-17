@@ -197,6 +197,8 @@ de piles de graphène/hBN.
 <!-- Amélioré les performances
 d'un système de récupération de gaz hélium. -->
 
+---
+
 ## Institute for Physics of Microstructures (IPM RAS) {location="Nijni Novgorod \\ Russie"}
 
 _Institut de recherche public

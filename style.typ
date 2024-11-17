@@ -98,7 +98,6 @@
   )
 
   // Paragraph settings
-
   set par(
     justify: false,
     leading: line-spacing,
@@ -106,58 +105,14 @@
 
   doc
 }
+
 // Custom macros
-#let secline() = {
-  v(-0.3em)
-  line(length: 100%, stroke: 1.5pt + primary-color)
-  v(-0.1em)
+#let horizontalrule = context {
+  let current-position = here().position().y
+  if current-position > 100pt and current-position < 730pt [
+    #line(length: full-width, stroke: 1.5pt + primary-color)
+  ]
 }
-
-#let horizontalrule = {
-  line(length: full-width, stroke: 1.5pt + primary-color)
-}
-
-#let experience(
-  company-title: [Best Company, Inc],
-  company-subtitle: [The best company in the world],
-  company-location: [City, \ Country],
-  dates: [Jan 1970 \ present],
-  description,
-) = [
-  #box()[
-    #context {
-      let current-position = here().position().y
-      if current-position > 100pt [#secline()]
-    }
-    #block(width: 100%)[
-      #block(width: bodywidth + 5%)[
-        == #company-title
-        #emph()[#company-subtitle]
-      ]
-      #place(top + right)[
-        #text(fill: primary-color)[#fa-location-dot()]
-        #emph()[#company-location]
-      ]
-    ]
-  ]
-  #block(width: 100%)[
-    #place(top + right)[
-      #text(fill: primary-color)[#fa-calendar()]
-      #emph()[#dates]
-    ]
-    #block(width: bodywidth)[
-      #description
-    ]
-  ]
-]
-
-#let hidden-section(title) = [
-  #heading()[
-    #v(-1.15em)
-    #text(fill: background-color)[#title]
-    #v(-0.5em)
-  ]
-]
 
 #let hidden-heading(title) = (
   context {
