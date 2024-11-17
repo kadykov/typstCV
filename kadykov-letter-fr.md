@@ -85,6 +85,7 @@ et à faible bruit
 de l'effet Hall quantique dans le graphène.
 
 Mes contributions comprenaient :
+
 - l'automatisation des mesures
   à l'aide d'un système d'orchestration basé sur Python,
 - la nanofabrication de structures graphène/hBN,
@@ -115,6 +116,7 @@ j'ai développé de nouvelles méthodes
 et amélioré les méthodes existantes
 pour extraire des informations à partir de données THz-TDS,
 y compris :
+
 - une estimation préliminaire et rapide de l'épaisseur
   et de l'indice de réfraction dans des échantillons faiblement absorbants,
 - et un filtrage optimisé, basé sur la courbe de sensibilité,
@@ -141,6 +143,6 @@ et contribuer à des projets impactants.
 <!--  -->
 Cela pourrait-il être avec votre équipe ?
 
-Je vous remercie pour votre temps et votre considération.
+<!-- Je vous remercie pour votre temps et votre considération. -->
 
 Cordialement,
