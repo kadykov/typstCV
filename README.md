@@ -81,7 +81,7 @@ to the heading you want to associate with side content.
 
 **Supported keys:**
 
-- `photo`: Path to your profile picture.
+- `photo`: Typst block with your profile image.
 - `location`: Typst block with location details.
 - `date`: Typst block with dates.
 
@@ -160,7 +160,7 @@ links:
 
 ---
 
-# Research Engineer {photo="photo.jpg"}
+# Research Engineer {photo='image("./photo.jpg", width: 120pt)'}
 
 Headline of your CV
 

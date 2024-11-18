@@ -89,7 +89,7 @@ links:
   Thesis: https://www.theses.fr/en/2017MONTS086
 ---
 
-# Research Engineer {photo="./photo.jpg"}
+# Research Engineer {photo='image("./photo.jpg", width: 120pt)'}
 
 Proven ability to
 design and execute experiments,
