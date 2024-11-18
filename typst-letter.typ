@@ -1,6 +1,7 @@
 #import "@local/pandoc-cv:0.1.0": *
 
-#let date = $if(date)$$date$$else$datetime.today()$endif$
+#let date = $if(date)$datetime($date$)$else$datetime.today()$endif$
+
 #let suffix = {
   let day = date.day()
   if day == 1 or day == 21 or day == 31 {
@@ -23,7 +24,7 @@
   $if(gitlab)$gitlab: "$gitlab$",$endif$
   $if(linkedin)$linkedin: "$linkedin$",$endif$
   $if(website)$website: "$website$",$endif$
-  $if(date)$date: $date$,$endif$
+  $if(date)$date: date,$endif$
   $if(keywords)$keywords: (
     $for(keywords)$
       "$keywords$",

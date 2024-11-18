@@ -6,7 +6,7 @@ github: kadykov
 gitlab: kadykov
 linkedin: aleksandr-kadykov
 website: www.kadykov.com
-# date: "datetime(year: 1970, month: 1, day: 1)"
+date: "year: 1970, month: 1, day: 1"
 from: Mons, Belgium
 # to: |
 #     Future Employer

@@ -48,7 +48,7 @@ Include the following fields in the YAML header for your CV or cover letter:
 - `public-email`: Publicly available email address.
 - `github`, `gitlab`, `linkedin`: Your usernames on these platforms.
 - `website`: Your website URL (without the protocol).
-- `date`: Custom creation date (format: `datetime(year: YYYY, month: M, day: D)`).
+- `date`: Custom creation date (format: `year: YYYY, month: M, day: D`).
 - `keywords`: Keywords for PDF metadata.
 - `links`: Dictionary of keywords and URLs to auto-convert keywords into hyperlinks.
 
