@@ -5,7 +5,7 @@ letter := "letter"
 english := "en"
 french := "fr"
 typst := "typst compile"
-pandoc := "pandoc --wrap=preserve --pdf-engine=typst --lua-filter=linkify.lua --lua-filter=typst-cv.lua"
+pandoc := "pandoc --data-dir=$PANDOC_DATA_DIR --wrap=preserve --pdf-engine=typst --lua-filter=linkify.lua --lua-filter=typst-cv.lua"
 pandoc-to-typst := "--to=typst | typst compile -"
 private-args := '--input EMAIL="$EMAIL" --input PHONE="$PHONE"'
 

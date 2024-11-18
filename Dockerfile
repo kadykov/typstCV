@@ -12,35 +12,33 @@ FROM fedora:${FEDORA_VERSION}
 
 COPY --from=builder typst-x86_64-unknown-linux-musl/typst /usr/bin/typst
 
-# ARG PANDOC_VERSION=3.1.3-29.fc40.x86_64
-ARG PANDOC_VERSION=3.1.11.1-32.fc41.x86_64
+ARG PANDOC_VERSION=3.1.11.1
+ARG JUST_VERSION=1.35.0
+ARG FIRA_SANS_VERSION=4.202
+ARG IBM_PLEX_VERSION=6.4.0
+ARG FONTAWESOME_VERSION=6.6.0
 RUN dnf update -yq \
     && dnf install -yq \
-        just \
+        just-${JUST_VERSION} \
         pandoc-${PANDOC_VERSION} \
-        mozilla-fira-sans-fonts \
-        ibm-plex-serif-fonts \
-        fontawesome-6-brands-fonts \
-        fontawesome-6-free-fonts \
+        mozilla-fira-sans-fonts-${FIRA_SANS_VERSION} \
+        ibm-plex-serif-fonts-${IBM_PLEX_VERSION} \
+        fontawesome-6-brands-fonts-${FONTAWESOME_VERSION} \
+        fontawesome-6-free-fonts-${FONTAWESOME_VERSION} \
     && dnf clean all
 
 ENV TYPST_FONT_PATHS=/usr/share/fonts/
 
-WORKDIR /data
+ENV PANDOC_DATA_DIR=/usr/share/pandoc-${PANDOC_VERSION}/
 
-# ARG PANDOC_VERSION_CORE=3.1.3
-ARG PANDOC_VERSION_CORE=3.1.11.1
-# COPY *.lua /usr/share/pandoc-${PANDOC_VERSION_CORE}/data/
-# COPY typst-cv.typ typst-letter.typ /usr/share/pandoc-${PANDOC_VERSION_CORE}/data/templates/
-ARG PANDOC_DIR=/usr/share/pandoc-${PANDOC_VERSION_CORE}
-COPY typst-cv.typ typst-letter.typ ${PANDOC_DIR}/data/templates/
-COPY *.lua /usr/local/share/pandoc/filters/
-COPY *.lua ${PANDOC_DIR}/filters/
+COPY typst-cv.typ typst-letter.typ ${PANDOC_DATA_DIR}/data/templates/
+COPY *.lua ${PANDOC_DATA_DIR}/filters/
 
 ARG PANDOC_CV_VERSION=0.1.0
 ENV TYPST_PACKAGE_PATH=/usr/local/share/typst/packages/
 COPY style.typ typst.toml ${TYPST_PACKAGE_PATH}/local/pandoc-cv/${PANDOC_CV_VERSION}/
 
+WORKDIR /data
 COPY justfile .
 
 ENTRYPOINT [ "just", "build" ]
