@@ -1,4 +1,5 @@
-#import "style.typ": *
+// #import "style.typ": *
+#import "@local/pandoc-cv:0.1.0": *
 
 #let date = $if(date)$$date$$else$datetime.today()$endif$
 

@@ -154,10 +154,7 @@
   #emph(body)
 ]
 
-#let profile-photo(
-  photo-path,
-  width: 120pt,
-) = [
+#let profile-photo(photo) = [
   #box(
     clip: true,
     stroke: 1.5pt + primary-color,
@@ -167,10 +164,5 @@
       top-left: 50%,
       top-right: 0pt,
     ),
-  )[
-    #image(
-      photo-path,
-      width: width,
-    )
-  ]
+  )[#photo]
 ]

@@ -1,0 +1,7 @@
+[package]
+name = "pandoc-cv"
+version = "0.1.0"
+entrypoint = "style.typ"
+authors = ["Aleksandr Kadykov <dev@kadykov.com>"]
+license = "MIT"
+description = "Style for Pandoc CV and cover letter templates"

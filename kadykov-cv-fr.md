@@ -91,7 +91,7 @@ links:
   Thèse: https://www.theses.fr/en/2017MONTS086
 ---
 
-# Ingénieur de Recherche {photo="photo.jpg"}
+# Ingénieur de Recherche {photo="./photo.jpg"}
 
 Concevoir et exécuter des expériences,
 analyser et présenter des données,

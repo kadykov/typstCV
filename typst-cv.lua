@@ -22,7 +22,7 @@ function Header(el)
                 table.insert(typst_blocks, pandoc.RawBlock("typst", "#body-side(["))
                 table.insert(typst_blocks, el)
                 table.insert(typst_blocks,
-                    pandoc.RawBlock("typst", string.format("], side: profile-photo(\"%s\"))", value)))
+                    pandoc.RawBlock("typst", string.format("], side: profile-photo(image(\"%s\", width: 120pt)))", value)))
                 return typst_blocks
             end
         end
