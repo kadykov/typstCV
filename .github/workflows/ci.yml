@@ -57,7 +57,7 @@ jobs:
       - name: Render with testing Docker image
         run: >
           docker container run
-          -v "${PWD}:/data"
+          -v "${PWD}:/data/public"
           --user "$(id -u):$(id -g)"
           ${{ env.IMAGE_TAG_TESTING }}
 
