@@ -97,7 +97,7 @@ jobs:
           path: ${{ env.OUTPUT_DIR }}/
 
       - name: Add HTML for GitHub Pages
-        run: cp *.html ${{ env.OUTPUT_DIR }}/
+        run: cp ./*.html ${{ env.OUTPUT_DIR }}/
 
       - name: Deploy CV to GitHub pages
         uses: peaceiris/actions-gh-pages@v4
