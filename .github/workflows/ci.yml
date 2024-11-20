@@ -1,5 +1,5 @@
 ---
-name: Pre-commit checks, build and test Docker image, upload PDFs to GitHub Pages
+name: Pre-commit checks, build and test Docker image, upload PDFs to GitHub Pages, create GitHub release
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE_TAG: ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUB_REPOSITORY }}:${{ github.ref_name }}
+  IMAGE: ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUB_REPOSITORY }}
   IMAGE_TAG_TESTING: ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUB_REPOSITORY }}:testing
   OUTPUT_DIR: public
   OUTPUT_ARTIFACTS_NAME: pdf
@@ -64,7 +64,7 @@ jobs:
         with:
           load: true
           tags: ${{ env.IMAGE_TAG_TESTING }}
-          cache-from: type=registry,ref=${{ env.IMAGE_TAG }}
+          cache-from: type=registry,ref=${{ env.IMAGE }}:${{ github.ref_name }}
           cache-to: type=inline
 
       - name: Download source files
@@ -92,12 +92,22 @@ jobs:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ${{ env.IMAGE_TAG }}
-          cache-from: type=registry,ref=${{ env.IMAGE_TAG }}
+          tags: ${{ steps.meta.outputs.tags }}
+          cache-from: type=registry,ref=${{ env.IMAGE }}:${{ github.ref_name }}
           cache-to: type=inline
 
   publish:
@@ -125,3 +135,45 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./${{ env.OUTPUT_DIR }}
+
+  release:
+    name: Create a GitHub release
+    needs: docker
+    runs-on: ubuntu-latest
+    if: ${{ startsWith(github.ref, 'refs/tags/') }}
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get version from tag
+        id: tag_name
+        run: echo "current_version=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
+        shell: bash
+
+      - name: Download rendered PDFs
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.OUTPUT_ARTIFACTS_NAME }}
+          path: ${{ env.OUTPUT_DIR }}/
+
+      - name: Get Changelog Entry
+        id: changelog_reader
+        uses: mindsers/changelog-reader-action@v2
+        with:
+          validation_level: error
+          version: ${{ steps.tag_name.outputs.current_version }}
+          path: ./CHANGELOG.md
+
+      - name: Create release on GitHub
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.changelog_reader.outputs.version }}
+          name: Release ${{ steps.changelog_reader.outputs.version }}
+          body: ${{ steps.changelog_reader.outputs.changes }}
+          prerelease: ${{ steps.changelog_reader.outputs.status == 'prereleased' }}
+          draft: ${{ steps.changelog_reader.outputs.status == 'unreleased' }}
+          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: ${{ env.OUTPUT_DIR }}/*.pdf
