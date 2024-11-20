@@ -22,12 +22,14 @@ repos:
     hooks:
       - id: detect-secrets
 
+    # requires `shellcheck` to work properly
+    # https://github.com/rhysd/actionlint/issues/477
   - repo: https://github.com/rhysd/actionlint
-    rev: v1.7.3
+    rev: v1.7.4
     hooks:
       - id: actionlint
 
   - repo: https://github.com/google/yamlfmt
-    rev: v0.13.0
+    rev: v0.14.0
     hooks:
       - id: yamlfmt

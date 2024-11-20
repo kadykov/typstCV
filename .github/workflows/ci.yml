@@ -57,8 +57,8 @@ jobs:
       - name: Render with testing Docker image
         run: >
           docker container run
-          -v ${PWD}:/data
-          --user $(id -u):$(id -g)
+          -v "${PWD}:/data"
+          --user "$(id -u):$(id -g)"
           ${{ env.IMAGE_TAG_TESTING }}
 
       - name: Upload rendered PDFs

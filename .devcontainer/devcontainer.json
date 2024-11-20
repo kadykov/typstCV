@@ -11,7 +11,8 @@
       "userGid": "1000",
       "upgradePackages": "true"
     },
-    "ghcr.io/kadykov/devcontainer-features/pre-commit:1": {}
+    "ghcr.io/kadykov/devcontainer-features/pre-commit:1": {},
+    "ghcr.io/lukewiwa/features/shellcheck:0": {}
   },
   "postCreateCommand": "pre-commit install",
   "remoteUser": "vscode",
