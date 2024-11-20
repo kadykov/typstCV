@@ -39,6 +39,5 @@ ENV TYPST_PACKAGE_PATH=/usr/local/share/typst/packages/
 COPY style.typ typst.toml ${TYPST_PACKAGE_PATH}/local/pandoc-cv/${PANDOC_CV_VERSION}/
 
 WORKDIR /data
-COPY justfile kadykov-*.md /data/
 
 ENTRYPOINT [ "just", "build" ]

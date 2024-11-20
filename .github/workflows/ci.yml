@@ -12,7 +12,8 @@ env:
   IMAGE_TAG: ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUB_REPOSITORY }}:${{ github.ref_name }}
   IMAGE_TAG_TESTING: ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUB_REPOSITORY }}:testing
   OUTPUT_DIR: public
-  ARTIFACTS_NAME: pdf
+  OUTPUT_ARTIFACTS_NAME: pdf
+  SOURCE_ARTIFACTS_NAME: source
 
 jobs:
   pre_commit:
@@ -49,22 +50,37 @@ jobs:
           cache-from: type=registry,ref=${{ env.IMAGE_TAG_TESTING }}
           cache-to: type=inline
 
+      - name: Upload source files
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.SOURCE_ARTIFACTS_NAME }}
+          path: |
+            ./kadykov-*.md
+            ./photo.jpg
+            ./justfile
+          if-no-files-found: error
+
   render:
     name: Render default files and update Docker tags
     needs: docker
     runs-on: ubuntu-latest
     steps:
+      - name: Download source files
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_ARTIFACTS_NAME }}
+
       - name: Render with testing Docker image
         run: >
           docker container run
-          -v "${PWD}:/data/public"
+          -v "${PWD}:/data"
           --user "$(id -u):$(id -g)"
           ${{ env.IMAGE_TAG_TESTING }}
 
       - name: Upload rendered PDFs
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.ARTIFACTS_NAME }}
+          name: ${{ env.OUTPUT_ARTIFACTS_NAME }}
           path: ./*.pdf
           if-no-files-found: error
 
@@ -93,7 +109,7 @@ jobs:
       - name: Download rendered PDFs
         uses: actions/download-artifact@v4
         with:
-          name: ${{ env.ARTIFACTS_NAME }}
+          name: ${{ env.OUTPUT_ARTIFACTS_NAME }}
           path: ${{ env.OUTPUT_DIR }}/
 
       - name: Add HTML for GitHub Pages
