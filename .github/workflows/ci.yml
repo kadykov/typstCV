@@ -50,6 +50,13 @@ jobs:
           cache-from: type=registry,ref=${{ env.IMAGE_TAG_TESTING }}
           cache-to: type=inline
 
+  source:
+    name: Extract example source files
+    needs: pre_commit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
       - name: Upload source files
         uses: actions/upload-artifact@v4
         with:
@@ -62,7 +69,9 @@ jobs:
 
   render:
     name: Render default files and update Docker tags
-    needs: docker
+    needs:
+      - docker
+      - source
     runs-on: ubuntu-latest
     steps:
       - name: Download source files
