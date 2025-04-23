@@ -47,6 +47,9 @@ COPY --from=builder /fontawesome/*.typ /fontawesome/typst.toml ${TYPST_PACKAGE_P
 
 ENV TYPST_FONT_PATHS=/usr/share/fonts/
 
+COPY build.sh /usr/local/bin/build.sh
+RUN chmod +x /usr/local/bin/build.sh
+
 WORKDIR /data
 
-ENTRYPOINT [ "just", "build" ]
+ENTRYPOINT [ "build.sh" ]
