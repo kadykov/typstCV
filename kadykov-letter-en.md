@@ -1,7 +1,7 @@
 ---
 author: Aleksandr KADYKOV
 title: Letter to Future Employer
-public-email: cv@kadykov.com
+email: cv@kadykov.com
 github: kadykov
 gitlab: kadykov
 linkedin: aleksandr-kadykov
