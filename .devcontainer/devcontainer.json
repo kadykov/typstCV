@@ -26,8 +26,16 @@
         "GitHub.vscode-github-actions",
         "eamodio.gitlens",
         "sumneko.lua",
-        "yinfei.luahelper"
+        "yinfei.luahelper",
+        "saoudrizwan.claude-dev"
       ]
     }
-  }
+  },
+  "mounts": [
+    {
+      "source": "vscode-home",
+      "target": "/home/vscode",
+      "type": "volume"
+    }
+  ]
 }
