@@ -11,27 +11,48 @@
 #let full-width = 453.45pt
 #let bodywidth = 317.41pt
 #let line-spacing = 0.8em
-// Define a function to set up style that accepts external variables
+// Helper function to get value from sys.inputs or fallback
+#let get-input(key, fallback) = {
+  if key in sys.inputs.keys() {
+    sys.inputs.at(key)
+  } else {
+    fallback
+  }
+}
+
+// Define a function to set up style that accepts external variables (fallbacks)
 #let setup-style(
-  author: author,
-  public-email: "cv@kadykov.com",
-  title: "Research Engineer",
-  website: "www.kadykov.com",
-  github: "kadykov",
-  gitlab: "kadykov",
-  linkedin: "aleksandr-kadykov",
-  keywords: ("CV",),
+  // These values come from the Pandoc template ($variable$) and act as fallbacks
+  author: "Default Author",
+  email: "default@example.com",
+  title: "Default Title",
+  website: "example.com",
+  github: "default",
+  gitlab: "default",
+  linkedin: "default",
+  keywords: ("Default",),
   language: "en",
   date: auto,
   hyphenate: auto,
   doc,
 ) = {
+  // Prioritize sys.inputs (from --input args) over template variables (from YAML)
+  let effective-author = get-input("author", author)
+  let effective-email = get-input("email", email)
+  let effective-title = get-input("title", title)
+  let effective-website = get-input("website", website)
+  let effective-github = get-input("github", github)
+  let effective-gitlab = get-input("gitlab", gitlab)
+  let effective-linkedin = get-input("linkedin", linkedin)
+  // Keywords and date are less likely to be overridden via CLI, but could be added if needed
+  let effective-keywords = keywords
+  let effective-date = date
 
   // Document settings
   set text(
     font: "IBM Plex Serif",
     size: 10.5pt,
-    lang: language,
+    lang: language, // Language might need override too? get-input("language", language)
     fill: text-color,
     hyphenate: hyphenate,
   )
@@ -47,35 +68,30 @@
   show strong: set text(font: "IBM Plex Serif SmBld")
 
   set document(
-    title: title,
-    author: author,
-    date: date,
-    keywords: keywords,
+    title: effective-title,
+    author: effective-author,
+    date: effective-date,
+    keywords: effective-keywords,
   )
 
   set page(
     paper: "a4",
     margin: (x: 2.5cm, y: 3.0cm),
     header: [
-      #author
+      #effective-author // Use effective value
       #h(1fr)
-      #if "PHONE" in sys.inputs.keys() [
-        #link("tel:" + sys.inputs.PHONE.replace(regex("[^0-9+]"), ""))[
+      // Phone only comes from sys.inputs (no YAML equivalent planned)
+      #if "phone" in sys.inputs.keys() [
+        #link("tel:" + sys.inputs.phone.replace(regex("[^0-9+]"), ""))[
           #text(fill: primary-color)[#fa-phone()]
-          #sys.inputs.PHONE.replace("_", " ")
+          #sys.inputs.phone.replace("_", " ") // Allow underscores for spacing
         ]
         |
       ]
-      #let email = {
-        if "EMAIL" in sys.inputs.keys() {
-          sys.inputs.EMAIL
-        } else {
-          public-email
-        }
-      }
-      #link("mailto:" + email)[
+      // Use effective email (checks sys.inputs first, then YAML via template var)
+      #link("mailto:" + effective-email)[
         #text(fill: primary-color)[#fa-envelope()]
-        #email
+        #effective-email
       ]
       #v(-0.5em)
       #line(length: 100%, stroke: 0.5pt)
@@ -85,15 +101,16 @@
       #v(-1em)
       #line(length: 100%, stroke: 0.5pt)
       #v(-0.5em)
+      // Use effective values for footer links
       #text(fill: primary-color)[#fa-arrow-up-right-from-square()]
-      #link("https://" + website)[#website]
+      #link("https://" + effective-website)[#effective-website]
       #h(1fr)
       #text(fill: black)[#fa-github()]
-      #link("https://github.com/" + github)[#github] |
+      #link("https://github.com/" + effective-github)[#effective-github] |
       #text(fill: orange)[#fa-gitlab()]
-      #link("https://gitlab.com/" + gitlab)[#gitlab] |
+      #link("https://gitlab.com/" + effective-gitlab)[#effective-gitlab] |
       #text(fill: blue)[#fa-linkedin()]
-      #link("https://www.linkedin.com/in/" + linkedin)[#linkedin]
+      #link("https://www.linkedin.com/in/" + effective-linkedin)[#effective-linkedin]
     ],
   )
 

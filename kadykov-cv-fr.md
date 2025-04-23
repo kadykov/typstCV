@@ -1,7 +1,7 @@
 ---
 author: Aleksandr KADYKOV
-title: Ingénieur de Recherche
-public-email: cv@kadykov.com
+title: Ingénieur de recherche
+email: cv@kadykov.com
 github: kadykov
 gitlab: kadykov
 linkedin: aleksandr-kadykov
