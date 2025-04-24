@@ -7,7 +7,7 @@
 #show: setup-style.with(
   $if(title)$title: "$title$",$endif$
   $if(author)$author: "$author$",$endif$
-  $if(public-email)$public-email: "$public-email$".replace("\\", ""),$endif$
+  $if(email)$email: "$email$".replace("\\", ""),$endif$
   $if(github)$github: "$github$",$endif$
   $if(gitlab)$gitlab: "$gitlab$",$endif$
   $if(linkedin)$linkedin: "$linkedin$",$endif$
