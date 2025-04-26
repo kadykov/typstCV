@@ -9,7 +9,8 @@
 -   **YAML:** Used within Markdown frontmatter for metadata (`author`, `title`, `links`, etc.).
 -   **Shell Script (Bash/sh):** Proposed for `build.sh` to replace `justfile`. Needs to be POSIX-compliant for broader compatibility (especially within minimal Docker containers like Alpine, though the current base is Fedora).
 -   **Docker:** Containerization platform used for packaging and distribution. `Dockerfile` defines the image build process.
--   **Just:** Task runner (currently used, to be replaced by `build.sh`). Version specified in `Dockerfile`.
+-   **Just:** Task runner used for local development tasks (linting, testing, building examples). Invoked via `just <task>`.
+-   **Bats (Bash Automated Testing System):** Used for unit testing `build.sh`. Installed via Git submodule in `tests/bats`. Includes `bats-support` and `bats-assert` helpers.
 
 ## Key Files & Locations (within Docker image)
 
@@ -26,11 +27,14 @@
 -   Specific versions of Fedora, Alpine (for builder stage), Pandoc, Just, Typst, and fonts are pinned in the `Dockerfile`. This ensures reproducibility.
 -   External Typst packages (`@preview/fontawesome`) are also versioned.
 
-## Build/Execution Environment
+## Build/Execution/Testing Environment
 
--   Primarily designed to run within the provided Docker container, which includes all necessary dependencies and configurations.
--   The proposed `build.sh` script relies on standard POSIX shell commands and the installed tools (Pandoc, Typst).
--   Environment variables (`TYPSTCV_*`, potentially `PANDOC_DATA_DIR`, `TYPST_PACKAGE_PATH`, `TYPST_FONT_PATHS`) play a role in configuration.
+-   Builds and final execution are designed to run within the provided Docker container (`kadykov/typst-cv`), which includes all necessary dependencies (Pandoc, Typst, Lua filters, Typst packages, fonts).
+-   Local development and testing utilize the devcontainer environment, which includes `bats-core`, `just`, `pre-commit`, and other development tools.
+-   The `build.sh` script relies on standard POSIX shell commands and the installed tools (Pandoc, Typst).
+-   Tests (`bats`, `sh`) are run from the project root.
+-   CI (GitHub Actions) runs linters and then executes the test suite inside the built Docker container.
+-   Environment variables (`TYPSTCV_*`, `PANDOC_DATA_DIR`, `TYPST_PACKAGE_PATH`, `TYPST_FONT_PATHS`) play a role in configuration, especially within Docker/CI.
 
 ## Constraints
 
