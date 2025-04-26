@@ -8,21 +8,21 @@ function Header(el)
 
         for key, value in pairs(el.attributes) do
             if key == "date" then
-                table.insert(typst_blocks, pandoc.RawBlock("typst", "#body-side(["))
+                table.insert(typst_blocks, pandoc.RawBlock("typst", "#style.body-side(["))
                 table.insert(typst_blocks, el)
                 table.insert(typst_blocks,
-                    pandoc.RawBlock("typst", string.format("], side: company-location()[%s])", value)))
+                    pandoc.RawBlock("typst", string.format("], side: style.company-location()[%s])", value)))
                 return typst_blocks
             elseif key == "location" then
-                table.insert(typst_blocks, pandoc.RawBlock("typst", "#body-side(["))
+                table.insert(typst_blocks, pandoc.RawBlock("typst", "#style.body-side(["))
                 table.insert(typst_blocks, el)
-                table.insert(typst_blocks, pandoc.RawBlock("typst", string.format("], side: event-date()[%s])", value)))
+                table.insert(typst_blocks, pandoc.RawBlock("typst", string.format("], side: style.event-date()[%s])", value)))
                 return typst_blocks
             elseif key == "photo" then
-                table.insert(typst_blocks, pandoc.RawBlock("typst", "#body-side(["))
+                table.insert(typst_blocks, pandoc.RawBlock("typst", "#style.body-side(["))
                 table.insert(typst_blocks, el)
                 table.insert(typst_blocks,
-                    pandoc.RawBlock("typst", string.format("], side: profile-photo(%s))", value)))
+                    pandoc.RawBlock("typst", string.format("], side: style.profile-photo(%s))", value)))
                 return typst_blocks
             end
         end
@@ -30,7 +30,7 @@ function Header(el)
 
     if el.classes:includes("hidden") then
         local typst_blocks = {}
-        table.insert(typst_blocks, pandoc.RawBlock("typst", "#hidden-heading()["))
+        table.insert(typst_blocks, pandoc.RawBlock("typst", "#style.hidden-heading()["))
         table.insert(typst_blocks, el)
         table.insert(typst_blocks, pandoc.RawBlock("typst", "]"))
         return typst_blocks

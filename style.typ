@@ -1,7 +1,5 @@
 #import "@preview/fontawesome:0.5.0": *
 
-#let author = "Aleksandr KADYKOV"
-
 #let text-color = black
 #let background-color = luma(100%, 0%) // Transparent white
 #let primary-color = rgb("#3A468C")
