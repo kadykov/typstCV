@@ -69,10 +69,6 @@ jobs:
       - name: Run tests inside the container
         run: |
           echo "Running tests..."
-          # Make scripts executable
-          docker run --rm -v "${PWD}:/data" --workdir /data ${{ env.IMAGE_TAG_TESTING }} \
-            sh -c "chmod +x ${{ env.TEST_DIR }}/*.sh"
-
           # Execute test suites
           docker run --rm -v "${PWD}:/data" --workdir /data ${{ env.IMAGE_TAG_TESTING }} \
             bats ${{ env.TEST_DIR }}/unit/build_sh.bats
