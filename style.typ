@@ -22,12 +22,12 @@
 #let setup-style(
   // These values come from the Pandoc template ($variable$) and act as fallbacks
   author: "Default Author",
-  email: "default@example.com",
-  title: "Default Title",
-  website: "example.com",
-  github: "default",
-  gitlab: "default",
-  linkedin: "default",
+  email: "default@example.com", // Keep default, likely always needed
+  title: "Default Title", // Keep default
+  website: none, // Change default to none
+  github: none, // Change default to none
+  gitlab: none, // Change default to none
+  linkedin: none, // Change default to none
   keywords: ("Default",),
   language: "en",
   date: auto,
@@ -99,16 +99,31 @@
       #v(-1em)
       #line(length: 100%, stroke: 0.5pt)
       #v(-0.5em)
-      // Use effective values for footer links
-      #text(fill: primary-color)[#fa-arrow-up-right-from-square()]
-      #link("https://" + effective-website)[#effective-website]
-      #h(1fr)
-      #text(fill: black)[#fa-github()]
-      #link("https://github.com/" + effective-github)[#effective-github] |
-      #text(fill: orange)[#fa-gitlab()]
-      #link("https://gitlab.com/" + effective-gitlab)[#effective-gitlab] |
-      #text(fill: blue)[#fa-linkedin()]
-      #link("https://www.linkedin.com/in/" + effective-linkedin)[#effective-linkedin]
+      // Use effective values for footer links, checking for none
+      #if effective-website != none {
+        text(fill: primary-color)[#fa-arrow-up-right-from-square()]
+        link("https://" + effective-website)[#effective-website]
+      }
+      #h(1fr) // Keep horizontal space regardless
+      // Group social links and add separators conditionally
+      #let social-links = ()
+      #if effective-github != none {
+        social-links.push([#text(fill: black)[#fa-github()] #link(
+            "https://github.com/" + effective-github,
+          )[#effective-github]])
+      }
+      #if effective-gitlab != none {
+        social-links.push([#text(fill: orange)[#fa-gitlab()] #link(
+            "https://gitlab.com/" + effective-gitlab,
+          )[#effective-gitlab]])
+      }
+      #if effective-linkedin != none {
+        social-links.push([#text(fill: blue)[#fa-linkedin()] #link(
+            "https://www.linkedin.com/in/" + effective-linkedin,
+          )[#effective-linkedin]])
+      }
+      // Display social links with separators
+      #social-links.join([ | ])
     ],
   )
 
