@@ -6,17 +6,20 @@ doc_type="" # cv or letter, inferred if empty
 output_file=""
 output_dir="."
 input_file=""
+# output_format="pdf" # Reverted: Removed output_format
 typst_input_args=""
 use_override_pipeline=false
 
 # --- Helper Functions ---
 usage() {
+  # Reverted: Removed --output-format from usage
   echo "Usage: $0 <input_markdown_file | -> [--type <cv|letter>] [--output <output_pdf_file | ->] [--output-dir <directory>] [--set KEY=VALUE]..."
   echo ""
   echo "  <input_markdown_file | -> : Path to input Markdown file, or '-' for stdin."
   echo "  --type <cv|letter>      : Explicitly set document type (default: inferred from input filename, fallback 'cv')."
-  echo "  --output <output_file | ->: Output PDF file path, or '-' for stdout (default: based on input filename)."
+  echo "  --output <output_pdf_file | ->: Output PDF file path, or '-' for stdout (default: based on input filename)."
   echo "  --output-dir <directory>  : Directory for output file (default: '.'). Created if it doesn't exist."
+  # echo "  --output-format <pdf|typst>: Format for the output file (default: 'pdf')."
   echo "  --set KEY=VALUE         : Override metadata. KEY is converted to lowercase for Typst."
   echo ""
   echo "Overrides can also be provided via environment variables prefixed with TYPSTCV_"
@@ -43,6 +46,13 @@ while [ $# -gt 0 ]; do
       output_dir="$2"
       shift 2
       ;;
+    # Reverted: Removed --output-format parsing
+    # --output-format)
+    #   if [ -z "$2" ]; then echo "Error: --output-format requires an argument." >&2; usage; fi
+    #   if [ "$2" != "pdf" ] && [ "$2" != "typst" ]; then echo "Error: --output-format must be 'pdf' or 'typst'." >&2; usage; fi
+    #   output_format="$2"
+    #   shift 2
+    #   ;;
     --set)
       if [ -z "$2" ]; then echo "Error: --set requires an argument (KEY=VALUE)." >&2; usage; fi
       key=$(echo "$2" | cut -d= -f1 | tr '[:upper:]' '[:lower:]')
@@ -105,13 +115,16 @@ template_file="typst-${doc_type}.typ"
 echo "Info: Using document type: $doc_type (template: $template_file)" >&2
 
 # --- Determine Output Path ---
-output_arg=""
+# Reverted: Simplified output path logic
+output_arg="" # Will be '-o path' or '-' for stdout
+
 if [ "$output_file" = "-" ]; then
-  echo "Info: Outputting to stdout." >&2
+  echo "Info: Outputting PDF to stdout." >&2
   output_arg="-"
-  use_override_pipeline=true # Stdout requires the typst compile step
+  # PDF to stdout requires the typst compile step, even if no other overrides exist
+  use_override_pipeline=true
 elif [ -n "$output_file" ]; then
-  # User specified exact output file
+  # User specified exact output file path relative to output_dir
   output_path="${output_dir}/${output_file}"
   output_arg="-o $output_path"
 else
@@ -121,15 +134,17 @@ else
     usage
   fi
   base_name=$(basename "$input_file" .md)
-  output_path="${output_dir}/${base_name}.pdf"
+  output_path="${output_dir}/${base_name}.pdf" # Always .pdf now
   output_arg="-o $output_path"
 fi
 
 # Create output directory if needed and not outputting to stdout
 if [ "$output_arg" != "-" ]; then
   mkdir -p "$(dirname "$output_path")"
-  echo "Info: Output path: $output_path" >&2
+  echo "Info: Output PDF path: $output_path" >&2
 fi
+
+# Reverted: Removed adjustment logic based on output_format
 
 
 # --- Build Commands ---
@@ -138,16 +153,24 @@ PANDOC_DATA_DIR="${PANDOC_DATA_DIR:-/usr/share/pandoc}"
 pandoc_base="pandoc --data-dir=\"$PANDOC_DATA_DIR\" --wrap=preserve --pdf-engine=typst --lua-filter=linkify.lua --lua-filter=typst-cv.lua"
 
 # --- Execute Pipeline ---
+# Reverted: Simplified execution logic back to original override check
 echo "Info: Starting build..." >&2
 if [ "$use_override_pipeline" = true ]; then
-  echo "Info: Using override pipeline (Pandoc -> Typst)." >&2
-  # Need eval to handle spaces in arguments correctly, especially $typst_input_args and paths
-  eval "$pandoc_base --to=typst --template=\"$template_file\" \"$input_arg\" | typst compile $typst_input_args - $output_arg"
+  echo "Info: Using override pipeline (Pandoc -> Typst -> PDF)." >&2
+  # Construct the pandoc part of the pipe
+  pandoc_cmd_part="$pandoc_base --to=typst --template=$template_file $input_arg"
+  # Execute pandoc part directly and pipe to typst compile
+  $pandoc_cmd_part | typst compile $typst_input_args - $output_arg
 else
   echo "Info: Using direct pipeline (Pandoc -> PDF)." >&2
-  # Need eval for paths
-  eval "$pandoc_base --template=\"$template_file\" \"$input_arg\" $output_arg"
+  # Construct the full pandoc command parts
+  pandoc_cmd_part1="$pandoc_base --template=$template_file"
+  pandoc_cmd_part2="$input_arg"
+  # $output_arg contains '-o path' or is empty if default CWD output
+  # Execute directly, let shell handle splitting of $output_arg
+  $pandoc_cmd_part1 "$pandoc_cmd_part2" $output_arg
 fi
 
-echo "Info: Build finished successfully." >&2
+
+echo "Info: Build finished." >&2
 exit 0
