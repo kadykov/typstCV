@@ -66,6 +66,9 @@ jobs:
           cache-from: type=registry,ref=${{ env.IMAGE }}:testing # Cache from previous testing tag if exists
           cache-to: type=inline
 
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Run tests inside the container
         run: |
           echo "Running tests..."
