@@ -10,6 +10,7 @@ TEST_OUTPUT_DIR=$(mktemp -d)
 
 echo "--- Running E2E Smoke Tests (PDF Output) ---"
 
+# shellcheck disable=SC2317 # Function appears unreachable but is called by trap
 cleanup() {
   echo "Cleaning up temporary directory: $TEST_OUTPUT_DIR"
   rm -rf "$TEST_OUTPUT_DIR"

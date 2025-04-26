@@ -58,6 +58,7 @@ while [ $# -gt 0 ]; do
       key=$(echo "$2" | cut -d= -f1 | tr '[:upper:]' '[:lower:]')
       value=$(echo "$2" | cut -d= -f2-)
       if [ -z "$key" ] || [ -z "$value" ]; then echo "Error: Invalid --set format. Use KEY=VALUE." >&2; usage; fi
+      # shellcheck disable=SC2089
       typst_input_args="$typst_input_args --input $key=\"$value\""
       use_override_pipeline=true
       shift 2
@@ -150,6 +151,7 @@ fi
 # --- Build Commands ---
 # Check if PANDOC_DATA_DIR is set, provide default if not (useful if run outside Docker)
 PANDOC_DATA_DIR="${PANDOC_DATA_DIR:-/usr/share/pandoc}"
+# shellcheck disable=SC2089
 pandoc_base="pandoc --data-dir=\"$PANDOC_DATA_DIR\" --wrap=preserve --pdf-engine=typst --lua-filter=linkify.lua --lua-filter=typst-cv.lua"
 
 # --- Execute Pipeline ---
@@ -160,6 +162,7 @@ if [ "$use_override_pipeline" = true ]; then
   # Construct the pandoc part of the pipe
   pandoc_cmd_part="$pandoc_base --to=typst --template=$template_file $input_arg"
   # Execute pandoc part directly and pipe to typst compile
+  # shellcheck disable=SC2086,SC2090 # We want word splitting; quotes in var are for target cmd
   $pandoc_cmd_part | typst compile $typst_input_args - $output_arg
 else
   echo "Info: Using direct pipeline (Pandoc -> PDF)." >&2
@@ -168,6 +171,7 @@ else
   pandoc_cmd_part2="$input_arg"
   # $output_arg contains '-o path' or is empty if default CWD output
   # Execute directly, let shell handle splitting of $output_arg
+  # shellcheck disable=SC2086,SC2090 # We want word splitting; quotes in var are for target cmd
   $pandoc_cmd_part1 "$pandoc_cmd_part2" $output_arg
 fi
 
