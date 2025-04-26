@@ -60,7 +60,7 @@ setup() {
   local cmd="$PANDOC_BASE_CMD --template=typst-cv.typ --lua-filter=typst-cv.lua \"$fixture\""
   run eval "$cmd"
   assert_success
-  assert_output --partial 'side: profile-photo(image("photo.png", width: 100pt))'
+  assert_output --partial 'side: style.profile-photo(image("photo.png", width: 100pt))'
 }
 
 @test "filter/typst-cv: handles hidden class" {
@@ -68,7 +68,7 @@ setup() {
   local cmd="$PANDOC_BASE_CMD --template=typst-cv.typ --lua-filter=typst-cv.lua \"$fixture\""
   run eval "$cmd"
   assert_success
-  assert_output --partial '#hidden-heading()'
+  assert_output --partial '#style.hidden-heading()'
 }
 
 @test "filter/typst-cv: handles location attribute" {
@@ -77,7 +77,7 @@ setup() {
   run eval "$cmd"
   assert_success
   # Check for the specific function call and the content (actual output has single backslash)
-  assert_output --partial 'side: event-date()[City \ Country]'
+  assert_output --partial 'side: style.event-date()[City \ Country]'
 }
 
 @test "filter/typst-cv: handles date attribute" {
@@ -85,7 +85,7 @@ setup() {
   local cmd="$PANDOC_BASE_CMD --template=typst-cv.typ --lua-filter=typst-cv.lua \"$fixture\""
   run eval "$cmd"
   assert_success
-  assert_output --partial 'side: company-location()[2023 - Present]'
+  assert_output --partial 'side: style.company-location()[2023 - Present]'
 }
 
 @test "filter/typst-cv: handles ordered list" {
@@ -102,7 +102,7 @@ setup() {
   run eval "$cmd"
   assert_success
   # Check date was processed (include closing parenthesis)
-  assert_output --partial 'side: company-location()[Date First])'
+  assert_output --partial 'side: style.company-location()[Date First])'
   # Check location was NOT processed on the same header
   refute_output --partial 'Header With Both.*side: event-date()' # Keep .* here for refute flexibility
 }
