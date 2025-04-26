@@ -126,9 +126,9 @@ You can override values defined in the YAML frontmatter without editing the Mark
     ./build.sh my-cv.md --set email=private@email.com --set phone="+1 123 456 7890" --set title="Senior Engineer Application"
     ```
 
-**Priority:** Values from `--set` arguments and `TYPSTCV_` environment variables take precedence over values defined in the YAML frontmatter. The Typst template checks for these overrides first.
+**Priority & Workflow:** Values from `--set` arguments and `TYPSTCV_` environment variables take precedence over values defined in the YAML frontmatter. The Typst template checks for these overrides first. The recommended workflow is to keep only public, shareable information in your committed Markdown/YAML file and use overrides to supply private details (like phone numbers) or make temporary modifications for specific builds.
 
-**Note:** The `phone` field is typically *only* provided via overrides, as it's usually considered private information not included directly in the source Markdown/YAML.
+**Note:** Fields like `phone` are typically *only* provided via overrides, as they are usually considered private information not suitable for version control.
 
 ---
 
@@ -148,35 +148,42 @@ Any occurrence of "TDS" or "THz" in the Markdown body will be linked accordingly
 
 ### Right-Side Content (CVs)
 
-You can display content
-(e.g., profile picture, location, dates)
-on the right side of your CV.
-To enable add metadata (`key="value"`)
-to the heading you want to associate with side content.
+You can display content (e.g., profile picture, location, dates) on the right side of your CV headings using Markdown attributes. The `typst-cv.lua` filter translates these attributes into specific Typst layout functions.
 
-**Supported keys:**
+**Recommended Structure & Supported Attributes:**
 
-- `photo`: Typst block with your profile image.
-- `location`: Typst block with location details.
-- `date`: Typst block with dates.
+-   **`# Level 1 Heading {photo='...'}`:** Typically used for the main title/name with a profile photo. The value should be a Typst `image()` call (e.g., `{photo='image("./placeholder-photo.png", width: 120pt)'}`).
+-   **`### Level 3 Heading {location="..."}`:** Recommended for Company or Institution names. The value is the location text.
+-   **`#### Level 4 Heading {date="..."}`:** Recommended for Position or Degree titles. The value is the date range text.
+
+**Important Notes:**
+
+-   The filter processes only the *first* supported attribute (`photo`, `location`, or `date`) it finds on a heading. Do not combine them on the same heading.
+-   Use `\\` for line breaks within attribute values if needed (e.g., `{location="City \\ Country"}`). Pandoc requires double backslashes for a literal newline in Typst output.
 
 **Example:**
 
 ```markdown
-## Multitel ASBL {location="Mons \\ Belgium"}
+# Jane Doe {photo='image("./placeholder-photo.png", width: 120pt)'}
 
-_Non-profit innovation center_
+## Experience {.hidden}
 
-### Research Engineer {date="Jul.~2021 \\ Aug.~2024"}
+### Example Corp {location="Remote"}
+*Leading provider of innovative examples*
 
-Developed a THz time-domain spectroscopy (THz-TDS) data pipeline with an improved signal-to-noise ratio using sensitivity profile-shaped filtering.
+#### Senior Example Engineer {date="2022 - Present"}
+-   Developed key features...
+
+### Another Company Inc. {location="Example City"}
+*Pioneers in fictional services*
+
+#### Example Intern {date="Summer 2021"}
+-   Assisted the team...
 ```
-
-**Note:** Use `\\` for line breaks in Typst blocks (Pandoc strips single `\`).
 
 #### Known Issue
 
-Side content automatically starts a new paragraph after the heading. To avoid extra spacing, structure your content accordingly.
+Side content might visually appear slightly detached or start a new paragraph relative to the heading text depending on Typst's layout decisions. Structure your content accordingly.
 
 ---
 
@@ -212,49 +219,45 @@ and they automatically span the full width of the document.
 
 ### CV Example
 
-Below is a minimal example of a CV in Markdown.
-For a detailed example, see [`kadykov-cv-en.md`](kadykov-cv-en.md).
-Rendered example PDFs are available [here](http://github.kadykov.com/typstCV/).
+Below is a minimal example of a CV in Markdown, demonstrating the recommended structure.
+For a runnable example, see [`tests/fixtures/example-cv.md`](tests/fixtures/example-cv.md).
 
 ```markdown
 ---
-author: Aleksandr KADYKOV
-title: Research Engineer
-email: cv@kadykov.com
-github: kadykov
-gitlab: kadykov
-linkedin: aleksandr-kadykov
-website: www.kadykov.com
-keywords:
-  - résumé
-  - resume
-  - CV
+author: Jane Doe
+title: Curriculum Vitae
+email: jane.doe@example.com
+github: janedoe
+linkedin: janedoe
+website: example.com
+# YAML contains public data. Private data (e.g., phone) is added via overrides.
 links:
-  TDS: https://en.wikipedia.org/wiki/Terahertz_time-domain_spectroscopy
-  THz: https://en.wikipedia.org/wiki/Terahertz_radiation
-
+  website: https://example.com
+  Typst: https://typst.app/
+  Pandoc: https://pandoc.org/
 ---
 
-# Research Engineer {photo='image("./photo.jpg", width: 120pt)'}
+# Jane Doe {photo='image("./placeholder-photo.png", width: 120pt)'}
 
-Headline of your CV
+A highly motivated professional... Check my website.
 
-# Core Competencies {.hidden}
+## Experience {.hidden}
 
-- Data analysis & presentation
-- Experimental design & execution
-- Instrumentation integration & orchestration
-- Scientific Python development
+### Example Corp {location="Remote"}
+*Leading provider of innovative examples*
 
-# Professional Experience {.hidden}
+#### Senior Example Engineer {date="2022 - Present"}
+-   Developed key features...
 
----
+## Education {.hidden}
 
-## Multitel ASBL {location="Mons \\ Belgium"}
+### University of Example {location="Example City, EX"}
 
-_Company description._
+#### M.S. in Computer Science {date="2020 - 2022"}
+*Thesis: Advanced Topics in Placeholders*
 
-### Research Engineer {date="Jul.~2021 \\ Aug.~2024"}
+## Skills {.hidden}
 
-Your explanation of what you have done.
+-   Programming: Python, JavaScript, Typst, Shell Scripting
+-   Tools: Git, Docker, Pandoc
 ```
