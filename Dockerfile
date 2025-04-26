@@ -29,7 +29,7 @@ RUN dnf update -yq \
         ibm-plex-serif-fonts-${IBM_PLEX_VERSION} \
         fontawesome-6-brands-fonts-${FONTAWESOME_VERSION} \
         fontawesome-6-free-fonts-${FONTAWESOME_VERSION} \
-        poppler-utils \ # Added for pdftotext used in E2E tests
+        poppler-utils \
     && dnf clean all
 
 ENV PANDOC_DATA_DIR=/usr/share/pandoc-${PANDOC_VERSION}/
