@@ -1,4 +1,5 @@
 #import "style.typ" // Import the style module
+#let horizontalrule = style.horizontalrule // Use the horizontal rule from the style module
 
 // Construct datetime object from structured date if provided via YAML map, else use today
 #let date-object = $if(date.year)$datetime(year: $date.year$, month: $date.month$, day: $date.day$)$else$datetime.today()$endif$
