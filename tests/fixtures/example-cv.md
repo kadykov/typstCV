@@ -25,6 +25,8 @@ private_info: This is private info from YAML
 
 A highly motivated and skilled professional seeking a challenging position. Experienced in various technologies and methodologies. Eager to contribute to innovative projects. Check my website.
 
+---
+
 ## Experience {.hidden}
 
 ### Example Corp {location="Remote"}
@@ -42,6 +44,8 @@ A highly motivated and skilled professional seeking a challenging position. Expe
 -   Assisted the development team with various tasks including testing and documentation.
 -   Gained practical experience in the software development lifecycle and agile methodologies.
 
+---
+
 ## Education {.hidden}
 
 ### University of Example {location="Example City, EX"}
@@ -55,6 +59,8 @@ Relevant coursework: Advanced Algorithms, Distributed Systems, Machine Learning.
 #### B.S. in Software Engineering {date="2016 - 2020"}
 *Minor: Fictional Studies*
 Graduated with honors. Capstone project involved developing a sample application.
+
+---
 
 ## Skills
 
