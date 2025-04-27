@@ -63,7 +63,10 @@
     hyphenate: auto,
   )
 
-  show strong: set text(font: "IBM Plex Serif SmBld")
+  show strong: set text(
+    font: "IBM Plex Serif",
+    weight: "semibold",
+  )
 
   set document(
     title: effective-title,
