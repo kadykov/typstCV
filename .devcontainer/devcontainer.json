@@ -1,16 +1,20 @@
 {
-  "name": "typst",
+  "name": "${localWorkspaceFolderBasename}-devcontainer",
   "build": {
-    "dockerfile": "../Dockerfile"
+    "dockerfile": "./Dockerfile",
+    "context": ".."
   },
+  "runArgs": [
+    "--env-file",
+    ".devcontainer/devcontainer.env"
+  ],
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": {
       "username": "vscode"
     },
-    "ghcr.io/kadykov/devcontainer-features/pre-commit:1": {},
-    "ghcr.io/lukewiwa/features/shellcheck:0": {}
+    "ghcr.io/cirolosapio/devcontainers-features/alpine-docker-outside-of-docker:0": {}
   },
-  "postCreateCommand": "pre-commit install",
+  "postCreateCommand": "sudo chmod 666 /var/run/docker.sock && pre-commit install",
   "remoteUser": "vscode",
   "customizations": {
     "vscode": {
@@ -18,9 +22,7 @@
         "ms-azuretools.vscode-docker",
         "myriad-dreamin.tinymist",
         "skellock.just",
-        "ritwickdey.LiveServer",
         "GitHub.vscode-github-actions",
-        "eamodio.gitlens",
         "sumneko.lua",
         "yinfei.luahelper",
         "saoudrizwan.claude-dev",
@@ -30,7 +32,7 @@
   },
   "mounts": [
     {
-      "source": "vscode-home",
+      "source": "${localWorkspaceFolderBasename}-data",
       "target": "/home/vscode",
       "type": "volume"
     }
