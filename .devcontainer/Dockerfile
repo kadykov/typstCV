@@ -26,6 +26,7 @@ RUN apk add --no-cache \
     typst \
     shellcheck \
     just \
+    poppler-utils \
     python3 \
     uv \
     pre-commit \
@@ -44,3 +45,15 @@ ENV TYPST_FONT_PATHS=/usr/share/fonts
 
 # Update font cache
 RUN fc-cache -fv
+
+# --- Setup Local Typst Package Symlink for Development ---
+# Define the target package path using the standard ENV var name
+ENV TYPST_PACKAGE_PATH=/usr/local/share/typst/packages
+ENV DEV_PKG_DIR=$TYPST_PACKAGE_PATH/local/pandoc-cv/0.1.0
+# Create the directory structure
+RUN mkdir -p $DEV_PKG_DIR
+# Create symlinks from the workspace files to the package directory
+# This assumes the devcontainer mounts the workspace at /workspaces/typstCV
+# Use ln -sf to force link creation/overwrite if it exists
+RUN ln -sf /workspaces/typstCV/style.typ $DEV_PKG_DIR/style.typ \
+    && ln -sf /workspaces/typstCV/typst.toml $DEV_PKG_DIR/typst.toml
