@@ -30,6 +30,11 @@ usage() {
 # --- Argument Parsing ---
 while [ $# -gt 0 ]; do
   case "$1" in
+    -) # Handle stdin explicitly
+      if [ -n "$input_file" ]; then echo "Error: Only one input file allowed ('-' or filename)." >&2; usage; fi
+      input_file="-"
+      shift
+      ;;
     --type)
       if [ -z "$2" ]; then echo "Error: --type requires an argument." >&2; usage; fi
       if [ "$2" != "cv" ] && [ "$2" != "letter" ]; then echo "Error: --type must be 'cv' or 'letter'." >&2; usage; fi
@@ -115,6 +120,12 @@ fi
 template_file="typst-${doc_type}.typ"
 echo "Info: Using document type: $doc_type (template: $template_file)" >&2
 
+# Force override pipeline for CVs to handle potential photo paths correctly via input_dir_abs
+if [ "$doc_type" = "cv" ]; then
+  echo "Info: Forcing override pipeline for CV to handle potential relative image paths." >&2
+  use_override_pipeline=true
+fi
+
 # --- Determine Output Path ---
 # Reverted: Simplified output path logic
 output_arg="" # Will be '-o path' or '-' for stdout
@@ -129,14 +140,19 @@ elif [ -n "$output_file" ]; then
   output_path="${output_dir}/${output_file}"
   output_arg="-o $output_path"
 else
-  # Default output filename based on input
-  if [ "$input_file" = "-" ]; then
-    echo "Error: Output file must be specified when reading from stdin (unless outputting to stdout with '--output -')." >&2
-    usage
+  # Default output filename based on input (only if input is not stdin)
+  if [ "$input_file" != "-" ]; then
+    base_name=$(basename "$input_file" .md)
+    output_path="${output_dir}/${base_name}.pdf" # Always .pdf now
+    output_arg="-o $output_path"
+  # If input is stdin, output MUST be stdout ('-')
+  elif [ "$input_file" = "-" ] && [ "$output_file" != "-" ]; then
+     # This case is only reached if input is '-' and output was NOT specified as '-' OR was empty
+     echo "Error: Output must be explicitly specified as stdout ('--output -') when reading from stdin ('-')." >&2
+     usage
   fi
-  base_name=$(basename "$input_file" .md)
-  output_path="${output_dir}/${base_name}.pdf" # Always .pdf now
-  output_arg="-o $output_path"
+  # If input is stdin and output is stdout, output_arg remains "-"
+  # If input is file and output is file, output_arg is "-o path"
 fi
 
 # Create output directory if needed and not outputting to stdout
@@ -150,9 +166,41 @@ fi
 
 # --- Build Commands ---
 # Check if PANDOC_DATA_DIR is set, provide default if not (useful if run outside Docker)
-PANDOC_DATA_DIR="${PANDOC_DATA_DIR:-/usr/share/pandoc}"
+# Ensure PANDOC_DATA_DIR is exported so subshells (like in pipes) might see it, though direct arg is better.
+export PANDOC_DATA_DIR="${PANDOC_DATA_DIR:-/usr/share/pandoc}"
+# Determine resource path (input file's directory or '.' for stdin)
+resource_path="."
+if [ "$input_file" != "-" ]; then
+  # Handle potential edge case where input file is in root (dirname returns '.')
+  dir=$(dirname "$input_file")
+  if [ "$dir" != "." ]; then
+    resource_path="$dir"
+  fi
+fi
+# Add --data-dir to the base command - resource path added per-command
 # shellcheck disable=SC2089
-pandoc_base="pandoc --data-dir=\"$PANDOC_DATA_DIR\" --wrap=preserve --pdf-engine=typst --lua-filter=linkify.lua --lua-filter=typst-cv.lua"
+pandoc_base="pandoc --data-dir $PANDOC_DATA_DIR --wrap=preserve --pdf-engine=typst --lua-filter=linkify.lua --lua-filter=typst-cv.lua"
+
+# --- Calculate Absolute Input Directory for Typst ---
+input_dir_abs=""
+if [ "$input_file" != "-" ]; then
+  # Get absolute path of the input file
+  # Handle relative paths by prepending PWD if needed
+  case "$input_file" in
+    /*) input_file_abs="$input_file" ;;
+    *) input_file_abs="$PWD/$input_file" ;;
+  esac
+  # Get the directory part
+  input_dir_abs=$(dirname "$input_file_abs")
+  # Add to typst args if not empty (should always be set if input is a file)
+  if [ -n "$input_dir_abs" ]; then
+    # shellcheck disable=SC2089
+    typst_input_args="$typst_input_args --input input_dir_abs=\"$input_dir_abs\""
+    # Note: This variable is ONLY used by the override pipeline's typst compile step.
+    # The direct pandoc pipeline cannot use it.
+  fi
+fi
+
 
 # --- Execute Pipeline ---
 # Reverted: Simplified execution logic back to original override check
@@ -161,15 +209,45 @@ if [ "$use_override_pipeline" = true ]; then
   echo "Info: Using override pipeline (Pandoc -> Typst -> PDF)." >&2
   # Construct the pandoc part of the pipe
   pandoc_cmd_part="$pandoc_base --to=typst --template=$template_file $input_arg"
+
+  # Prepare typst output argument.
+  # Typst compile takes the output path directly as the last argument,
+  # or '-' for stdout. It does NOT use '-o'.
+  typst_output_arg=""
+  if [ "$output_arg" = "-" ]; then
+    typst_output_arg="-" # Pass '-' for stdout
+  elif echo "$output_arg" | grep -q -e '^-o '; then
+    # Extract path after '-o ' for the argument
+    typst_output_arg=$(echo "$output_arg" | sed 's/^-o //')
+  fi
+
+  # Determine the root directory for Typst. Use absolute path if available, else default to /data for stdin.
+  typst_root_dir="/data" # Default for stdin
+  if [ -n "$input_dir_abs" ]; then
+      typst_root_dir="$input_dir_abs"
+  fi
+
   # Execute pandoc part directly and pipe to typst compile
-  # shellcheck disable=SC2086,SC2090 # We want word splitting; quotes in var are for target cmd
-  $pandoc_cmd_part | typst compile $typst_input_args - $output_arg
+  # Add --root argument. Pass calculated output argument ($typst_output_arg) directly to typst.
+  # shellcheck disable=SC2086,SC2090 # We want word splitting for $typst_input_args; quotes are handled there. $typst_output_arg is single path or '-'.
+  pandoc_pipe_cmd="$pandoc_cmd_part | typst compile --root \"$typst_root_dir\" $typst_input_args - $typst_output_arg"
+
+  # Execute the combined pipeline command using sh -c for potentially better handling of pipes/quotes.
+  sh -c "$pandoc_pipe_cmd"
+  # Check exit status of the pipe (specifically the last command, typst compile)
+  pipe_status=$?
+  if [ $pipe_status -ne 0 ]; then
+      echo "Error: Typst compilation failed with status $pipe_status." >&2
+      exit $pipe_status
+  fi
+
 else
   echo "Info: Using direct pipeline (Pandoc -> PDF)." >&2
-  # Construct the full pandoc command parts
-  pandoc_cmd_part1="$pandoc_base --template=$template_file"
+  # Construct the full pandoc command parts, adding resource path here
+  # shellcheck disable=SC2089
+  pandoc_cmd_part1="$pandoc_base --resource-path \"$resource_path\" --template=$template_file"
   pandoc_cmd_part2="$input_arg"
-  # $output_arg contains '-o path' or is empty if default CWD output
+  # $output_arg contains '-o path' or '-' for stdout
   # Execute directly, let shell handle splitting of $output_arg
   # shellcheck disable=SC2086,SC2090 # We want word splitting; quotes in var are for target cmd
   $pandoc_cmd_part1 "$pandoc_cmd_part2" $output_arg
