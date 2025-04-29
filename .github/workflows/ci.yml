@@ -75,6 +75,16 @@ jobs:
       - name: Initialize and Update Submodules
         run: git submodule update --init --recursive
 
+      # Verify submodule checkout after update
+      - name: Verify Submodule Checkout (Post-Update)
+        run: |
+          echo "--- Verifying Submodule Checkout ---"
+          echo "Listing tests/bats/bin:"
+          ls -l tests/bats/bin || echo "!!! tests/bats/bin NOT FOUND"
+          echo "Listing tests/test_helper:"
+          ls -l tests/test_helper || echo "!!! tests/test_helper NOT FOUND"
+          echo "--- Verification Done ---"
+
       - name: Build Devcontainer Image for Testing
         run: |
           docker build -t typst-cv-devcontainer:latest -f .devcontainer/Dockerfile.ubuntu .
