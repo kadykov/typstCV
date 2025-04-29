@@ -26,8 +26,12 @@ test-filter:
 test-e2e:
     sh {{e2e_tests_script}}
 
-# Run all tests
-test: test-unit test-filter test-e2e
+# Run Docker usage tests (requires image built, e.g., via `just build-docker`)
+test-docker:
+    {{bats_executable}} tests/docker.bats
+
+# Run all tests (including Docker tests)
+test: test-unit test-filter test-e2e test-docker
     @echo "All tests passed!"
 
 # Clean temporary files (if any - currently handled by tests)
@@ -39,3 +43,11 @@ build-examples:
     ./build.sh --output-dir examples tests/fixtures/example-cv.md
     ./build.sh --output-dir examples tests/fixtures/example-letter.md --type letter
     @echo "Example PDFs built in ./examples/"
+
+# Build the default Docker image (Alpine-based)
+build-docker tag='latest':
+    docker build --pull -t typst-cv:{{tag}} -f Dockerfile .
+
+# Build the Fedora-based Docker image
+build-docker-fedora tag='latest-fedora':
+    docker build --pull -t typst-cv:{{tag}} -f Dockerfile.fedora .
