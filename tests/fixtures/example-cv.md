@@ -19,7 +19,7 @@ links:
 private_info: This is private info from YAML
 ---
 
-# Jane Doe {photo='image("tests/fixtures/placeholder-photo.png", width: 120pt)'}
+# Jane Doe {photo="placeholder-photo.png"}
 
 ## Summary
 
