@@ -44,10 +44,6 @@ build-examples:
     ./build.sh --output-dir examples tests/fixtures/example-letter.md --type letter
     @echo "Example PDFs built in ./examples/"
 
-# Build the default Docker image (Alpine-based)
+# Build the default Docker image
 build-docker tag='latest':
     docker build --pull -t typst-cv:{{tag}} -f Dockerfile .
-
-# Build the Fedora-based Docker image
-build-docker-fedora tag='latest-fedora':
-    docker build --pull -t typst-cv:{{tag}} -f Dockerfile.fedora .
