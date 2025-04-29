@@ -17,9 +17,9 @@
     -   Devcontainer (`.devcontainer/Dockerfile`) is Alpine-based with dev tools and Docker-in-Docker.
     -   Fedora-based image (`Dockerfile.fedora`) exists but is likely deprecated.
 -   **Testing:**
-    -   Unit, Filter, E2E tests run inside the production container in CI.
-    -   Docker usage tests (`tests/docker.bats`) verify container interaction (now passing after debugging).
--   **CI:** GitHub Actions workflow lints code, builds the *production* Docker image, runs all test suites (unit, filter, E2E, docker), builds example PDFs using the container, pushes images, and handles releases.
+    -   Unit, Filter, E2E tests (`just test-internal`) run inside a devcontainer-like image in CI.
+    -   Docker usage tests (`tests/docker.bats`, run via `just test-docker`) verify production container interaction on the CI host runner.
+-   **CI:** GitHub Actions workflow lints code, builds the *production* Docker image (`Dockerfile`), builds the *devcontainer* image (`.devcontainer/Dockerfile.ubuntu`), runs internal tests in the devcontainer image, runs Docker usage tests against the production image, builds example PDFs using the production container, pushes images, and handles releases.
 -   **Photo Handling:** Refactored to use `{photo="path" photowidth="..."}` attributes for better usability.
 
 ## What's Left to Build (Potential Future Work)
@@ -40,8 +40,9 @@
 -   **Phase 1 Complete:** Testing framework established, examples depersonalized.
 -   **Docker/CI Refactoring Complete:** Production Docker image switched to Alpine, CI updated to use it.
 -   **Devcontainer Switched:** Development environment moved to Ubuntu with Docker-in-Docker.
--   **Docker Tests Passing:** All test suites, including Docker interaction tests, are passing after significant debugging.
--   **Ready for Next Phase:** Project is stable, build/test process is robust, ready for further feature development, refactoring, or optimization.
+-   **Docker Tests Passing:** All test suites, including Docker interaction tests, are passing locally after significant debugging.
+-   **CI Workflow Corrected:** CI pipeline now uses appropriate environments for internal tests (devcontainer image) and Docker usage tests (host runner + production image). Awaiting verification via CI run.
+-   **Ready for Next Phase:** Project is stable, build/test process is robust (pending CI verification), ready for further feature development, refactoring, or optimization.
 
 ## Known Issues
 

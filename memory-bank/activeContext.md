@@ -1,45 +1,37 @@
-# Active Context: Debugging Docker Tests & Switching Devcontainer (2025-04-28)
+# Active Context: Fixing CI Test Execution (2025-04-29)
 
 ## Current Focus
 
-Debugging and fixing the Docker usage tests (`tests/docker.bats`) within the new Ubuntu-based Docker-in-Docker (DinD) devcontainer environment.
+Correcting the GitHub Actions CI workflow (`.github/workflows/ci.yml`) to properly execute all test suites.
+
+## Problem Identified
+
+-   Local tests (`just test`) were passing in the devcontainer.
+-   CI tests were failing with `Error: Only one input file allowed.` during the unit/filter/E2E test execution step.
+-   **Root Cause:** The CI workflow was attempting to run the unit, filter, and E2E tests (which require Bats and other dev tools) *inside* the minimal production Docker image (`kadykov/typst-cv:testing`). This image lacks the necessary testing tools, and the volume mounting/working directory setup was incorrect for the test scripts' expectations.
 
 ## Recent Actions (This Session)
 
--   **Created Production Dockerfile:** Defined `Dockerfile` (Alpine-based) for the self-contained production image, including multi-stage builds, pinned Typst v0.12.0, and necessary dependencies/assets.
--   **Updated CI:** Modified `.github/workflows/ci.yml` to build and test using the new production `Dockerfile`.
--   **Added Docker Tests:** Created `tests/docker.bats` to test container interaction.
--   **Updated `justfile`:** Added `build-docker` and `test-docker` recipes.
--   **Refactored Package Handling:**
-    -   Reverted templates (`typst-cv.typ`, `typst-letter.typ`) to use local package import (`@local/pandoc-cv:0.1.0`).
-    -   Updated production `Dockerfile` to copy `style.typ` and `typst.toml` into the package structure.
-    -   Updated devcontainer `Dockerfile` (`.devcontainer/Dockerfile.ubuntu`) to create symlinks for `style.typ` and `typst.toml` into the package structure.
-    -   Added Pandoc comment syntax (`$--`) to template files to avoid linter issues.
--   **Debugged `build.sh`:** Made several adjustments to handle Pandoc `--data-dir`, `--resource-path`, stdin (`-`) argument parsing, and `typst compile` arguments for the override pipeline.
--   **Identified Devcontainer Issue:** Diagnosed Docker test failures as stemming from Docker-out-of-Docker limitations with host path mounts in the Alpine devcontainer.
--   **Planned Devcontainer Switch:**
-    -   Created a new Ubuntu-based devcontainer Dockerfile (`.devcontainer/Dockerfile.ubuntu`) with necessary tools.
-    -   Updated `.devcontainer/devcontainer.json` to use the new Dockerfile and enable the Docker-in-Docker feature.
-    -   Simplified `tests/docker.bats` to use direct host path mounts, anticipating the DinD setup.
--   **Executed Tests:** Ran `just build-docker && just test` multiple times.
--   **Fixed Path Resolution:** Modified `build.sh` and `typst-cv.lua` to correctly handle image paths relative to the input file using Typst's `--root` argument, resolving E2E test failures.
--   **Refactored Photo Attribute:** Changed from `{photo='image(...)'}` to `{photo="path" photowidth="..."}` for better usability, updating `typst-cv.lua` and test fixtures (`*.md`) accordingly.
--   **Fixed Filter Tests:** Made `typst-cv.lua` robust against missing metadata during filter tests.
--   **Fixed Docker Tests:**
-    -   Used an image-free fixture (`example-cv-stdin.md`) for the stdin test.
-    -   Corrected the `--set` key from `name` to `author` in the override test.
-    -   Ensured the override test explicitly requested the correct output filename (`--output override.pdf`).
-    -   Investigated and resolved issues preventing the output file creation in the override test.
+-   **Analyzed CI Failure:** Diagnosed the incorrect execution context for internal tests in the CI workflow.
+-   **Planned CI Fix:** Determined the need to run internal tests (unit, filter, E2E) in an environment similar to the devcontainer, separate from the Docker usage tests (`tests/docker.bats`).
+-   **Updated `justfile`:**
+    -   Added a new recipe `test-internal: test-unit test-filter test-e2e` specifically for running tests that don't involve direct Docker interaction testing.
+    -   Modified the main `test` recipe to `test: test-internal test-docker`.
+-   **Updated `.github/workflows/ci.yml`:**
+    -   Added a step to build the devcontainer image (`typst-cv-devcontainer:latest`) from `.devcontainer/Dockerfile.ubuntu`.
+    -   Replaced the failing internal test execution step to use the `typst-cv-devcontainer:latest` image, mount the full workspace (`${PWD}:/workspaces/typstCV`), set the working directory (`/workspaces/typstCV`), and run `just test-internal`.
+    -   Kept the "Run Docker usage tests (on runner host against production image)" step unchanged, as it correctly tests the production image's external interface.
 
 ## Decisions & Notes
 
--   Devcontainer successfully switched to Ubuntu (DinD), simplifying Docker testing.
--   Photo handling now uses separate `photo` (path) and optional `photowidth` attributes in Markdown for improved user experience.
--   Path resolution for images relies on Typst's `--root` argument, set correctly by `build.sh`.
--   All test suites (unit, filter, E2E, docker) are now passing.
+-   Internal tests (unit, filter, E2E) require the development environment context (tools like Bats).
+-   Docker usage tests (`tests/docker.bats`) specifically test the *production* image interface from the outside and should run on the host runner.
+-   Separating the execution context for these two types of tests in CI is crucial.
+-   Using the devcontainer Dockerfile (`.devcontainer/Dockerfile.ubuntu`) provides the necessary environment for internal tests in CI.
 
 ## Immediate Next Steps
 
--   Update `progress.md` to reflect the successful debugging and passing tests.
+-   **User Action:** Commit and push the changes to `justfile` and `.github/workflows/ci.yml` to trigger the CI workflow and verify the fix.
+-   **Update `progress.md`:** Reflect the CI fix and current project status.
 -   Consider if any updates are needed for `techContext.md` or `.clinerules`.
--   Complete the task.
+-   Complete the task once CI verification is successful.
