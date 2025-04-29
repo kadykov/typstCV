@@ -10,9 +10,17 @@
     -   Unit tests (`bats`) for `build.sh` logic exist and pass.
     -   Filter tests (`sh`) comparing Pandoc output against snapshots exist and pass.
     -   E2E smoke tests (`sh`) verifying PDF generation for examples exist and pass.
-    -   `justfile` provides convenient local test execution commands (`just test`, `just test-unit`, etc.).
--   **Docker:** Image builds, includes dependencies, uses `build.sh` as entrypoint.
--   **CI:** GitHub Actions workflow lints code (`pre-commit`), builds Docker image, runs all test suites inside the container, builds example PDFs, and handles releases (uploads example PDFs, uses changelog).
+    -   `justfile` provides convenient local test execution commands (`just test`, `just test-unit`, etc.) and Docker build commands (`just build-docker`).
+-   **Docker:**
+    -   Primary production image (`Dockerfile`) is Alpine-based, self-contained, uses multi-stage builds, includes pinned Typst v0.12.0 and necessary packages/fonts.
+    -   `style.typ` is placed in `/app/lib` and included via `TYPST_FONT_PATHS`.
+    -   Devcontainer (`.devcontainer/Dockerfile`) is Alpine-based with dev tools and Docker-in-Docker.
+    -   Fedora-based image (`Dockerfile.fedora`) exists but is likely deprecated.
+-   **Testing:**
+    -   Unit, Filter, E2E tests run inside the production container in CI.
+    -   Docker usage tests (`tests/docker.bats`) verify container interaction (now passing after debugging).
+-   **CI:** GitHub Actions workflow lints code, builds the *production* Docker image, runs all test suites (unit, filter, E2E, docker), builds example PDFs using the container, pushes images, and handles releases.
+-   **Photo Handling:** Refactored to use `{photo="path" photowidth="..."}` attributes for better usability.
 
 ## What's Left to Build (Potential Future Work)
 
@@ -21,24 +29,21 @@
     -   Enhance style customization (more parameters in `style.typ` or allow custom style files).
 -   **Phase 3: Technical Challenges & Refinements:**
     -   Improve/Fix stdin/stdout support for Typst format output (overrides currently ignored).
-    -   Refactor `typst-cv.lua` and `style.typ`:
-        -   Fix swapped `event-date`/`company-location` function usage.
-        -   Rename functions (e.g., `date()`, `location()`).
-        -   Add generic `{side="..."}` attribute support.
-        -   Support multiple attributes per heading.
-        -   Add support for divs like `#aside`.
+    -   Refactor `typst-cv.lua` and `style.typ` (as previously noted).
     -   Explore dynamic font installation (e.g., `fontist`).
-    -   Separate Docker images for development (Debian/Fedora) and production (Alpine).
--   **Phase 4: Rebranding & Marketing:**
-    -   Rebrand project (name, repository, Docker Hub).
-    -   Create GitHub Action for publishing documentation (e.g., to GitHub Pages).
+-   **Optimize Dockerfiles:** Look for ways to share layers/stages between `Dockerfile` and `.devcontainer/Dockerfile.ubuntu`.
+-   **(Potentially)** Remove `Dockerfile.fedora`.
+-   **Phase 4: Rebranding & Marketing:** (As previously noted)
 
 ## Current Status
 
--   **Phase 1 Complete:** Testing framework established, examples depersonalized, CI updated, `justfile` added. Core functionality is tested.
--   **Ready for Next Phase:** Project is in a stable state, ready for planning and implementation of new features or refactoring based on user priorities.
+-   **Phase 1 Complete:** Testing framework established, examples depersonalized.
+-   **Docker/CI Refactoring Complete:** Production Docker image switched to Alpine, CI updated to use it.
+-   **Devcontainer Switched:** Development environment moved to Ubuntu with Docker-in-Docker.
+-   **Docker Tests Passing:** All test suites, including Docker interaction tests, are passing after significant debugging.
+-   **Ready for Next Phase:** Project is stable, build/test process is robust, ready for further feature development, refactoring, or optimization.
 
 ## Known Issues
 
 -   **Minor Layout Quirk:** README mentions side content (`{date}`, `{location}`) might cause minor spacing variations depending on Typst layout. (Low priority Typst/styling detail).
--   **Overrides Ignored for Typst Stdout:** `--set`/`TYPSTCV_*` overrides are currently ignored if outputting Typst format *to stdout* due to limitations in the pipeline.
+-   **Overrides Ignored for Typst Stdout:** `--set`/`TYPSTCV_*` overrides are currently ignored if outputting Typst format *to stdout* due to limitations in the pipeline. (This was not tested/fixed in this session).
