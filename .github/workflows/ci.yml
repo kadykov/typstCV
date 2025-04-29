@@ -66,34 +66,49 @@ jobs:
           cache-from: type=registry,ref=${{ env.IMAGE }}:testing # Cache from previous testing tag if exists
           cache-to: type=inline
 
-      - name: Checkout code
+      - name: Checkout code (including submodules for bats)
         uses: actions/checkout@v4
+        with:
+          submodules: recursive # Needed to get bats-core for docker tests
 
-      - name: Run tests inside the container
+      - name: Install Bats and File command (for Docker usage tests)
+        run: sudo apt-get update && sudo apt-get install -y bats file
+
+      - name: Run tests inside the container (using production image, mounting only fixtures)
         run: |
           echo "Running tests..."
-          # Execute test suites
-          docker run --rm -v "${PWD}:/data" --workdir /data ${{ env.IMAGE_TAG_TESTING }} \
-            bats ${{ env.TEST_DIR }}/unit/build_sh.bats
+          # Mount only fixtures to /test-fixtures, run tests relative to /data (workdir)
+          # Note: Tests might need adjustment if they expect to be run from project root
+          # Assuming bats and sh scripts handle paths correctly when run from /data
+          docker run --rm -v "${PWD}/${{ env.TEST_DIR }}/fixtures:/test-fixtures:ro" --workdir /data ${{ env.IMAGE_TAG_TESTING }} \
+            bats /test-fixtures/../unit/build_sh.bats # Adjust path relative to mount point if needed
 
-          docker run --rm -v "${PWD}:/data" --workdir /data ${{ env.IMAGE_TAG_TESTING }} \
-            bats ${{ env.TEST_DIR }}/filter/filters.bats # Use bats for filter tests
+          docker run --rm -v "${PWD}/${{ env.TEST_DIR }}/fixtures:/test-fixtures:ro" --workdir /data ${{ env.IMAGE_TAG_TESTING }} \
+            bats /test-fixtures/../filter/filters.bats # Adjust path relative to mount point if needed
 
-          # Removed execution of test_integration.sh
-          # docker run --rm -v "${PWD}:/data" --workdir /data ${{ env.IMAGE_TAG_TESTING }} \
-          #   sh ${{ env.TEST_DIR }}/test_integration.sh
+          docker run --rm -v "${PWD}/${{ env.TEST_DIR }}/fixtures:/test-fixtures:ro" --workdir /data ${{ env.IMAGE_TAG_TESTING }} \
+            sh /test-fixtures/../test_e2e.sh # Adjust path relative to mount point if needed
+          echo "Container tests finished."
 
-          docker run --rm -v "${PWD}:/data" --workdir /data ${{ env.IMAGE_TAG_TESTING }} \
-            sh ${{ env.TEST_DIR }}/test_e2e.sh
-          echo "Tests finished."
+      - name: Run Docker usage tests (on runner host)
+        run: |
+          echo "Running Docker usage tests..."
+          # These tests run on the host, interacting with the built testing image
+          # Assumes 'bats' is installed on the runner (installed in previous step)
+          # Assumes docker is available on the runner
+          bats ${{ env.TEST_DIR }}/docker.bats
+          echo "Docker usage tests finished."
 
-      - name: Build Example PDFs for Release Artifacts (after tests pass)
+      - name: Build Example PDFs for Release Artifacts (using production image, mounting only fixtures)
         run: |
           echo "Building example PDFs..."
-          docker run --rm -v "${PWD}:/data" --workdir /data ${{ env.IMAGE_TAG_TESTING }} \
-            ./build.sh --output-dir examples ${{ env.TEST_DIR }}/fixtures/example-cv.md
-          docker run --rm -v "${PWD}:/data" --workdir /data ${{ env.IMAGE_TAG_TESTING }} \
-            ./build.sh --output-dir examples ${{ env.TEST_DIR }}/fixtures/example-letter.md --type letter
+          # Create host output directory first
+          mkdir -p ./examples
+          # Mount fixtures to /test-fixtures, mount host output dir to /output
+          docker run --rm -v "${PWD}/${{ env.TEST_DIR }}/fixtures:/test-fixtures:ro" -v "${PWD}/examples:/output" --workdir /data ${{ env.IMAGE_TAG_TESTING }} \
+            build.sh --output-dir /output /test-fixtures/example-cv.md
+          docker run --rm -v "${PWD}/${{ env.TEST_DIR }}/fixtures:/test-fixtures:ro" -v "${PWD}/examples:/output" --workdir /data ${{ env.IMAGE_TAG_TESTING }} \
+            build.sh --output-dir /output /test-fixtures/example-letter.md --type letter
           echo "Example PDFs built."
 
       - name: Upload Example PDFs
