@@ -1,0 +1,86 @@
+# Use a Microsoft base image with common dev tools pre-installed
+FROM mcr.microsoft.com/devcontainers/base:ubuntu-24.04
+
+# Install system dependencies using apt-get
+# Need: git, pandoc, typst (manual?), shellcheck, just (manual?), poppler-utils,
+#       python3, pipx (for uv, pre-commit), nodejs, npm, fontconfig, ruby, build-essential (for fontist)
+USER root
+
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get install -y --no-install-recommends \
+    git \
+    pandoc \
+    shellcheck \
+    poppler-utils \
+    python3 \
+    python3-pip \
+    pipx \
+    pre-commit \
+    nodejs \
+    npm \
+    fontconfig \
+    ruby \
+    ruby-dev \
+    build-essential \
+    wget \
+    ca-certificates \
+    unzip \
+    just \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Just is installed via apt-get above
+
+# --- Install Font Awesome 6 ---
+RUN export FA_VERSION=6.7.2 \
+    && export FA_DIR=/usr/local/share/fonts/fontawesome6 \
+    && mkdir -p ${FA_DIR} \
+    && wget -qO /tmp/fontawesome.zip https://github.com/FortAwesome/Font-Awesome/releases/download/${FA_VERSION}/fontawesome-free-${FA_VERSION}-desktop.zip \
+    && unzip -q /tmp/fontawesome.zip -d /tmp/fontawesome-extract 'fontawesome-free-*-desktop/otfs/*' \
+    && mv /tmp/fontawesome-extract/fontawesome-free-*-desktop/otfs/*.otf ${FA_DIR}/ \
+    && fc-cache -f -v \
+    && rm -rf /tmp/fontawesome.zip /tmp/fontawesome-extract
+
+# Install Typst manually (using musl build might work, or check for glibc build)
+# Let's try the musl build first as it's known
+ARG TYPST_VERSION=v0.12.0
+ARG TARGET=x86_64-unknown-linux-musl
+RUN wget -qO typst.tar.xz https://github.com/typst/typst/releases/download/${TYPST_VERSION}/typst-${TARGET}.tar.xz \
+    && tar xf typst.tar.xz \
+    && mv typst-${TARGET}/typst /usr/local/bin/typst \
+    && chmod +x /usr/local/bin/typst \
+    && rm -rf typst.tar.xz typst-${TARGET} \
+    && typst --version
+
+# Install fontist
+RUN gem install fontist --no-document --version "~> 1.21.1"
+
+# Switch back to vscode user provided by base image
+USER vscode
+
+# Install fonts using fontist (run as vscode user)
+COPY --chown=vscode:vscode fontist-manifest.yml /tmp/fontist-manifest.yml
+RUN fontist update --quiet \
+    && fontist manifest-install --quiet /tmp/fontist-manifest.yml \
+    && fontist cache clear --quiet \
+    && rm /tmp/fontist-manifest.yml \
+    && sudo fc-cache -fv # Update system font cache
+
+# --- Setup Local Typst Package Symlink for Development ---
+# Define the target package path using the standard ENV var name
+# Use the user's local share directory now
+ENV TYPST_PACKAGE_PATH=/home/vscode/.local/share/typst/packages
+ENV DEV_PKG_DIR=$TYPST_PACKAGE_PATH/local/pandoc-cv/0.1.0
+# Create the directory structure
+RUN mkdir -p $DEV_PKG_DIR
+# Create symlinks from the workspace files to the package directory
+# This runs post-checkout, so workspace files exist
+# Use a postCreateCommand in devcontainer.json instead of RUN here
+
+# Set Font Path (includes fontist user dir and system FA6 dir)
+ENV TYPST_FONT_PATHS=/home/vscode/.fontist/fonts:/usr/local/share/fonts/fontawesome6
+
+# Ensure pipx path is in PATH
+ENV PATH="/home/vscode/.local/bin:${PATH}"
+
+RUN mkdir -p /home/vscode/.vscode-server/data/User/globalStorage

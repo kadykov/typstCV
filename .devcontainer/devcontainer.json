@@ -1,7 +1,7 @@
 {
-  "name": "${localWorkspaceFolderBasename}-devcontainer",
+  "name": "${localWorkspaceFolderBasename}-devcontainer-ubuntu",
   "build": {
-    "dockerfile": "./Dockerfile",
+    "dockerfile": "./Dockerfile.ubuntu",
     "context": ".."
   },
   "runArgs": [
@@ -12,9 +12,12 @@
     "ghcr.io/devcontainers/features/common-utils:2": {
       "username": "vscode"
     },
-    "ghcr.io/cirolosapio/devcontainers-features/alpine-docker-outside-of-docker:0": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "moby": true
+    }
   },
-  "postCreateCommand": "sudo chmod 666 /var/run/docker.sock && pre-commit install",
+  "postCreateCommand": "mkdir -p /home/vscode/.local/share/typst/packages/local/pandoc-cv/0.1.0 && ln -sf /workspaces/typstCV/style.typ /home/vscode/.local/share/typst/packages/local/pandoc-cv/0.1.0/style.typ && ln -sf /workspaces/typstCV/typst.toml /home/vscode/.local/share/typst/packages/local/pandoc-cv/0.1.0/typst.toml && pre-commit install",
   "remoteUser": "vscode",
   "customizations": {
     "vscode": {
@@ -32,8 +35,8 @@
   },
   "mounts": [
     {
-      "source": "${localWorkspaceFolderBasename}-data",
-      "target": "/home/vscode",
+      "source": "${localWorkspaceFolderBasename}-vscode-global-storage",
+      "target": "/home/vscode/.vscode-server/data/User/globalStorage",
       "type": "volume"
     }
   ]
