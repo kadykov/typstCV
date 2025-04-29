@@ -8,7 +8,8 @@ Diagnosing and correcting the GitHub Actions CI workflow (`.github/workflows/ci.
 
 -   Local tests (`just test`) pass in the devcontainer.
 -   CI internal tests (`just test-internal` running in devcontainer image) failed with `sh: 1: tests/bats/bin/bats: not found`.
--   **Hypothesis:** The `actions/checkout@v4` step might not be checking out the Git submodules (`tests/bats`, `tests/test_helper`) correctly on the CI runner, despite `submodules: recursive` being set.
+-   **Root Cause Confirmed:** Diagnostic step showed `actions/checkout@v4` was not checking out submodules on the CI runner.
+-   **Secondary Issue:** Linter errors detected duplicate keys in the `release` job after a previous file modification.
 
 ## Recent Actions (This Session)
 
@@ -16,19 +17,21 @@ Diagnosing and correcting the GitHub Actions CI workflow (`.github/workflows/ci.
 -   **Planned & Implemented CI Fix v1:**
     -   Added `test-internal` recipe to `justfile`.
     -   Modified `.github/workflows/ci.yml` to build the devcontainer image and run `just test-internal` within it, mounting the workspace.
--   **Analyzed Second CI Failure (`bats: not found`):** Identified the failure point as the inability to find the Bats executable within the devcontainer test run.
--   **Added Diagnostic Step to CI:** Modified `.github/workflows/ci.yml` to add a "Verify Submodule Checkout" step immediately after `actions/checkout@v4`. This step uses `ls -l` to check if the submodule directories (`tests/bats/bin`, `tests/test_helper`) are populated on the CI runner host *before* the Docker steps run.
+-   **Analyzed Second CI Failure (`bats: not found`):** Identified the failure point as the inability to find the Bats executable.
+-   **Added Diagnostic Step to CI:** Added a verification step using `ls` which confirmed submodules were not checked out by `actions/checkout@v4`.
+-   **Implemented CI Fix v2 (Submodules):**
+    -   Removed the diagnostic `ls` step.
+    -   Added an explicit `git submodule update --init --recursive` command in `.github/workflows/ci.yml` immediately after the `actions/checkout@v4` step to ensure submodules are initialized and updated.
+-   **Fixed Linter Errors:** Corrected duplicate keys (`allowUpdates`, `token`, `artifacts`) in the `release` job within `.github/workflows/ci.yml` by rewriting the affected step.
 
 ## Decisions & Notes
 
--   The `bats: not found` error points to an issue with the availability of the submodule files within the CI job's execution environment.
--   Verifying the checkout step directly on the runner is the next logical diagnostic step.
--   If submodules *are* checked out correctly on the runner, the issue might be with the Docker volume mount (`-v "${PWD}:/workspaces/typstCV"`) or permissions within the container.
--   If submodules *are not* checked out correctly, the `actions/checkout@v4` step or its configuration needs further investigation.
+-   Explicitly running `git submodule update --init --recursive` is the most reliable way to ensure submodules are available in the CI environment.
+-   Rewriting problematic YAML sections can resolve hidden duplication issues sometimes missed by simple text diffs.
 
 ## Immediate Next Steps
 
--   **User Action:** Commit and push the latest change to `.github/workflows/ci.yml` (adding the verification step) to trigger the CI workflow.
--   **Analyze CI Output:** Examine the output of the "Verify Submodule Checkout" step in the new CI run.
--   **Update `progress.md`:** Reflect the ongoing CI debugging status.
--   Based on the CI output, determine the next fix (e.g., adjust checkout, adjust Docker mount, add explicit submodule commands).
+-   **User Action:** Commit and push the latest changes to `.github/workflows/ci.yml` to trigger the CI workflow.
+-   **Analyze CI Output:** Verify that the `git submodule update` step runs successfully and that the subsequent `just test-internal` step passes (specifically, that `bats` is now found).
+-   **Update `progress.md`:** Reflect the latest CI fix attempt.
+-   Complete the task once CI verification is successful.

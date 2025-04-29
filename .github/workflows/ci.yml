@@ -66,17 +66,14 @@ jobs:
           cache-from: type=registry,ref=${{ env.IMAGE }}:testing # Cache from previous testing tag if exists
           cache-to: type=inline
 
-      - name: Checkout code (including submodules for bats)
+      - name: Checkout code
         uses: actions/checkout@v4
+        # Keep submodules: recursive just in case, but rely on explicit update
         with:
-          submodules: recursive # Needed for bats-core and test helpers
+          submodules: recursive
 
-      - name: Verify Submodule Checkout
-        run: |
-          echo "Listing tests/bats/bin on runner:"
-          ls -l tests/bats/bin || echo "!!! tests/bats/bin not found on runner"
-          echo "Listing tests/test_helper on runner:"
-          ls -l tests/test_helper || echo "!!! tests/test_helper not found on runner"
+      - name: Initialize and Update Submodules
+        run: git submodule update --init --recursive
 
       - name: Build Devcontainer Image for Testing
         run: |
@@ -182,6 +179,7 @@ jobs:
       - name: Create release on GitHub
         uses: ncipollo/release-action@v1
         with:
+          # Ensure no duplicate keys exist below
           tag: ${{ steps.changelog_reader.outputs.version }}
           name: Release ${{ steps.changelog_reader.outputs.version }}
           body: ${{ steps.changelog_reader.outputs.changes }}
@@ -189,4 +187,4 @@ jobs:
           draft: ${{ steps.changelog_reader.outputs.status == 'unreleased' }}
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: ./release-assets/*.pdf # Upload PDFs from the download directory
+          artifacts: ./release-assets/*.pdf
