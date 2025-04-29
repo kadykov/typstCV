@@ -31,8 +31,11 @@ test-docker:
     {{bats_executable}} tests/docker.bats
 
 # Run all tests (including Docker tests)
-test: test-unit test-filter test-e2e test-docker
+test: test-internal test-docker
     @echo "All tests passed!"
+
+# Run internal tests (unit, filter, e2e) - suitable for CI container execution
+test-internal: test-unit test-filter test-e2e
 
 # Clean temporary files (if any - currently handled by tests)
 clean:
