@@ -69,28 +69,23 @@ jobs:
       - name: Checkout code (including submodules for bats)
         uses: actions/checkout@v4
         with:
-          submodules: recursive # Needed to get bats-core for docker tests
+          submodules: recursive # Needed for bats-core and test helpers
 
-      - name: Install Bats and File command (for Docker usage tests)
+      - name: Build Devcontainer Image for Testing
+        run: |
+          docker build -t typst-cv-devcontainer:latest -f .devcontainer/Dockerfile.ubuntu .
+
+      - name: Install Bats and File command (for Docker usage tests on host)
         run: sudo apt-get update && sudo apt-get install -y bats file
 
-      - name: Run tests inside the container (using production image, mounting only fixtures)
+      - name: Run internal tests (unit, filter, e2e) inside Devcontainer Image
         run: |
-          echo "Running tests..."
-          # Mount only fixtures to /test-fixtures, run tests relative to /data (workdir)
-          # Note: Tests might need adjustment if they expect to be run from project root
-          # Assuming bats and sh scripts handle paths correctly when run from /data
-          docker run --rm -v "${PWD}/${{ env.TEST_DIR }}/fixtures:/test-fixtures:ro" --workdir /data ${{ env.IMAGE_TAG_TESTING }} \
-            bats /test-fixtures/../unit/build_sh.bats # Adjust path relative to mount point if needed
+          echo "Running internal tests..."
+          # Run using the devcontainer image, mounting the full workspace
+          docker run --rm -v "${PWD}:/workspaces/typstCV" --workdir /workspaces/typstCV typst-cv-devcontainer:latest just test-internal
+          echo "Internal tests finished."
 
-          docker run --rm -v "${PWD}/${{ env.TEST_DIR }}/fixtures:/test-fixtures:ro" --workdir /data ${{ env.IMAGE_TAG_TESTING }} \
-            bats /test-fixtures/../filter/filters.bats # Adjust path relative to mount point if needed
-
-          docker run --rm -v "${PWD}/${{ env.TEST_DIR }}/fixtures:/test-fixtures:ro" --workdir /data ${{ env.IMAGE_TAG_TESTING }} \
-            sh /test-fixtures/../test_e2e.sh # Adjust path relative to mount point if needed
-          echo "Container tests finished."
-
-      - name: Run Docker usage tests (on runner host)
+      - name: Run Docker usage tests (on runner host against production image)
         run: |
           echo "Running Docker usage tests..."
           # These tests run on the host, interacting with the built testing image
