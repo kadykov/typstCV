@@ -41,8 +41,8 @@
 -   **Docker/CI Refactoring Complete:** Production Docker image switched to Alpine, CI updated to use it.
 -   **Devcontainer Switched:** Development environment moved to Ubuntu with Docker-in-Docker.
 -   **Docker Tests Passing:** All test suites pass locally.
--   **CI Workflow Debugging:** CI pipeline updated to use devcontainer image for internal tests, but failed (`bats: not found`). Added diagnostic step to verify submodule checkout via `actions/checkout@v4`. Awaiting results from next CI run.
--   **Ready for Next Phase:** Blocked on resolving CI test failures.
+-   **CI Workflow Fix Attempted:** Added explicit `git submodule update --init --recursive` step to CI workflow to address `bats: not found` error. Also fixed linter errors in the `release` job. Awaiting results from next CI run.
+-   **Ready for Next Phase:** Blocked on resolving CI test failures (pending verification of latest fix).
 
 ## Known Issues
 
