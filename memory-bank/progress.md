@@ -40,9 +40,9 @@
 -   **Phase 1 Complete:** Testing framework established, examples depersonalized.
 -   **Docker/CI Refactoring Complete:** Production Docker image switched to Alpine, CI updated to use it.
 -   **Devcontainer Switched:** Development environment moved to Ubuntu with Docker-in-Docker.
--   **Docker Tests Passing:** All test suites, including Docker interaction tests, are passing locally after significant debugging.
--   **CI Workflow Corrected:** CI pipeline now uses appropriate environments for internal tests (devcontainer image) and Docker usage tests (host runner + production image). Awaiting verification via CI run.
--   **Ready for Next Phase:** Project is stable, build/test process is robust (pending CI verification), ready for further feature development, refactoring, or optimization.
+-   **Docker Tests Passing:** All test suites pass locally.
+-   **CI Workflow Debugging:** CI pipeline updated to use devcontainer image for internal tests, but failed (`bats: not found`). Added diagnostic step to verify submodule checkout via `actions/checkout@v4`. Awaiting results from next CI run.
+-   **Ready for Next Phase:** Blocked on resolving CI test failures.
 
 ## Known Issues
 

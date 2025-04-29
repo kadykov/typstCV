@@ -71,6 +71,13 @@ jobs:
         with:
           submodules: recursive # Needed for bats-core and test helpers
 
+      - name: Verify Submodule Checkout
+        run: |
+          echo "Listing tests/bats/bin on runner:"
+          ls -l tests/bats/bin || echo "!!! tests/bats/bin not found on runner"
+          echo "Listing tests/test_helper on runner:"
+          ls -l tests/test_helper || echo "!!! tests/test_helper not found on runner"
+
       - name: Build Devcontainer Image for Testing
         run: |
           docker build -t typst-cv-devcontainer:latest -f .devcontainer/Dockerfile.ubuntu .
