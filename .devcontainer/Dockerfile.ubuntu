@@ -9,6 +9,7 @@ USER root
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y --no-install-recommends \
     git \
+    file \
     pandoc \
     shellcheck \
     poppler-utils \
