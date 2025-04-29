@@ -2,8 +2,8 @@
 title: Typst CV Filter Test - Current Logic
 ---
 
-# Name {photo='image("photo.png", width: 100pt)'}
-
+# Name {photo="photo.png" photowidth="100pt"}
+<name>
 This header has a photo attribute.
 
 ## Section 1 {.hidden}

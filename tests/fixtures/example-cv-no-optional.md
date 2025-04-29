@@ -13,7 +13,7 @@ links:
   Pandoc: https://pandoc.org/
 ---
 
-# Jane Doe Minimal {photo='image("tests/fixtures/placeholder-photo.png", width: 120pt)'}
+# Jane Doe Minimal {photo="placeholder-photo.png"}
 
 ## Summary
 
