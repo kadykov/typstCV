@@ -1,37 +1,45 @@
-# Active Context: Testing & Depersonalization Complete (2025-04-26)
+# Active Context: Debugging Docker Tests & Switching Devcontainer (2025-04-28)
 
 ## Current Focus
 
-Phase 1, focusing on adding tests, depersonalizing examples, and updating CI, is complete. The project now has a test suite covering unit, filter, and E2E scenarios, uses generic example files, and the CI workflow automatically runs these tests.
+Debugging and fixing the Docker usage tests (`tests/docker.bats`) within the new Ubuntu-based Docker-in-Docker (DinD) devcontainer environment.
 
-## Recent Actions (Completed)
+## Recent Actions (This Session)
 
--   **Discussed Next Steps:** Prioritized adding tests and depersonalizing the project.
--   **Test Setup:**
-    -   Created `tests/` directory structure.
-    -   Installed `bats-core` and helpers via Git submodules (`tests/bats`, `tests/test_helper`).
--   **Depersonalization:**
-    -   Created generic example files (`tests/fixtures/example-cv.md`, `tests/fixtures/example-letter.md`) using placeholder data and correct heading/link structure.
-    -   Created placeholder image (`tests/fixtures/placeholder-photo.png`).
-    -   Removed old personalized files (`kadykov-*.md`, `photo.jpg`).
--   **Testing Implementation:**
-    -   Added unit tests for `build.sh` using Bats (`tests/unit/build_sh.bats`), debugging path and execution issues.
-    -   Refactored filter tests into Bats (`tests/filter/filters.bats`) using `grep`/`assert_output --partial` for robustness instead of fragile snapshots.
-    -   Added E2E smoke tests (`tests/test_e2e.sh`) verifying successful PDF generation. Enhanced E2E tests using `pdftotext` (via `poppler-utils` added to Dockerfile) to check for presence of hidden headings and absence of optional footer links. Debugged various issues related to YAML format, paths, template logic, and test implementation.
--   **Documentation:** Updated `README.md` to clarify heading structure, linkification, metadata override workflow, and point to new example files.
--   **CI Update:** Modified `.github/workflows/ci.yml` to run the new test suites (unit, filter, e2e) inside the Docker container (which now includes `poppler-utils`) and removed the old GitHub Pages deployment job for CVs. Ensured example PDFs are built and uploaded for release artifacts.
--   **Development Tooling:** Added `justfile` for convenient local execution of linters and test suites.
--   **Memory Bank:** Updated `activeContext.md`, `progress.md`, `techContext.md`.
+-   **Created Production Dockerfile:** Defined `Dockerfile` (Alpine-based) for the self-contained production image, including multi-stage builds, pinned Typst v0.12.0, and necessary dependencies/assets.
+-   **Updated CI:** Modified `.github/workflows/ci.yml` to build and test using the new production `Dockerfile`.
+-   **Added Docker Tests:** Created `tests/docker.bats` to test container interaction.
+-   **Updated `justfile`:** Added `build-docker` and `test-docker` recipes.
+-   **Refactored Package Handling:**
+    -   Reverted templates (`typst-cv.typ`, `typst-letter.typ`) to use local package import (`@local/pandoc-cv:0.1.0`).
+    -   Updated production `Dockerfile` to copy `style.typ` and `typst.toml` into the package structure.
+    -   Updated devcontainer `Dockerfile` (`.devcontainer/Dockerfile.ubuntu`) to create symlinks for `style.typ` and `typst.toml` into the package structure.
+    -   Added Pandoc comment syntax (`$--`) to template files to avoid linter issues.
+-   **Debugged `build.sh`:** Made several adjustments to handle Pandoc `--data-dir`, `--resource-path`, stdin (`-`) argument parsing, and `typst compile` arguments for the override pipeline.
+-   **Identified Devcontainer Issue:** Diagnosed Docker test failures as stemming from Docker-out-of-Docker limitations with host path mounts in the Alpine devcontainer.
+-   **Planned Devcontainer Switch:**
+    -   Created a new Ubuntu-based devcontainer Dockerfile (`.devcontainer/Dockerfile.ubuntu`) with necessary tools.
+    -   Updated `.devcontainer/devcontainer.json` to use the new Dockerfile and enable the Docker-in-Docker feature.
+    -   Simplified `tests/docker.bats` to use direct host path mounts, anticipating the DinD setup.
+-   **Executed Tests:** Ran `just build-docker && just test` multiple times.
+-   **Fixed Path Resolution:** Modified `build.sh` and `typst-cv.lua` to correctly handle image paths relative to the input file using Typst's `--root` argument, resolving E2E test failures.
+-   **Refactored Photo Attribute:** Changed from `{photo='image(...)'}` to `{photo="path" photowidth="..."}` for better usability, updating `typst-cv.lua` and test fixtures (`*.md`) accordingly.
+-   **Fixed Filter Tests:** Made `typst-cv.lua` robust against missing metadata during filter tests.
+-   **Fixed Docker Tests:**
+    -   Used an image-free fixture (`example-cv-stdin.md`) for the stdin test.
+    -   Corrected the `--set` key from `name` to `author` in the override test.
+    -   Ensured the override test explicitly requested the correct output filename (`--output override.pdf`).
+    -   Investigated and resolved issues preventing the output file creation in the override test.
 
 ## Decisions & Notes
 
--   Decided *not* to implement `--output-format typst` in `build.sh` at this time due to difficulties in reliably generating/testing the `.typ` output via the script. Integration testing relies on filter tests and E2E PDF tests.
--   Noted suggestions for future filter (`typst-cv.lua`) refactoring (fixing function names, adding generic side content, multiple attributes, div support) but postponed implementation until after establishing baseline tests.
--   Corrected understanding of YAML date format and relative paths for Typst compilation.
--   **Bug Fix:** Corrected default values (`"default"` -> `none`) and added conditional logic in `style.typ` footer to prevent displaying icons/links for optional fields (github, gitlab, linkedin, website) if they are not provided in YAML or via overrides.
--   **Template Imports:** Confirmed templates use direct `#import "style.typ"` as updated by user.
+-   Devcontainer successfully switched to Ubuntu (DinD), simplifying Docker testing.
+-   Photo handling now uses separate `photo` (path) and optional `photowidth` attributes in Markdown for improved user experience.
+-   Path resolution for images relies on Typst's `--root` argument, set correctly by `build.sh`.
+-   All test suites (unit, filter, E2E, docker) are now passing.
 
 ## Immediate Next Steps
 
--   Update `progress.md`.
--   Present the completed Phase 1 work (including bug fix) to the user.
+-   Update `progress.md` to reflect the successful debugging and passing tests.
+-   Consider if any updates are needed for `techContext.md` or `.clinerules`.
+-   Complete the task.
