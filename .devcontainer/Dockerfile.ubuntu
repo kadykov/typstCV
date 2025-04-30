@@ -62,6 +62,17 @@ RUN gem install fontist --no-document --version "~> 1.21.1"
 # Switch back to vscode user provided by base image
 USER vscode
 
+# --- Setup Local Typst Package Symlink for Development/Testing ---
+# Define the target package path using the standard ENV var name
+# Use the user's local share directory now
+ENV TYPST_PACKAGE_PATH=/home/vscode/.local/share/typst/packages
+ENV DEV_PKG_DIR=$TYPST_PACKAGE_PATH/local/pandoc-cv/0.1.0
+# Create the directory structure and symlinks during build
+# These point to the workspace location, which will be mounted at runtime
+RUN mkdir -p $DEV_PKG_DIR && \
+    ln -sf /workspaces/typstCV/style.typ $DEV_PKG_DIR/style.typ && \
+    ln -sf /workspaces/typstCV/typst.toml $DEV_PKG_DIR/typst.toml
+
 # Install fonts using fontist (run as vscode user)
 COPY --chown=vscode:vscode fontist-manifest.yml /tmp/fontist-manifest.yml
 RUN fontist update --quiet \
@@ -69,17 +80,6 @@ RUN fontist update --quiet \
     && fontist cache clear --quiet \
     && rm /tmp/fontist-manifest.yml \
     && sudo fc-cache -fv # Update system font cache
-
-# --- Setup Local Typst Package Symlink for Development ---
-# Define the target package path using the standard ENV var name
-# Use the user's local share directory now
-ENV TYPST_PACKAGE_PATH=/home/vscode/.local/share/typst/packages
-ENV DEV_PKG_DIR=$TYPST_PACKAGE_PATH/local/pandoc-cv/0.1.0
-# Create the directory structure
-RUN mkdir -p $DEV_PKG_DIR
-# Create symlinks from the workspace files to the package directory
-# This runs post-checkout, so workspace files exist
-# Use a postCreateCommand in devcontainer.json instead of RUN here
 
 # Set Font Path (includes fontist user dir and system FA6 dir)
 ENV TYPST_FONT_PATHS=/home/vscode/.fontist/fonts:/usr/local/share/fonts/fontawesome6

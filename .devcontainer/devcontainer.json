@@ -17,7 +17,7 @@
       "moby": true
     }
   },
-  "postCreateCommand": "mkdir -p /home/vscode/.local/share/typst/packages/local/pandoc-cv/0.1.0 && ln -sf /workspaces/typstCV/style.typ /home/vscode/.local/share/typst/packages/local/pandoc-cv/0.1.0/style.typ && ln -sf /workspaces/typstCV/typst.toml /home/vscode/.local/share/typst/packages/local/pandoc-cv/0.1.0/typst.toml && pre-commit install",
+  "postCreateCommand": "pre-commit install",
   "remoteUser": "vscode",
   "customizations": {
     "vscode": {
