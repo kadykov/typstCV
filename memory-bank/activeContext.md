@@ -1,8 +1,8 @@
-# Active Context: Switched Test Dependencies from Submodules to System Packages (2025-04-30)
+# Active Context: Resolved CI Test Failures (chmod & symlinks) (2025-04-30)
 
 ## Current Focus
 
-Resolving CI failures related to test execution and dependency management.
+Verifying CI fixes and completing the task related to switching from submodules to system packages for testing.
 
 ## Problem Identified & Resolved
 
@@ -16,17 +16,23 @@ Resolving CI failures related to test execution and dependency management.
     *   Updated Bats test files (`tests/unit/build_sh.bats`, `tests/filter/filters.bats`) to load helpers using `bats_load_library` instead of relative submodule paths.
     *   Updated `justfile` to use the system `bats` executable instead of the submodule path.
     *   Removed the explicit `git submodule update` step from the CI workflow (`.github/workflows/ci.yml`).
+6.  **New Problem (CI):** Tests run inside the devcontainer image (`just test-internal`) failed with `chmod: changing permissions of '/workspaces/typstCV/build.sh': Operation not permitted`.
+7.  **Root Cause (CI):** The test script (`tests/unit/build_sh.bats`) attempted to `chmod +x` the `build.sh` script on the host filesystem via the Docker volume mount, which failed due to permissions. Additionally, the symlinks for the local Typst package (`style.typ`, `typst.toml`), created by `postCreateCommand` in the devcontainer, were missing when running the image directly in CI. The host Bats tests (`tests/docker.bats`) were also missing helper packages (`bats-assert`, `bats-support`).
+8.  **Solution Implemented (CI):**
+    *   Removed the `chmod +x` command from `tests/unit/build_sh.bats`.
+    *   Added `RUN` commands to `.devcontainer/Dockerfile.ubuntu` to create the necessary package symlinks during the image build.
+    *   Updated `.github/workflows/ci.yml` to install `bats-assert` and `bats-support` on the host runner for the `docker.bats` tests.
 
 ## Recent Actions (This Session)
 
--   Diagnosed the SSH key failure during `docker build`.
--   Discussed options (HTTPS URLs, SSH keys, system packages).
--   Decided to switch to system packages for Bats and exclude test/git files from production build context.
--   Created `.dockerignore`.
--   Removed submodule update step from `.github/workflows/ci.yml`.
--   Updated `load` commands in `.bats` files to `bats_load_library`.
--   Updated `justfile` to use system `bats`.
--   Verified the fix for loading helpers with the user.
+-   Diagnosed the SSH key failure during `docker build` (previous step).
+-   Switched test dependencies to system packages and updated related files (previous step).
+-   Diagnosed the subsequent CI failures (`chmod` error, missing symlinks, missing host Bats helpers).
+-   Planned the fixes for the CI issues.
+-   Modified `.devcontainer/Dockerfile.ubuntu` to add symlink creation (and subsequently removed duplicated commands).
+-   Modified `tests/unit/build_sh.bats` to remove `chmod`.
+-   Modified `.github/workflows/ci.yml` to install Bats helpers on the host runner.
+-   Updated this `activeContext.md`.
 
 ## Decisions & Notes
 
@@ -37,7 +43,7 @@ Resolving CI failures related to test execution and dependency management.
 ## Immediate Next Steps
 
 -   Update `progress.md`.
--   **User Action:** Commit the changes (`.dockerignore`, `.github/workflows/ci.yml`, `justfile`, `tests/**/*.bats`).
+-   **User Action:** Commit the changes (`.devcontainer/Dockerfile.ubuntu`, `tests/unit/build_sh.bats`, `.github/workflows/ci.yml`, and previous changes like `.dockerignore`, `justfile`, other `.bats` files if not already committed).
 -   **User Action:** Trigger the CI workflow and verify all tests pass.
--   **User Action (Optional):** Clean up Git submodule configuration (`.gitmodules`, `git rm --cached ...`, `rm -rf ...`).
+-   **User Action (Optional):** Clean up Git submodule configuration (`.gitmodules`, `git rm --cached tests/bats*`, `rm -rf tests/bats*`).
 -   Complete the task.
