@@ -17,8 +17,7 @@ EOF
   PROJECT_ROOT="$(cd "$BATS_TEST_DIRNAME/../.." && pwd)"
   SCRIPT="$PROJECT_ROOT/build.sh"
 
-  # Make build.sh executable if it's not already
-  chmod +x "$SCRIPT"
+  # build.sh should have execute permissions set by git
 }
 
 teardown() {
