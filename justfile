@@ -1,7 +1,7 @@
 # Justfile for common development tasks
 
 # Variables
-bats_executable := "tests/bats/bin/bats"
+bats_executable := "bats" # Use system-installed bats
 unit_tests_file := "tests/unit/build_sh.bats"
 filter_tests_file := "tests/filter/filters.bats" # Updated path
 e2e_tests_script := "tests/test_e2e.sh"

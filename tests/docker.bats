@@ -1,7 +1,8 @@
 #!/usr/bin/env bats
 
-load 'test_helper/bats-support/load'
-load 'test_helper/bats-assert/load'
+# Load Bats helpers using bats_load_library for system packages
+bats_load_library 'bats-support'
+bats_load_library 'bats-assert'
 
 # --- Variables ---
 # Assumes the image is built with the 'latest' tag locally
