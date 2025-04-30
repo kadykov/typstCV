@@ -50,7 +50,6 @@ Finalizing CI workflow improvements related to Docker image tagging, push logic,
 -   Diagnosed CI issues: missing tags on PR builds (`ERROR: tag is needed...`), incorrect push logic for production image on PRs, lack of devcontainer caching.
 -   Planned CI fixes: Add `type=ref,event=pr` tag for production image metadata, make production image push conditional on `github.event_name == 'push'`, implement devcontainer caching using GHCR.
 -   Modified `.github/workflows/ci.yml`:
-    *   Added `DEV_IMAGE_NAME` environment variable.
     *   Added unconditional login step for GHCR.
     *   Added `type=ref,event=pr` to production image metadata (`id: meta`).
     *   Added metadata step for devcontainer image (`id: devmeta`).
@@ -58,6 +57,9 @@ Finalizing CI workflow improvements related to Docker image tagging, push logic,
     *   Added step to pull cached devcontainer image before internal tests.
     *   Updated internal test step to use the pulled GHCR image.
     *   Made the final production image push step (`Build and push`) conditional: `if: success() && (github.event_name == 'push')`.
+    *   Corrected step order for `devmeta`.
+    *   Added `type=ref,event=pr` to devcontainer image metadata (`id: devmeta`).
+    *   Corrected GHCR image name definition: removed `DEV_IMAGE_NAME` from top-level `env`, added a `run` step within the `docker` job to set `DEV_IMAGE_NAME` dynamically using `echo ... | tr '[:upper:]' '[:lower:]'` and `$GITHUB_ENV`.
 -   Updated this `activeContext.md`.
 
 ## Decisions & Notes
@@ -68,7 +70,7 @@ Finalizing CI workflow improvements related to Docker image tagging, push logic,
 -   Running tests that write output from within `$BATS_TMPDIR` avoids container volume mount permission issues.
 -   Using an environment variable (`DOCKER_IMAGE_TAG`) allows the Docker usage tests (`tests/docker.bats`) to work correctly in both local (defaulting to `typst-cv:latest`) and CI environments (using the specific testing tag).
 -   When using `docker run` with an `ENTRYPOINT`, the command specified after the image name is passed as arguments *to* the entrypoint script.
--   **Devcontainer Caching:** Use GHCR (`ghcr.io/${{ github.repository }}/devcontainer`) for caching the devcontainer image. Cache to/from the `:latest` tag. Push cache on every run (PRs and pushes).
+-   **Devcontainer Caching:** Use GHCR (`ghcr.io/${{ github.repository }}/devcontainer`, ensuring lowercase) for caching the devcontainer image. Cache to/from the `:latest` tag. Push cache on every run (PRs and pushes). Set the `DEV_IMAGE_NAME` env var dynamically within the job using a `run` step and `$GITHUB_ENV`.
 -   **Production Image Push:** Only push the final tagged production image to Docker Hub on `push` events (to `main` or tags), not on `pull_request` events. Add `type=ref,event=pr` tag to metadata to ensure a tag always exists for PR builds, even though it won't be pushed.
 
 ## Immediate Next Steps

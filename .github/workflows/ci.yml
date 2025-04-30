@@ -14,7 +14,7 @@ env:
   OUTPUT_ARTIFACTS_NAME: pdf
   EXAMPLE_ARTIFACTS_NAME: examples
   TEST_DIR: tests # Directory containing test scripts and fixtures
-  DEV_IMAGE_NAME: ghcr.io/${{ github.repository }}/devcontainer
+  # DEV_IMAGE_NAME will be set dynamically in the job
 
 jobs:
   pre_commit:
@@ -78,6 +78,10 @@ jobs:
         uses: actions/checkout@v4
         # Submodules are no longer used for testing dependencies
         # submodules: recursive # Keep commented out as reference if needed
+
+      - name: Set Devcontainer Image Name Env Var
+        run: echo "DEV_IMAGE_NAME=ghcr.io/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')/devcontainer" >> "$GITHUB_ENV"
+        shell: bash
 
       - name: Devcontainer Docker meta # For devcontainer cache image
         id: devmeta # Ensure this ID is unique
