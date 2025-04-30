@@ -117,6 +117,7 @@ if [ -z "$doc_type" ]; then
     doc_type="cv"
   fi
 fi
+# Use relative template filename
 template_file="typst-${doc_type}.typ"
 echo "Info: Using document type: $doc_type (template: $template_file)" >&2
 
@@ -178,6 +179,7 @@ if [ "$input_file" != "-" ]; then
   fi
 fi
 # Add --data-dir to the base command - resource path added per-command
+# Use relative Lua filter names
 # shellcheck disable=SC2089
 pandoc_base="pandoc --data-dir $PANDOC_DATA_DIR --wrap=preserve --pdf-engine=typst --lua-filter=linkify.lua --lua-filter=typst-cv.lua"
 
