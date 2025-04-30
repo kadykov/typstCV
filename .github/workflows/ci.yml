@@ -101,10 +101,11 @@ jobs:
           # Create host output directory first
           mkdir -p ./examples
           # Mount fixtures to /test-fixtures, mount host output dir to /output
+          # Pass arguments directly to the ENTRYPOINT (build.sh)
           docker run --rm -v "${PWD}/${{ env.TEST_DIR }}/fixtures:/test-fixtures:ro" -v "${PWD}/examples:/output" --workdir /data ${{ env.IMAGE_TAG_TESTING }} \
-            build.sh --output-dir /output /test-fixtures/example-cv.md
+            --output-dir /output /test-fixtures/example-cv.md
           docker run --rm -v "${PWD}/${{ env.TEST_DIR }}/fixtures:/test-fixtures:ro" -v "${PWD}/examples:/output" --workdir /data ${{ env.IMAGE_TAG_TESTING }} \
-            build.sh --output-dir /output /test-fixtures/example-letter.md --type letter
+            --output-dir /output /test-fixtures/example-letter.md --type letter
           echo "Example PDFs built."
 
       - name: Upload Example PDFs

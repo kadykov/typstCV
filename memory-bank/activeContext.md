@@ -40,6 +40,10 @@ Completing the task related to switching from submodules to system packages for 
 17. **Solution Implemented (CI - Docker Tests):**
     *   Modified `tests/docker.bats` to read the image tag from an environment variable (`DOCKER_IMAGE_TAG`), defaulting to `typst-cv:latest` if unset.
     *   Modified `.github/workflows/ci.yml` to pass the correct tag (`${{ env.IMAGE_TAG_TESTING }}`) to the `bats` command via the `DOCKER_IMAGE_TAG` environment variable.
+18. **New Problem (CI - Example Build):** The "Build Example PDFs for Release Artifacts" step failed with `Error: Only one input file allowed.`
+19. **Root Cause (CI - Example Build):** The `docker run` commands in the CI workflow incorrectly included `build.sh` as part of the command being passed to the container. Since the container has `ENTRYPOINT ["build.sh"]`, the script name was passed as the first argument to the entrypoint script itself, leading to the argument parsing error.
+20. **Solution Implemented (CI - Example Build):**
+    *   Modified `.github/workflows/ci.yml` to remove the redundant `build.sh` from the `docker run` commands in the "Build Example PDFs" step, ensuring only the intended arguments are passed to the entrypoint.
 
 ## Recent Actions (This Session)
 
@@ -62,6 +66,7 @@ Completing the task related to switching from submodules to system packages for 
 -   User confirmed tests pass locally after rebuilding devcontainer.
 -   User deleted `tests/test_e2e.sh`.
 -   Diagnosed and fixed the `test-docker` CI failure by parameterizing the image tag.
+-   Diagnosed and fixed the "Build Example PDFs" CI failure by correcting the arguments passed to the Docker entrypoint.
 -   Updated this `activeContext.md`.
 
 ## Decisions & Notes
@@ -71,10 +76,11 @@ Completing the task related to switching from submodules to system packages for 
 -   Aligning devcontainer resource locations (via symlinks) with production container locations (via copy) simplifies build scripts and testing.
 -   Running tests that write output from within `$BATS_TMPDIR` avoids container volume mount permission issues.
 -   Using an environment variable (`DOCKER_IMAGE_TAG`) allows the Docker usage tests (`tests/docker.bats`) to work correctly in both local (defaulting to `typst-cv:latest`) and CI environments (using the specific testing tag).
+-   When using `docker run` with an `ENTRYPOINT`, the command specified after the image name is passed as arguments *to* the entrypoint script.
 
 ## Immediate Next Steps
 
 -   Update `progress.md`.
--   **User Action:** Commit the changes (including `tests/docker.bats`, `.github/workflows/ci.yml`, and Memory Bank files).
--   **User Action:** Trigger the CI workflow and verify all tests pass, including the `test-docker` step.
+-   **User Action:** Commit the changes (including `.github/workflows/ci.yml` and Memory Bank files).
+-   **User Action:** Trigger the CI workflow and verify all tests pass, including the "Build Example PDFs" step.
 -   Complete the task.
