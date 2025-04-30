@@ -1,10 +1,10 @@
-# Active Context: Resolved CI Test Failures & Standardized E2E Tests (2025-04-30)
+# Active Context: CI Workflow Improvements (2025-04-30)
 
 ## Current Focus
 
-Completing the task related to switching from submodules to system packages for testing and resolving subsequent CI issues.
+Finalizing CI workflow improvements related to Docker image tagging, push logic, and caching.
 
-## Problem Identified & Resolved
+## Problem Identified & Resolved (Previous)
 
 1.  **Initial Problem:** CI tests failed (`bats: not found`) because `actions/checkout@v4` wasn't initializing submodules.
 2.  **Intermediate Fix:** Added explicit `git submodule update --init --recursive` to CI.
@@ -47,26 +47,17 @@ Completing the task related to switching from submodules to system packages for 
 
 ## Recent Actions (This Session)
 
--   Diagnosed the SSH key failure during `docker build` (previous step).
--   Switched test dependencies to system packages and updated related files (previous step).
--   Diagnosed the subsequent CI failures (`chmod` error, missing symlinks, missing host Bats helpers).
--   Planned the fixes for the CI issues.
--   Modified `.devcontainer/Dockerfile.ubuntu` to add Typst package symlink creation (and subsequently removed duplicated commands).
--   Modified `tests/unit/build_sh.bats` to remove `chmod`.
--   Modified `.github/workflows/ci.yml` to install Bats helpers on the host runner.
--   Diagnosed the PDF write permission error (`os error 13`) in CI unit tests.
--   Modified `tests/unit/build_sh.bats` again to write test output to `$BATS_TMPDIR/test_output/` instead of the CWD.
--   Diagnosed E2E test failures (Pandoc temp file permission, missing templates/filters).
--   Converted `tests/test_e2e.sh` to `tests/test_e2e.bats`, incorporating `cd $BATS_TMPDIR` fix and correcting assertion syntax.
--   Updated `justfile` to use `tests/test_e2e.bats`.
--   Modified `build.sh` to use absolute paths for templates/filters (later reverted).
--   Diagnosed Docker test failures caused by absolute paths in `build.sh`.
--   Reverted `build.sh` to use relative paths for templates/filters.
--   Modified `.devcontainer/Dockerfile.ubuntu` to add symlinks for Pandoc templates/filters to system locations.
--   User confirmed tests pass locally after rebuilding devcontainer.
--   User deleted `tests/test_e2e.sh`.
--   Diagnosed and fixed the `test-docker` CI failure by parameterizing the image tag.
--   Diagnosed and fixed the "Build Example PDFs" CI failure by correcting the arguments passed to the Docker entrypoint.
+-   Diagnosed CI issues: missing tags on PR builds (`ERROR: tag is needed...`), incorrect push logic for production image on PRs, lack of devcontainer caching.
+-   Planned CI fixes: Add `type=ref,event=pr` tag for production image metadata, make production image push conditional on `github.event_name == 'push'`, implement devcontainer caching using GHCR.
+-   Modified `.github/workflows/ci.yml`:
+    *   Added `DEV_IMAGE_NAME` environment variable.
+    *   Added unconditional login step for GHCR.
+    *   Added `type=ref,event=pr` to production image metadata (`id: meta`).
+    *   Added metadata step for devcontainer image (`id: devmeta`).
+    *   Replaced manual devcontainer build with `docker/build-push-action` using GHCR for caching (`id: build_devcontainer`).
+    *   Added step to pull cached devcontainer image before internal tests.
+    *   Updated internal test step to use the pulled GHCR image.
+    *   Made the final production image push step (`Build and push`) conditional: `if: success() && (github.event_name == 'push')`.
 -   Updated this `activeContext.md`.
 
 ## Decisions & Notes
@@ -77,10 +68,12 @@ Completing the task related to switching from submodules to system packages for 
 -   Running tests that write output from within `$BATS_TMPDIR` avoids container volume mount permission issues.
 -   Using an environment variable (`DOCKER_IMAGE_TAG`) allows the Docker usage tests (`tests/docker.bats`) to work correctly in both local (defaulting to `typst-cv:latest`) and CI environments (using the specific testing tag).
 -   When using `docker run` with an `ENTRYPOINT`, the command specified after the image name is passed as arguments *to* the entrypoint script.
+-   **Devcontainer Caching:** Use GHCR (`ghcr.io/${{ github.repository }}/devcontainer`) for caching the devcontainer image. Cache to/from the `:latest` tag. Push cache on every run (PRs and pushes).
+-   **Production Image Push:** Only push the final tagged production image to Docker Hub on `push` events (to `main` or tags), not on `pull_request` events. Add `type=ref,event=pr` tag to metadata to ensure a tag always exists for PR builds, even though it won't be pushed.
 
 ## Immediate Next Steps
 
 -   Update `progress.md`.
 -   **User Action:** Commit the changes (including `.github/workflows/ci.yml` and Memory Bank files).
--   **User Action:** Trigger the CI workflow and verify all tests pass, including the "Build Example PDFs" step.
+-   **User Action:** Trigger the CI workflow and verify all tests pass, including the devcontainer caching and conditional push logic.
 -   Complete the task.

@@ -14,6 +14,7 @@ env:
   OUTPUT_ARTIFACTS_NAME: pdf
   EXAMPLE_ARTIFACTS_NAME: examples
   TEST_DIR: tests # Directory containing test scripts and fixtures
+  DEV_IMAGE_NAME: ghcr.io/${{ github.repository }}/devcontainer
 
 jobs:
   pre_commit:
@@ -52,7 +53,14 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Login to Docker Hub
+      - name: Login to GitHub Container Registry # For devcontainer cache
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Login to Docker Hub # For production image testing cache pull
         uses: docker/login-action@v3
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
@@ -71,18 +79,37 @@ jobs:
         # Submodules are no longer used for testing dependencies
         # submodules: recursive # Keep commented out as reference if needed
 
-      - name: Build Devcontainer Image for Testing
-        run: |
-          docker build -t typst-cv-devcontainer:latest -f .devcontainer/Dockerfile.ubuntu .
+      - name: Devcontainer Docker meta # For devcontainer cache image
+        id: devmeta # Ensure this ID is unique
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.DEV_IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and Cache Devcontainer Image
+        id: build_devcontainer
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: .devcontainer/Dockerfile.ubuntu
+          tags: ${{ steps.devmeta.outputs.tags }}
+          push: true # Always push cache to GHCR
+          cache-from: type=registry,ref=${{ env.DEV_IMAGE_NAME }}:latest
+          cache-to: type=registry,ref=${{ env.DEV_IMAGE_NAME }}:latest,mode=max # Cache to latest tag
 
       - name: Install Bats, Helpers, and File command (for Docker usage tests on host)
         run: sudo apt-get update && sudo apt-get install -y bats bats-support bats-assert file
 
+      - name: Pull Cached Devcontainer Image
+        run: docker pull ${{ env.DEV_IMAGE_NAME }}:latest
+
       - name: Run internal tests (unit, filter, e2e) inside Devcontainer Image
         run: |
           echo "Running internal tests..."
-          # Run using the devcontainer image, mounting the full workspace
-          docker run --rm -v "${PWD}:/workspaces/typstCV" --workdir /workspaces/typstCV typst-cv-devcontainer:latest just test-internal
+          # Run using the pulled devcontainer image from GHCR, mounting the full workspace
+          docker run --rm -v "${PWD}:/workspaces/typstCV" --workdir /workspaces/typstCV ${{ env.DEV_IMAGE_NAME }}:latest just test-internal
           echo "Internal tests finished."
 
       - name: Run Docker usage tests (on runner host against production image)
@@ -133,14 +160,18 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
+            type=ref,event=pr
 
-      - name: Build and push
+      - name: Build and push # Production image to Docker Hub
+        if: success() && (github.event_name == 'push') # Only push on push events
         uses: docker/build-push-action@v6
         with:
-          push: true
+          push: true # This step only runs on push events anyway due to the 'if' above
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=registry,ref=${{ env.IMAGE }}:testing # Use testing cache
           cache-to: type=inline
+
+    # The duplicate devmeta block was here and is now removed by not including it in the REPLACE section.
 
   # Removed the 'publish' job for GitHub Pages CV deployment
 
