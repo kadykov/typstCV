@@ -10,7 +10,7 @@
     -   Unit tests (`bats`) for `build.sh` logic exist and pass (`tests/unit/build_sh.bats`).
     -   Filter tests (`bats`) comparing Pandoc output against snapshots exist and pass (`tests/filter/filters.bats`).
     -   E2E smoke tests converted to Bats (`tests/test_e2e.bats`), verifying PDF generation and basic content. Uses `cd $BATS_TMPDIR` workaround for Pandoc temp file permissions.
-    -   Docker usage tests (`bats`) verify production container interaction (`tests/docker.bats`). CI host runner now correctly installs helpers.
+    -   Docker usage tests (`bats`) verify production container interaction (`tests/docker.bats`). CI host runner correctly installs helpers. **CI execution fixed** by passing the correct image tag via `DOCKER_IMAGE_TAG` environment variable.
     -   `justfile` provides convenient local test execution commands (`just test`, `just test-unit`, `just test-filter`, `just test-e2e`) using system-installed `bats`.
 -   **Docker:**
     -   Primary production image (`Dockerfile`) is Alpine-based, self-contained, uses multi-stage builds, includes pinned Typst v0.12.0 and necessary packages/fonts. Build context is cleaned via `.dockerignore`. Files (`*.lua`, `*.typ`) copied to standard Pandoc/Typst locations.
@@ -38,9 +38,9 @@
 -   **Docker/CI Refactoring Complete:** Production Docker image switched to Alpine, CI updated to use it.
 -   **Devcontainer Switched:** Development environment moved to Ubuntu with Docker-in-Docker.
 -   **Test Dependencies Switched:** Successfully migrated from Git submodules to system packages (`apt`) for Bats testing framework.
--   **CI Workflow Fixed:** Resolved SSH key errors during production build by adding `.dockerignore`. Removed submodule handling steps. Updated test files and `justfile` to work with system Bats. Resolved subsequent CI failures (`chmod` error, missing Typst package symlinks, PDF write permission error, missing host Bats helpers, Pandoc temp file permissions, Pandoc template/filter path issues) by modifying tests, Dockerfiles, and build script as needed. Standardized E2E tests to Bats.
+-   **CI Workflow Fixed:** Resolved SSH key errors during production build by adding `.dockerignore`. Removed submodule handling steps. Updated test files and `justfile` to work with system Bats. Resolved subsequent CI failures (`chmod` error, missing Typst package symlinks, PDF write permission error, missing host Bats helpers, Pandoc temp file permissions, Pandoc template/filter path issues, **Docker usage test image tag mismatch**) by modifying tests, Dockerfiles, build script, and CI workflow as needed. Standardized E2E tests to Bats.
 -   **Submodule Cleanup:** Removed submodule configuration (`.gitmodules`) and directories (`tests/bats`, `tests/test_helper/*`). Old `tests/test_e2e.sh` deleted by user.
--   **Ready for Verification:** Project is stable, all known CI issues are addressed, tests pass locally. Ready for user to commit changes and trigger CI workflow for final confirmation.
+-   **Ready for Verification:** Project is stable, all known CI issues are addressed (including `test-docker`), tests pass locally. Ready for user to commit changes and trigger CI workflow for final confirmation.
 
 ## Known Issues
 

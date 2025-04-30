@@ -35,6 +35,11 @@ Completing the task related to switching from submodules to system packages for 
     *   Reverted `build.sh` to use relative template/filter names, relying on Pandoc's `--data-dir` mechanism (which now works in both environments).
     *   Updated `justfile` to run the new `tests/test_e2e.bats`.
     *   User deleted the old `tests/test_e2e.sh`.
+15. **New Problem (CI - Docker Tests):** The `test-docker` step failed with `!!! Docker image 'typst-cv:latest' not found`.
+16. **Root Cause (CI - Docker Tests):** The test script (`tests/docker.bats`) hardcoded the image tag `typst-cv:latest`, but the CI workflow built and provided the image tagged as `kadykov/typst-cv:testing`.
+17. **Solution Implemented (CI - Docker Tests):**
+    *   Modified `tests/docker.bats` to read the image tag from an environment variable (`DOCKER_IMAGE_TAG`), defaulting to `typst-cv:latest` if unset.
+    *   Modified `.github/workflows/ci.yml` to pass the correct tag (`${{ env.IMAGE_TAG_TESTING }}`) to the `bats` command via the `DOCKER_IMAGE_TAG` environment variable.
 
 ## Recent Actions (This Session)
 
@@ -56,6 +61,7 @@ Completing the task related to switching from submodules to system packages for 
 -   Modified `.devcontainer/Dockerfile.ubuntu` to add symlinks for Pandoc templates/filters to system locations.
 -   User confirmed tests pass locally after rebuilding devcontainer.
 -   User deleted `tests/test_e2e.sh`.
+-   Diagnosed and fixed the `test-docker` CI failure by parameterizing the image tag.
 -   Updated this `activeContext.md`.
 
 ## Decisions & Notes
@@ -64,11 +70,11 @@ Completing the task related to switching from submodules to system packages for 
 -   `.dockerignore` is crucial for keeping production build contexts clean.
 -   Aligning devcontainer resource locations (via symlinks) with production container locations (via copy) simplifies build scripts and testing.
 -   Running tests that write output from within `$BATS_TMPDIR` avoids container volume mount permission issues.
+-   Using an environment variable (`DOCKER_IMAGE_TAG`) allows the Docker usage tests (`tests/docker.bats`) to work correctly in both local (defaulting to `typst-cv:latest`) and CI environments (using the specific testing tag).
 
 ## Immediate Next Steps
 
 -   Update `progress.md`.
--   **User Action:** Commit the changes (including `tests/test_e2e.bats`, `justfile`, `.devcontainer/Dockerfile.ubuntu`, `build.sh`, `tests/unit/build_sh.bats`, `.github/workflows/ci.yml`, `.dockerignore`, and Memory Bank files). Ensure `tests/test_e2e.sh` is deleted.
--   **User Action:** Trigger the CI workflow and verify all tests pass.
--   **User Action (Optional):** Clean up Git submodule configuration (`.gitmodules`, `git rm --cached tests/bats*`, `rm -rf tests/bats*`).
+-   **User Action:** Commit the changes (including `tests/docker.bats`, `.github/workflows/ci.yml`, and Memory Bank files).
+-   **User Action:** Trigger the CI workflow and verify all tests pass, including the `test-docker` step.
 -   Complete the task.
