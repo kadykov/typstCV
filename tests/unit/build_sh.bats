@@ -5,8 +5,9 @@ bats_load_library 'bats-support'
 bats_load_library 'bats-assert'
 
 setup() {
-  # Create a dummy input file for tests that need one
+  # Create dummy input and output directories for tests
   mkdir -p "$BATS_TMPDIR/fixtures"
+  mkdir -p "$BATS_TMPDIR/test_output"
   cat > "$BATS_TMPDIR/fixtures/dummy.md" <<EOF
 ---
 title: Dummy Doc
@@ -21,8 +22,9 @@ EOF
 }
 
 teardown() {
-  # Clean up temporary files
+  # Clean up temporary files and directories
   rm -rf "$BATS_TMPDIR/fixtures"
+  rm -rf "$BATS_TMPDIR/test_output"
 }
 
 @test "build.sh: shows usage with no arguments" {
@@ -44,11 +46,13 @@ teardown() {
   # This test assumes the basic pandoc/typst pipeline works
   # It mainly checks if the script finds the input and doesn't crash
   # We check for PDF existence/size in E2E tests
-  run "$SCRIPT" "$BATS_TMPDIR/fixtures/dummy.md"
+  # Explicitly write output to BATS_TMPDIR/test_output to avoid permission issues on mounted volume
+  local outfile_abs="$BATS_TMPDIR/test_output/dummy.pdf"
+  run "$SCRIPT" --output-dir "$BATS_TMPDIR/test_output" --output "dummy.pdf" "$BATS_TMPDIR/fixtures/dummy.md"
   assert_success
-  # Check if the default output file exists (relative to where script is run)
-  assert [ -f "dummy.pdf" ]
-  rm -f dummy.pdf # Clean up output
+  # Check if the output file exists in the specified directory
+  assert [ -f "$outfile_abs" ]
+  # Teardown handles BATS_TMPDIR cleanup
 }
 
 @test "build.sh: creates specified output file with --output" {
