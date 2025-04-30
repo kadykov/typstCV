@@ -59,6 +59,19 @@ RUN wget -qO typst.tar.xz https://github.com/typst/typst/releases/download/${TYP
 # Install fontist
 RUN gem install fontist --no-document --version "~> 1.21.1"
 
+# --- Setup Pandoc Symlinks for Development/Testing ---
+# Create standard pandoc directories and symlink workspace files into them
+# This makes the devcontainer environment match the production container's setup
+# where these files are copied into standard locations.
+# Needs to run as root before switching to vscode user.
+ENV PANDOC_DATA_DIR=/usr/share/pandoc
+RUN mkdir -p $PANDOC_DATA_DIR/filters && \
+    mkdir -p $PANDOC_DATA_DIR/templates && \
+    ln -sf /workspaces/typstCV/linkify.lua $PANDOC_DATA_DIR/filters/linkify.lua && \
+    ln -sf /workspaces/typstCV/typst-cv.lua $PANDOC_DATA_DIR/filters/typst-cv.lua && \
+    ln -sf /workspaces/typstCV/typst-cv.typ $PANDOC_DATA_DIR/templates/typst-cv.typ && \
+    ln -sf /workspaces/typstCV/typst-letter.typ $PANDOC_DATA_DIR/templates/typst-letter.typ
+
 # Switch back to vscode user provided by base image
 USER vscode
 
