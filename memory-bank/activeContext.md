@@ -1,8 +1,8 @@
-# Active Context: Resolved CI Test Failures (chmod & symlinks) (2025-04-30)
+# Active Context: Resolved CI Test Failures & Standardized E2E Tests (2025-04-30)
 
 ## Current Focus
 
-Verifying CI fixes and completing the task related to switching from submodules to system packages for testing.
+Completing the task related to switching from submodules to system packages for testing and resolving subsequent CI issues.
 
 ## Problem Identified & Resolved
 
@@ -26,6 +26,15 @@ Verifying CI fixes and completing the task related to switching from submodules 
 10. **Root Cause (CI - Post Fixes):** The test `build.sh: succeeds with valid input file` in `tests/unit/build_sh.bats` was attempting to write the output PDF (`dummy.pdf`) directly into the mounted workspace directory (`/workspaces/typstCV`), which the `vscode` user inside the container didn't have permission to do.
 11. **Solution Implemented (CI - Post Fixes):**
     *   Modified the `build.sh: succeeds with valid input file` test in `tests/unit/build_sh.bats` to explicitly write its output PDF to a dedicated subdirectory within the Bats temporary directory (`$BATS_TMPDIR/test_output/`) instead of the current working directory. Added setup/teardown for this directory.
+12. **New Problem (CI - E2E):** After fixing the unit tests, the E2E tests (`tests/test_e2e.sh`) failed with `pandoc: .: openTempFile: permission denied` and `Could not find data file ... typst-letter.typ`.
+13. **Root Cause (CI - E2E):** The E2E test ran `build.sh` from the mounted workspace, but `build.sh` couldn't find templates/filters relative to the CWD, and Pandoc couldn't create temp files in the CWD. Also, the E2E test used a shell script instead of Bats.
+14. **Final Solution Implemented:**
+    *   Converted `tests/test_e2e.sh` to `tests/test_e2e.bats` for consistency.
+    *   Modified `tests/test_e2e.bats` to run `build.sh` from within `$BATS_TMPDIR` to resolve Pandoc's temp file permission issue.
+    *   Modified `.devcontainer/Dockerfile.ubuntu` to create symlinks for Pandoc templates (`*.typ`) and filters (`*.lua`) from the workspace into the standard system locations (`/usr/share/pandoc/...`), aligning the devcontainer environment with the production container.
+    *   Reverted `build.sh` to use relative template/filter names, relying on Pandoc's `--data-dir` mechanism (which now works in both environments).
+    *   Updated `justfile` to run the new `tests/test_e2e.bats`.
+    *   User deleted the old `tests/test_e2e.sh`.
 
 ## Recent Actions (This Session)
 
@@ -33,24 +42,33 @@ Verifying CI fixes and completing the task related to switching from submodules 
 -   Switched test dependencies to system packages and updated related files (previous step).
 -   Diagnosed the subsequent CI failures (`chmod` error, missing symlinks, missing host Bats helpers).
 -   Planned the fixes for the CI issues.
--   Modified `.devcontainer/Dockerfile.ubuntu` to add symlink creation (and subsequently removed duplicated commands).
+-   Modified `.devcontainer/Dockerfile.ubuntu` to add Typst package symlink creation (and subsequently removed duplicated commands).
 -   Modified `tests/unit/build_sh.bats` to remove `chmod`.
 -   Modified `.github/workflows/ci.yml` to install Bats helpers on the host runner.
--   Diagnosed the PDF write permission error (`os error 13`) in CI.
+-   Diagnosed the PDF write permission error (`os error 13`) in CI unit tests.
 -   Modified `tests/unit/build_sh.bats` again to write test output to `$BATS_TMPDIR/test_output/` instead of the CWD.
+-   Diagnosed E2E test failures (Pandoc temp file permission, missing templates/filters).
+-   Converted `tests/test_e2e.sh` to `tests/test_e2e.bats`, incorporating `cd $BATS_TMPDIR` fix and correcting assertion syntax.
+-   Updated `justfile` to use `tests/test_e2e.bats`.
+-   Modified `build.sh` to use absolute paths for templates/filters (later reverted).
+-   Diagnosed Docker test failures caused by absolute paths in `build.sh`.
+-   Reverted `build.sh` to use relative paths for templates/filters.
+-   Modified `.devcontainer/Dockerfile.ubuntu` to add symlinks for Pandoc templates/filters to system locations.
+-   User confirmed tests pass locally after rebuilding devcontainer.
+-   User deleted `tests/test_e2e.sh`.
 -   Updated this `activeContext.md`.
 
 ## Decisions & Notes
 
--   Using system packages for test dependencies simplifies the CI build process and avoids SSH key issues during production image builds.
--   `.dockerignore` is crucial for keeping production build contexts clean and secure.
--   `bats_load_library` is the correct way to load system-installed Bats helpers.
+-   Using system packages for test dependencies simplifies the CI build process.
+-   `.dockerignore` is crucial for keeping production build contexts clean.
+-   Aligning devcontainer resource locations (via symlinks) with production container locations (via copy) simplifies build scripts and testing.
+-   Running tests that write output from within `$BATS_TMPDIR` avoids container volume mount permission issues.
 
 ## Immediate Next Steps
 
 -   Update `progress.md`.
--   Update `progress.md`.
--   **User Action:** Commit the changes (including the latest update to `tests/unit/build_sh.bats`, `.devcontainer/Dockerfile.ubuntu`, `.github/workflows/ci.yml`, and previous changes like `.dockerignore`, `justfile`, other `.bats` files if not already committed).
+-   **User Action:** Commit the changes (including `tests/test_e2e.bats`, `justfile`, `.devcontainer/Dockerfile.ubuntu`, `build.sh`, `tests/unit/build_sh.bats`, `.github/workflows/ci.yml`, `.dockerignore`, and Memory Bank files). Ensure `tests/test_e2e.sh` is deleted.
 -   **User Action:** Trigger the CI workflow and verify all tests pass.
 -   **User Action (Optional):** Clean up Git submodule configuration (`.gitmodules`, `git rm --cached tests/bats*`, `rm -rf tests/bats*`).
 -   Complete the task.
