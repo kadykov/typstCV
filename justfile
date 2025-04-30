@@ -3,8 +3,8 @@
 # Variables
 bats_executable := "bats" # Use system-installed bats
 unit_tests_file := "tests/unit/build_sh.bats"
-filter_tests_file := "tests/filter/filters.bats" # Updated path
-e2e_tests_script := "tests/test_e2e.sh"
+filter_tests_file := "tests/filter/filters.bats"
+e2e_tests_file := "tests/test_e2e.bats" # Changed from script to file
 
 # Default task
 default:
@@ -24,7 +24,7 @@ test-filter:
 
 # Run E2E smoke tests (PDF generation)
 test-e2e:
-    sh {{e2e_tests_script}}
+    {{bats_executable}} {{e2e_tests_file}} # Use bats now
 
 # Run Docker usage tests (requires image built, e.g., via `just build-docker`)
 test-docker:
