@@ -15,7 +15,7 @@
 -   **Docker:**
     -   Primary production image (`Dockerfile`) is Alpine-based, self-contained, uses multi-stage builds, includes pinned Typst v0.12.0 and necessary packages/fonts. Build context is cleaned via `.dockerignore`. Files (`*.lua`, `*.typ`) copied to standard Pandoc/Typst locations.
     -   Devcontainer (`.devcontainer/Dockerfile.ubuntu`) is Ubuntu-based with dev tools, Docker-in-Docker, system-installed Bats. Includes built-in symlinks for the local Typst package (`style.typ`, `typst.toml`) *and* for Pandoc templates/filters (`*.typ`, `*.lua`) into standard system locations, aligning it with the production environment.
--   **CI:** GitHub Actions workflow lints code, builds the production Docker image, builds the devcontainer image, runs internal tests (unit, filter, e2e) in the devcontainer image (all known permission/path issues resolved), runs Docker usage tests against the production image (fixed missing host Bats helpers), builds example PDFs using the production container, pushes images, and handles releases. Submodule handling removed.
+-   **CI:** GitHub Actions workflow lints code, builds the production Docker image, builds the devcontainer image, runs internal tests (unit, filter, e2e) in the devcontainer image (all known permission/path issues resolved), runs Docker usage tests against the production image (fixed missing host Bats helpers), builds example PDFs using the production container (**fixed entrypoint argument issue**), pushes images, and handles releases. Submodule handling removed.
 -   **Photo Handling:** Refactored to use `{photo="path" photowidth="..."}` attributes for better usability.
 -   **Test Dependencies:** Bats, Bats-Support, Bats-Assert are installed via system package manager (`apt`) in the devcontainer and CI test environments, replacing Git submodules. Test files updated to use `bats_load_library`.
 
@@ -38,9 +38,9 @@
 -   **Docker/CI Refactoring Complete:** Production Docker image switched to Alpine, CI updated to use it.
 -   **Devcontainer Switched:** Development environment moved to Ubuntu with Docker-in-Docker.
 -   **Test Dependencies Switched:** Successfully migrated from Git submodules to system packages (`apt`) for Bats testing framework.
--   **CI Workflow Fixed:** Resolved SSH key errors during production build by adding `.dockerignore`. Removed submodule handling steps. Updated test files and `justfile` to work with system Bats. Resolved subsequent CI failures (`chmod` error, missing Typst package symlinks, PDF write permission error, missing host Bats helpers, Pandoc temp file permissions, Pandoc template/filter path issues, **Docker usage test image tag mismatch**) by modifying tests, Dockerfiles, build script, and CI workflow as needed. Standardized E2E tests to Bats.
+-   **CI Workflow Fixed:** Resolved SSH key errors during production build by adding `.dockerignore`. Removed submodule handling steps. Updated test files and `justfile` to work with system Bats. Resolved subsequent CI failures (`chmod` error, missing Typst package symlinks, PDF write permission error, missing host Bats helpers, Pandoc temp file permissions, Pandoc template/filter path issues, **Docker usage test image tag mismatch**, **Build Example PDFs entrypoint argument mismatch**) by modifying tests, Dockerfiles, build script, and CI workflow as needed. Standardized E2E tests to Bats.
 -   **Submodule Cleanup:** Removed submodule configuration (`.gitmodules`) and directories (`tests/bats`, `tests/test_helper/*`). Old `tests/test_e2e.sh` deleted by user.
--   **Ready for Verification:** Project is stable, all known CI issues are addressed (including `test-docker`), tests pass locally. Ready for user to commit changes and trigger CI workflow for final confirmation.
+-   **Ready for Verification:** Project is stable, all known CI issues are addressed (including `test-docker` and example builds), tests pass locally. Ready for user to commit changes and trigger CI workflow for final confirmation.
 
 ## Known Issues
 
