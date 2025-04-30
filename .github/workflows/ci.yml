@@ -91,7 +91,8 @@ jobs:
           # These tests run on the host, interacting with the built testing image
           # Assumes 'bats' is installed on the runner (installed in previous step)
           # Assumes docker is available on the runner
-          bats ${{ env.TEST_DIR }}/docker.bats
+          # Pass the correct image tag to the test script via env var
+          DOCKER_IMAGE_TAG=${{ env.IMAGE_TAG_TESTING }} bats ${{ env.TEST_DIR }}/docker.bats
           echo "Docker usage tests finished."
 
       - name: Build Example PDFs for Release Artifacts (using production image, mounting only fixtures)

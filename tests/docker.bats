@@ -5,8 +5,8 @@ bats_load_library 'bats-support'
 bats_load_library 'bats-assert'
 
 # --- Variables ---
-# Assumes the image is built with the 'latest' tag locally
-DOCKER_IMAGE="typst-cv:latest"
+# Use DOCKER_IMAGE_TAG env var if set (e.g., in CI), otherwise default to 'typst-cv:latest' for local runs
+DOCKER_IMAGE="${DOCKER_IMAGE_TAG:-typst-cv:latest}"
 FIXTURES_DIR="tests/fixtures" # Relative path inside the devcontainer
 OUTPUT_DIR_TMP=""
 
