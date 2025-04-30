@@ -22,6 +22,10 @@ Verifying CI fixes and completing the task related to switching from submodules 
     *   Removed the `chmod +x` command from `tests/unit/build_sh.bats`.
     *   Added `RUN` commands to `.devcontainer/Dockerfile.ubuntu` to create the necessary package symlinks during the image build.
     *   Updated `.github/workflows/ci.yml` to install `bats-assert` and `bats-support` on the host runner for the `docker.bats` tests.
+9.  **New Problem (CI - Post Fixes):** Tests run inside the devcontainer image (`just test-internal`) failed again, this time with `error: failed to write PDF file (Permission denied (os error 13))`.
+10. **Root Cause (CI - Post Fixes):** The test `build.sh: succeeds with valid input file` in `tests/unit/build_sh.bats` was attempting to write the output PDF (`dummy.pdf`) directly into the mounted workspace directory (`/workspaces/typstCV`), which the `vscode` user inside the container didn't have permission to do.
+11. **Solution Implemented (CI - Post Fixes):**
+    *   Modified the `build.sh: succeeds with valid input file` test in `tests/unit/build_sh.bats` to explicitly write its output PDF to a dedicated subdirectory within the Bats temporary directory (`$BATS_TMPDIR/test_output/`) instead of the current working directory. Added setup/teardown for this directory.
 
 ## Recent Actions (This Session)
 
@@ -32,6 +36,8 @@ Verifying CI fixes and completing the task related to switching from submodules 
 -   Modified `.devcontainer/Dockerfile.ubuntu` to add symlink creation (and subsequently removed duplicated commands).
 -   Modified `tests/unit/build_sh.bats` to remove `chmod`.
 -   Modified `.github/workflows/ci.yml` to install Bats helpers on the host runner.
+-   Diagnosed the PDF write permission error (`os error 13`) in CI.
+-   Modified `tests/unit/build_sh.bats` again to write test output to `$BATS_TMPDIR/test_output/` instead of the CWD.
 -   Updated this `activeContext.md`.
 
 ## Decisions & Notes
@@ -43,7 +49,8 @@ Verifying CI fixes and completing the task related to switching from submodules 
 ## Immediate Next Steps
 
 -   Update `progress.md`.
--   **User Action:** Commit the changes (`.devcontainer/Dockerfile.ubuntu`, `tests/unit/build_sh.bats`, `.github/workflows/ci.yml`, and previous changes like `.dockerignore`, `justfile`, other `.bats` files if not already committed).
+-   Update `progress.md`.
+-   **User Action:** Commit the changes (including the latest update to `tests/unit/build_sh.bats`, `.devcontainer/Dockerfile.ubuntu`, `.github/workflows/ci.yml`, and previous changes like `.dockerignore`, `justfile`, other `.bats` files if not already committed).
 -   **User Action:** Trigger the CI workflow and verify all tests pass.
 -   **User Action (Optional):** Clean up Git submodule configuration (`.gitmodules`, `git rm --cached tests/bats*`, `rm -rf tests/bats*`).
 -   Complete the task.
