@@ -68,22 +68,8 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v4
-        # Keep submodules: recursive just in case, but rely on explicit update
-        with:
-          submodules: recursive
-
-      - name: Initialize and Update Submodules
-        run: git submodule update --init --recursive
-
-      # Verify submodule checkout after update
-      - name: Verify Submodule Checkout (Post-Update)
-        run: |
-          echo "--- Verifying Submodule Checkout ---"
-          echo "Listing tests/bats/bin:"
-          ls -l tests/bats/bin || echo "!!! tests/bats/bin NOT FOUND"
-          echo "Listing tests/test_helper:"
-          ls -l tests/test_helper || echo "!!! tests/test_helper NOT FOUND"
-          echo "--- Verification Done ---"
+        # Submodules are no longer used for testing dependencies
+        # submodules: recursive # Keep commented out as reference if needed
 
       - name: Build Devcontainer Image for Testing
         run: |

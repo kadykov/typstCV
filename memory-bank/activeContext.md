@@ -1,37 +1,43 @@
-# Active Context: Fixing CI Test Execution (2025-04-29)
+# Active Context: Switched Test Dependencies from Submodules to System Packages (2025-04-30)
 
 ## Current Focus
 
-Diagnosing and correcting the GitHub Actions CI workflow (`.github/workflows/ci.yml`) to properly execute all test suites.
+Resolving CI failures related to test execution and dependency management.
 
-## Problem Identified
+## Problem Identified & Resolved
 
--   Local tests (`just test`) pass in the devcontainer.
--   CI internal tests (`just test-internal` running in devcontainer image) failed with `sh: 1: tests/bats/bin/bats: not found`.
--   **Root Cause Confirmed:** Diagnostic step showed `actions/checkout@v4` was not checking out submodules on the CI runner.
--   **Secondary Issue:** Linter errors detected duplicate keys in the `release` job after a previous file modification.
+1.  **Initial Problem:** CI tests failed (`bats: not found`) because `actions/checkout@v4` wasn't initializing submodules.
+2.  **Intermediate Fix:** Added explicit `git submodule update --init --recursive` to CI.
+3.  **New Problem:** The `docker build` step for the *production* image failed with `git@github.com: Permission denied (publickey)`. This occurred because the build context included submodule definitions using SSH URLs, but the build environment lacked SSH keys.
+4.  **Root Cause:** The production Docker image build context included `.git` and `tests/` directories. The testing environment (devcontainer) relied on submodules.
+5.  **Solution Implemented:**
+    *   Switched test dependencies (Bats, Bats-Support, Bats-Assert) from Git submodules to system packages (`apt install`) within the devcontainer (`.devcontainer/Dockerfile.ubuntu`) and for host-run tests (`tests/docker.bats` via CI step).
+    *   Created `.dockerignore` to exclude `.git`, `tests/`, and other non-essential files from the production Docker build context, preventing the SSH key error.
+    *   Updated Bats test files (`tests/unit/build_sh.bats`, `tests/filter/filters.bats`) to load helpers using `bats_load_library` instead of relative submodule paths.
+    *   Updated `justfile` to use the system `bats` executable instead of the submodule path.
+    *   Removed the explicit `git submodule update` step from the CI workflow (`.github/workflows/ci.yml`).
 
 ## Recent Actions (This Session)
 
--   **Analyzed Initial CI Failure:** Diagnosed the incorrect execution context (running tests in production image) for internal tests.
--   **Planned & Implemented CI Fix v1:**
-    -   Added `test-internal` recipe to `justfile`.
-    -   Modified `.github/workflows/ci.yml` to build the devcontainer image and run `just test-internal` within it, mounting the workspace.
--   **Analyzed Second CI Failure (`bats: not found`):** Identified the failure point as the inability to find the Bats executable.
--   **Added Diagnostic Step to CI:** Added a verification step using `ls` which confirmed submodules were not checked out by `actions/checkout@v4`.
--   **Implemented CI Fix v2 (Submodules):**
-    -   Removed the diagnostic `ls` step.
-    -   Added an explicit `git submodule update --init --recursive` command in `.github/workflows/ci.yml` immediately after the `actions/checkout@v4` step to ensure submodules are initialized and updated.
--   **Fixed Linter Errors:** Corrected duplicate keys (`allowUpdates`, `token`, `artifacts`) in the `release` job within `.github/workflows/ci.yml` by rewriting the affected step.
+-   Diagnosed the SSH key failure during `docker build`.
+-   Discussed options (HTTPS URLs, SSH keys, system packages).
+-   Decided to switch to system packages for Bats and exclude test/git files from production build context.
+-   Created `.dockerignore`.
+-   Removed submodule update step from `.github/workflows/ci.yml`.
+-   Updated `load` commands in `.bats` files to `bats_load_library`.
+-   Updated `justfile` to use system `bats`.
+-   Verified the fix for loading helpers with the user.
 
 ## Decisions & Notes
 
--   Explicitly running `git submodule update --init --recursive` is the most reliable way to ensure submodules are available in the CI environment.
--   Rewriting problematic YAML sections can resolve hidden duplication issues sometimes missed by simple text diffs.
+-   Using system packages for test dependencies simplifies the CI build process and avoids SSH key issues during production image builds.
+-   `.dockerignore` is crucial for keeping production build contexts clean and secure.
+-   `bats_load_library` is the correct way to load system-installed Bats helpers.
 
 ## Immediate Next Steps
 
--   **User Action:** Commit and push the latest changes to `.github/workflows/ci.yml` to trigger the CI workflow.
--   **Analyze CI Output:** Verify that the `git submodule update` step runs successfully and that the subsequent `just test-internal` step passes (specifically, that `bats` is now found).
--   **Update `progress.md`:** Reflect the latest CI fix attempt.
--   Complete the task once CI verification is successful.
+-   Update `progress.md`.
+-   **User Action:** Commit the changes (`.dockerignore`, `.github/workflows/ci.yml`, `justfile`, `tests/**/*.bats`).
+-   **User Action:** Trigger the CI workflow and verify all tests pass.
+-   **User Action (Optional):** Clean up Git submodule configuration (`.gitmodules`, `git rm --cached ...`, `rm -rf ...`).
+-   Complete the task.
