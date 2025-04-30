@@ -75,8 +75,8 @@ jobs:
         run: |
           docker build -t typst-cv-devcontainer:latest -f .devcontainer/Dockerfile.ubuntu .
 
-      - name: Install Bats and File command (for Docker usage tests on host)
-        run: sudo apt-get update && sudo apt-get install -y bats file
+      - name: Install Bats, Helpers, and File command (for Docker usage tests on host)
+        run: sudo apt-get update && sudo apt-get install -y bats bats-support bats-assert file
 
       - name: Run internal tests (unit, filter, e2e) inside Devcontainer Image
         run: |
