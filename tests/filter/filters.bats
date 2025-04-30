@@ -1,8 +1,8 @@
 #!/usr/bin/env bats
 
-# Load Bats helpers from submodules
-load '../test_helper/bats-support/load.bash'
-load '../test_helper/bats-assert/load.bash'
+# Load Bats helpers using bats_load_library for system packages
+bats_load_library 'bats-support'
+bats_load_library 'bats-assert'
 
 # --- Configuration ---
 FIXTURES_DIR="./tests/fixtures"
