@@ -50,6 +50,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Login to Docker Hub # For production image testing cache pull
+        # Only run if the actor is NOT dependabot (secrets should be available)
+        if: github.actor != 'dependabot[bot]'
         uses: docker/login-action@v3
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}

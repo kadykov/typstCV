@@ -53,8 +53,9 @@
 -   **Test Dependencies Switched:** Successfully migrated from Git submodules to system packages (`apt`) for Bats testing framework.
 -   **CI Workflow Fixed & Improved:** Resolved previous CI failures (SSH keys, permissions, paths, test dependencies, entrypoint args, etc.). Implemented **devcontainer caching via GHCR** (using dynamically set lowercase image name, correct job permissions, **and dedicated `:buildcache` tag**) and **conditional push logic** for production images (only push on `push` events). Added `pr-X` tagging for both production and devcontainer image builds during PRs. Resolved `shellcheck` warning. Removed redundant `source` job and `docker pull` step. **Fixed persistent "manifest unknown" error for devcontainer tests by separating the cache tag (`:buildcache`) from the image tag (`:latest`) in the `docker/build-push-action` step.**
 -   **Added Security Checks:** Integrated Trivy Docker image vulnerability scanning and Dependabot dependency updates into the CI/CD process. (CodeQL was attempted but removed due to language support issues).
+-   **Fixed Dependabot CI Failure:** Made the initial Docker Hub login step conditional (`if: github.actor != 'dependabot[bot]'`) to allow Dependabot runs to succeed without secrets.
 -   **Submodule Cleanup:** Removed submodule configuration (`.gitmodules`) and directories (`tests/bats`, `tests/test_helper/*`). Old `tests/test_e2e.sh` deleted by user.
--   **Ready for Verification:** Project is stable. All known CI issues are resolved. Ready for user to commit changes and trigger the CI workflow (`ci.yml`) to verify the final fixes, caching, conditional push logic, and new security scans. User should also check Dependabot configuration in repository settings.
+-   **Ready for Verification:** Project is stable. All known CI issues are resolved. Ready for user to commit changes and trigger the CI workflow (`ci.yml`) to verify the final fixes, caching, conditional push logic, security scans, and Dependabot compatibility. User should also check Dependabot configuration in repository settings.
 
 ## Known Issues
 
