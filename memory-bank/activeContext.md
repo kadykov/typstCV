@@ -83,9 +83,16 @@ Finalizing CI workflow improvements related to Docker image tagging, push logic,
 -   **Production Image Push:** Only push the final tagged production image to Docker Hub on `push` events (to `main` or tags), not on `pull_request` events. Add `type=ref,event=pr` tag to metadata to ensure a tag always exists for PR builds, even though it won't be pushed.
 -   **Redundant Steps Removed:** The `source` job and the explicit `docker pull` for the devcontainer image were removed as they were unnecessary.
 
+## Recent Actions (This Session Continued)
+
+-   **Added CodeQL:** Created `.github/workflows/codeql-analysis.yml` to perform static analysis on Bash and Lua code on push/PR/schedule.
+-   **Added Docker Image Scanning:** Added a `scan-image` job to `.github/workflows/ci.yml` using `aquasecurity/trivy-action` to scan the `${{ env.IMAGE_TAG_TESTING }}` image for HIGH/CRITICAL vulnerabilities after the `docker` job and before the `release` job. Updated `release` job dependency.
+-   **Added Dependabot:** Created `.github/dependabot.yml` to configure weekly checks for updates to the base Docker image and GitHub Actions used in workflows.
+-   Updated this `activeContext.md`.
+
 ## Immediate Next Steps
 
 -   Update `progress.md`.
--   **User Action:** Commit the changes (including `.github/workflows/ci.yml` and Memory Bank files).
--   **User Action:** Trigger the CI workflow and verify all tests pass, including the devcontainer caching and conditional push logic.
+-   **User Action:** Commit the changes (including `.github/workflows/ci.yml`, `.github/workflows/codeql-analysis.yml`, `.github/dependabot.yml`, and Memory Bank files).
+-   **User Action:** Trigger the CI workflows (`ci.yml`, `codeql-analysis.yml`) and verify they pass. Check Dependabot configuration in repository settings.
 -   Complete the task.

@@ -166,11 +166,34 @@ jobs:
 
     # The duplicate devmeta block was here and is now removed by not including it in the REPLACE section.
 
+  scan-image:
+    name: Scan Docker image with Trivy
+    needs: docker # Run after the image is built and tested
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # Needed for checkout
+      security-events: write # Needed for reporting findings (optional)
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master # Use master for latest features/fixes
+        with:
+          image-ref: ${{ env.IMAGE_TAG_TESTING }} # Scan the testing image
+          format: 'table'
+          exit-code: '1' # Fail the workflow if vulnerabilities are found
+          ignore-unfixed: true # Don't fail on vulnerabilities without known fixes
+          vuln-type: 'os,library' # Scan OS packages and language-specific packages
+          severity: 'HIGH,CRITICAL' # Fail only on HIGH or CRITICAL severity vulnerabilities
+          # Optional: Upload results to GitHub Security tab
+          # github-pat: ${{ secrets.GITHUB_TOKEN }} # Requires security-events: write permission
+
   # Removed the 'publish' job for GitHub Pages CV deployment
 
   release:
     name: Create a GitHub release
-    needs: docker
+    needs: scan-image # Now depends on the scan job passing
     runs-on: ubuntu-latest
     if: ${{ startsWith(github.ref, 'refs/tags/') }}
     permissions:

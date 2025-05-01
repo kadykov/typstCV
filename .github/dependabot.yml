@@ -1,0 +1,34 @@
+---
+# Basic Dependabot configuration file
+
+version: 2
+updates:
+  # Maintain dependencies for Docker
+  - package-ecosystem: "docker"
+    directory: "/" # Location of Dockerfile
+    schedule:
+      interval: "weekly"
+      day: "sunday" # Check on Sundays
+      # Add reviewers, assignees, labels as needed
+      # reviewers:
+      #   - "octocat"
+      # assignees:
+      #   - "octocat"
+      # labels:
+      #   - "dependencies"
+      #   - "docker"
+
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/" # Location of workflow files
+    schedule:
+      interval: "weekly"
+      day: "sunday" # Check on Sundays
+    # Add reviewers, assignees, labels as needed
+    # reviewers:
+    #   - "octocat"
+    # assignees:
+    #   - "octocat"
+    # labels:
+    #   - "dependencies"
+    #   - "github_actions"
