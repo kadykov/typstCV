@@ -44,6 +44,9 @@ Finalizing CI workflow improvements related to Docker image tagging, push logic,
 19. **Root Cause (CI - Example Build):** The `docker run` commands in the CI workflow incorrectly included `build.sh` as part of the command being passed to the container. Since the container has `ENTRYPOINT ["build.sh"]`, the script name was passed as the first argument to the entrypoint script itself, leading to the argument parsing error.
 20. **Solution Implemented (CI - Example Build):**
     *   Modified `.github/workflows/ci.yml` to remove the redundant `build.sh` from the `docker run` commands in the "Build Example PDFs" step, ensuring only the intended arguments are passed to the entrypoint.
+21. **New Problem (CI - Devcontainer Tests):** The "Run internal tests" step failed with `docker: manifest unknown` for `ghcr.io/.../devcontainer:latest` during PR builds.
+22. **Root Cause (CI - Devcontainer Tests):** The `devmeta` step in `.github/workflows/ci.yml` only added the `:latest` tag for the devcontainer image on the default branch (`main`), not on PRs. The subsequent test step explicitly tried to pull `:latest`, which didn't exist for PR builds.
+23. **Solution Implemented (CI - Devcontainer Tests):** Modified the `devmeta` step in `.github/workflows/ci.yml` to remove the `enable={{is_default_branch}}` condition, ensuring the `:latest` tag is always generated and pushed for the devcontainer image, making it available for the test step during PR builds.
 
 ## Recent Actions (This Session)
 
