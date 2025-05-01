@@ -47,6 +47,9 @@ Finalizing CI workflow improvements related to Docker image tagging, push logic,
 21. **New Problem (CI - Devcontainer Tests):** The "Run internal tests" step failed with `docker: manifest unknown` for `ghcr.io/.../devcontainer:latest` during PR builds.
 22. **Root Cause (CI - Devcontainer Tests):** The `devmeta` step in `.github/workflows/ci.yml` only added the `:latest` tag for the devcontainer image on the default branch (`main`), not on PRs. The subsequent test step explicitly tried to pull `:latest`, which didn't exist for PR builds.
 23. **Solution Implemented (CI - Devcontainer Tests):** Modified the `devmeta` step in `.github/workflows/ci.yml` to remove the `enable={{is_default_branch}}` condition, ensuring the `:latest` tag is always generated and pushed for the devcontainer image, making it available for the test step during PR builds.
+24. **New Problem (CI - Devcontainer Tests - Persistent):** Despite fix #23, the "Run internal tests" step *still* failed with `docker: manifest unknown` for `:latest` locally and in CI, even though logs showed `:latest` was tagged. The `:latest` tag on GHCR was not updating consistently.
+25. **Root Cause (CI - Devcontainer Tests - Persistent):** Using the same `:latest` tag for both the image tag (`tags:`) and the cache reference (`cache-from`/`cache-to:`) in `docker/build-push-action` likely interfered with the proper updating of the `:latest` image manifest.
+26. **Solution Implemented (CI - Devcontainer Tests - Persistent):** Modified the `Build and Cache Devcontainer Image` step in `.github/workflows/ci.yml` to use a dedicated cache tag (`:buildcache`) for `cache-from` and `cache-to`, separating cache management from the primary `:latest` image tag.
 
 ## Recent Actions (This Session)
 
@@ -65,6 +68,7 @@ Finalizing CI workflow improvements related to Docker image tagging, push logic,
     *   Added `permissions: packages: write` to the `docker` job to allow pushing to GHCR.
     *   Removed redundant `source` job.
     *   Removed redundant `docker pull ${{ env.DEV_IMAGE_NAME }}:latest` step.
+    *   Modified `Build and Cache Devcontainer Image` step to use `:buildcache` for `cache-from`/`cache-to` instead of `:latest`.
 -   Updated this `activeContext.md`.
 
 ## Decisions & Notes
@@ -75,7 +79,7 @@ Finalizing CI workflow improvements related to Docker image tagging, push logic,
 -   Running tests that write output from within `$BATS_TMPDIR` avoids container volume mount permission issues.
 -   Using an environment variable (`DOCKER_IMAGE_TAG`) allows the Docker usage tests (`tests/docker.bats`) to work correctly in both local (defaulting to `typst-cv:latest`) and CI environments (using the specific testing tag).
 -   When using `docker run` with an `ENTRYPOINT`, the command specified after the image name is passed as arguments *to* the entrypoint script.
--   **Devcontainer Caching:** Use GHCR (`ghcr.io/${{ github.repository }}/devcontainer`, ensuring lowercase) for caching the devcontainer image. Cache to/from the `:latest` tag. Push cache on every run (PRs and pushes). Set the `DEV_IMAGE_NAME` env var dynamically within the job using a `run` step and `$GITHUB_ENV`. Requires `permissions: packages: write` on the job.
+-   **Devcontainer Caching:** Use GHCR (`ghcr.io/${{ github.repository }}/devcontainer`, ensuring lowercase) for caching the devcontainer image. Use a dedicated tag (`:buildcache`) for `cache-from` and `cache-to` refs. Push cache on every run (PRs and pushes). Set the `DEV_IMAGE_NAME` env var dynamically within the job using a `run` step and `$GITHUB_ENV`. Requires `permissions: packages: write` on the job. The image itself should still be tagged with `:latest` (along with other dynamic tags like `pr-X`).
 -   **Production Image Push:** Only push the final tagged production image to Docker Hub on `push` events (to `main` or tags), not on `pull_request` events. Add `type=ref,event=pr` tag to metadata to ensure a tag always exists for PR builds, even though it won't be pushed.
 -   **Redundant Steps Removed:** The `source` job and the explicit `docker pull` for the devcontainer image were removed as they were unnecessary.
 
