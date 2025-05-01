@@ -1,4 +1,4 @@
-# Progress: Typst CV/Letter Generator (As of 2025-04-30)
+# Progress: Typst CV/Letter Generator (As of 2025-05-01)
 
 ## What Works (Current State)
 
@@ -19,7 +19,7 @@
     -   Lints code (`pre-commit`).
     -   Builds production Docker image (`Dockerfile`) and loads it locally for testing (`${{ env.IMAGE_TAG_TESTING }}`).
     -   **Sets lowercase GHCR image name (`DEV_IMAGE_NAME`) dynamically.**
-    -   **Builds and caches devcontainer image to GHCR (`${{ env.DEV_IMAGE_NAME }}:latest`) on every run.** Includes PR tagging.
+    -   **Builds and caches devcontainer image to GHCR (`${{ env.DEV_IMAGE_NAME }}:latest`) on every run.** Includes PR tagging. **Added `permissions: packages: write` to job.**
     -   Runs internal tests (unit, filter, e2e) **inside the pulled GHCR devcontainer image**. All known permission/path issues resolved.
     -   Runs Docker usage tests against the local production testing image (`${{ env.IMAGE_TAG_TESTING }}`). Fixed missing host Bats helpers and image tag mismatch.
     -   Builds example PDFs using the local production testing image. Fixed entrypoint argument issue.
@@ -48,7 +48,7 @@
 -   **Docker/CI Refactoring Complete:** Production Docker image switched to Alpine, CI updated to use it.
 -   **Devcontainer Switched:** Development environment moved to Ubuntu with Docker-in-Docker.
 -   **Test Dependencies Switched:** Successfully migrated from Git submodules to system packages (`apt`) for Bats testing framework.
--   **CI Workflow Fixed & Improved:** Resolved previous CI failures (SSH keys, permissions, paths, test dependencies, entrypoint args, etc.). Implemented **devcontainer caching via GHCR** (using dynamically set lowercase image name) and **conditional push logic** for production images (only push on `push` events). Added `pr-X` tagging for both production and devcontainer image builds during PRs.
+-   **CI Workflow Fixed & Improved:** Resolved previous CI failures (SSH keys, permissions, paths, test dependencies, entrypoint args, etc.). Implemented **devcontainer caching via GHCR** (using dynamically set lowercase image name, correct job permissions) and **conditional push logic** for production images (only push on `push` events). Added `pr-X` tagging for both production and devcontainer image builds during PRs. Resolved `shellcheck` warning.
 -   **Submodule Cleanup:** Removed submodule configuration (`.gitmodules`) and directories (`tests/bats`, `tests/test_helper/*`). Old `tests/test_e2e.sh` deleted by user.
 -   **Ready for Verification:** Project is stable. Ready for user to commit changes and trigger CI workflow to verify caching and conditional push logic.
 
