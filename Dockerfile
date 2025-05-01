@@ -1,5 +1,5 @@
 # === BUILDER STAGE: Install fonts with fontist ===
-FROM ruby:3.2-slim AS fonts-builder
+FROM ruby:3.4-slim AS fonts-builder
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git build-essential \
     && rm -rf /var/lib/apt/lists/*
