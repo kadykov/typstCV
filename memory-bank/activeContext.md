@@ -88,11 +88,12 @@ Finalizing CI workflow improvements related to Docker image tagging, push logic,
 -   **Attempted CodeQL:** Created `.github/workflows/codeql-analysis.yml` but removed it after discovering Lua is unsupported and Bash support caused errors (`Did not recognize the following languages: bash`).
 -   **Added Docker Image Scanning:** Added a `scan-image` job to `.github/workflows/ci.yml` using `aquasecurity/trivy-action` to scan the `${{ env.IMAGE_TAG_TESTING }}` image for HIGH/CRITICAL vulnerabilities after the `docker` job and before the `release` job. Updated `release` job dependency.
 -   **Added Dependabot:** Created `.github/dependabot.yml` to configure weekly checks for updates to the base Docker image and GitHub Actions used in workflows.
+-   **Fixed Dependabot CI Failure:** Made the initial Docker Hub login step in `ci.yml` conditional (`if: github.actor != 'dependabot[bot]'`) to prevent errors due to missing secrets in the Dependabot context.
 -   Updated this `activeContext.md`.
 
 ## Immediate Next Steps
 
 -   Update `progress.md`.
 -   **User Action:** Commit the changes (including `.github/workflows/ci.yml`, `.github/dependabot.yml`, and Memory Bank files).
--   **User Action:** Trigger the CI workflow (`ci.yml`) and verify it passes. Check Dependabot configuration in repository settings.
+-   **User Action:** Trigger the CI workflow (`ci.yml`) and verify it passes, especially on Dependabot PRs if available. Check Dependabot configuration in repository settings.
 -   Complete the task.
