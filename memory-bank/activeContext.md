@@ -1,4 +1,4 @@
-# Active Context: CI Workflow Improvements (2025-04-30)
+# Active Context: CI Workflow Improvements (2025-05-01)
 
 ## Current Focus
 
@@ -60,6 +60,8 @@ Finalizing CI workflow improvements related to Docker image tagging, push logic,
     *   Corrected step order for `devmeta`.
     *   Added `type=ref,event=pr` to devcontainer image metadata (`id: devmeta`).
     *   Corrected GHCR image name definition: removed `DEV_IMAGE_NAME` from top-level `env`, added a `run` step within the `docker` job to set `DEV_IMAGE_NAME` dynamically using `echo ... | tr '[:upper:]' '[:lower:]'` and `$GITHUB_ENV`.
+    *   Resolved `shellcheck` warning by double-quoting `$GITHUB_ENV`.
+    *   Added `permissions: packages: write` to the `docker` job to allow pushing to GHCR.
 -   Updated this `activeContext.md`.
 
 ## Decisions & Notes
@@ -70,7 +72,7 @@ Finalizing CI workflow improvements related to Docker image tagging, push logic,
 -   Running tests that write output from within `$BATS_TMPDIR` avoids container volume mount permission issues.
 -   Using an environment variable (`DOCKER_IMAGE_TAG`) allows the Docker usage tests (`tests/docker.bats`) to work correctly in both local (defaulting to `typst-cv:latest`) and CI environments (using the specific testing tag).
 -   When using `docker run` with an `ENTRYPOINT`, the command specified after the image name is passed as arguments *to* the entrypoint script.
--   **Devcontainer Caching:** Use GHCR (`ghcr.io/${{ github.repository }}/devcontainer`, ensuring lowercase) for caching the devcontainer image. Cache to/from the `:latest` tag. Push cache on every run (PRs and pushes). Set the `DEV_IMAGE_NAME` env var dynamically within the job using a `run` step and `$GITHUB_ENV`.
+-   **Devcontainer Caching:** Use GHCR (`ghcr.io/${{ github.repository }}/devcontainer`, ensuring lowercase) for caching the devcontainer image. Cache to/from the `:latest` tag. Push cache on every run (PRs and pushes). Set the `DEV_IMAGE_NAME` env var dynamically within the job using a `run` step and `$GITHUB_ENV`. Requires `permissions: packages: write` on the job.
 -   **Production Image Push:** Only push the final tagged production image to Docker Hub on `push` events (to `main` or tags), not on `pull_request` events. Add `type=ref,event=pr` tag to metadata to ensure a tag always exists for PR builds, even though it won't be pushed.
 
 ## Immediate Next Steps

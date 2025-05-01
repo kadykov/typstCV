@@ -49,6 +49,9 @@ jobs:
     name: Build, test, and push Docker image
     needs: pre_commit # Doesn't need source artifact anymore, tests are in repo
     runs-on: ubuntu-latest
+    permissions:
+      contents: read # Needed for checkout
+      packages: write # Needed to push to GHCR
     steps:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
