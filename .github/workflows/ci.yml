@@ -90,8 +90,8 @@ jobs:
           file: .devcontainer/Dockerfile.ubuntu
           tags: ${{ steps.devmeta.outputs.tags }}
           push: true # Always push cache to GHCR
-          cache-from: type=registry,ref=${{ env.DEV_IMAGE_NAME }}:latest
-          cache-to: type=registry,ref=${{ env.DEV_IMAGE_NAME }}:latest,mode=max # Cache to latest tag
+          cache-from: type=registry,ref=${{ env.DEV_IMAGE_NAME }}:buildcache
+          cache-to: type=registry,ref=${{ env.DEV_IMAGE_NAME }}:buildcache,mode=max
 
       - name: Install Bats, Helpers, and File command (for Docker usage tests on host)
         run: sudo apt-get update && sudo apt-get install -y bats bats-support bats-assert file

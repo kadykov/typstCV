@@ -49,9 +49,9 @@
 -   **Docker/CI Refactoring Complete:** Production Docker image switched to Alpine, CI updated to use it.
 -   **Devcontainer Switched:** Development environment moved to Ubuntu with Docker-in-Docker.
 -   **Test Dependencies Switched:** Successfully migrated from Git submodules to system packages (`apt`) for Bats testing framework.
--   **CI Workflow Fixed & Improved:** Resolved previous CI failures (SSH keys, permissions, paths, test dependencies, entrypoint args, etc.). Implemented **devcontainer caching via GHCR** (using dynamically set lowercase image name, correct job permissions) and **conditional push logic** for production images (only push on `push` events). Added `pr-X` tagging for both production and devcontainer image builds during PRs. Resolved `shellcheck` warning. Removed redundant `source` job and `docker pull` step. **Fixed "manifest unknown" error for devcontainer tests during PR builds by ensuring the `:latest` tag is always pushed to GHCR.**
+-   **CI Workflow Fixed & Improved:** Resolved previous CI failures (SSH keys, permissions, paths, test dependencies, entrypoint args, etc.). Implemented **devcontainer caching via GHCR** (using dynamically set lowercase image name, correct job permissions, **and dedicated `:buildcache` tag**) and **conditional push logic** for production images (only push on `push` events). Added `pr-X` tagging for both production and devcontainer image builds during PRs. Resolved `shellcheck` warning. Removed redundant `source` job and `docker pull` step. **Fixed persistent "manifest unknown" error for devcontainer tests by separating the cache tag (`:buildcache`) from the image tag (`:latest`) in the `docker/build-push-action` step.**
 -   **Submodule Cleanup:** Removed submodule configuration (`.gitmodules`) and directories (`tests/bats`, `tests/test_helper/*`). Old `tests/test_e2e.sh` deleted by user.
--   **Ready for Verification:** Project is stable. All known CI issues are resolved. Ready for user to commit changes and trigger CI workflow to verify the final fixes, caching, and conditional push logic.
+-   **Ready for Verification:** Project is stable. All known CI issues are resolved. Ready for user to commit changes and trigger CI workflow to verify the final fixes, caching (using `:buildcache`), and conditional push logic.
 
 ## Known Issues
 
