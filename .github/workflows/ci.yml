@@ -29,25 +29,11 @@ jobs:
       - uses: pre-commit-ci/lite-action@v1.0.3
         if: always()
 
-  source:
-    name: Extract example source files
-    needs: pre_commit
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Upload source files
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.EXAMPLE_ARTIFACTS_NAME }}
-          path: |
-            ${{ env.TEST_DIR }}/fixtures/example-*.md
-            ${{ env.TEST_DIR }}/fixtures/placeholder-photo.png
-          if-no-files-found: error
+  # The 'source' job previously here is removed as it's no longer needed.
 
   docker:
     name: Build, test, and push Docker image
-    needs: pre_commit # Doesn't need source artifact anymore, tests are in repo
+    needs: pre_commit # Now only depends on pre_commit
     runs-on: ubuntu-latest
     permissions:
       contents: read # Needed for checkout
@@ -110,8 +96,7 @@ jobs:
       - name: Install Bats, Helpers, and File command (for Docker usage tests on host)
         run: sudo apt-get update && sudo apt-get install -y bats bats-support bats-assert file
 
-      - name: Pull Cached Devcontainer Image
-        run: docker pull ${{ env.DEV_IMAGE_NAME }}:latest
+      # The explicit 'docker pull' step previously here is removed as it's redundant.
 
       - name: Run internal tests (unit, filter, e2e) inside Devcontainer Image
         run: |
