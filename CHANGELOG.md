@@ -7,6 +7,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Build System:** Introduced `build.sh` as the primary build script with CLI options for input/output, type inference, and metadata overrides (`--set`, `TYPSTCV_*`).
+- **Testing Framework:** Added a comprehensive testing suite using Bats (`tests/`), including unit tests for `build.sh`, filter tests, end-to-end PDF generation tests, and Docker usage tests. Added example fixtures (`tests/fixtures/`).
+- **Development Environment:** Added a devcontainer configuration (`.devcontainer/`) using Ubuntu, including Docker-in-Docker and pre-configured tools (Pandoc, Typst, Just, Bats, etc.).
+- **Local Development Helper:** Added `Justfile` for common tasks like linting, testing, and building examples.
+- **Docker Enhancements:** Added `.dockerignore` to optimize build context. Added `fontist-manifest.yml` for font management.
+- **CI/CD:**
+    - Added Dependabot configuration (`.github/dependabot.yml`) for automated dependency checks.
+    - Added Docker image vulnerability scanning using Trivy (`aquasecurity/trivy-action`) in the CI workflow.
+- **Memory Bank:** Added `memory-bank/` directory and core documentation files (`projectbrief.md`, `productContext.md`, etc.).
+
+### Changed
+- **Build System:** Replaced the old `justfile`-based build logic entirely with `build.sh`.
+- **Docker:**
+    - Overhauled `Dockerfile`: Switched base image from Fedora to Alpine Linux, implemented multi-stage builds for fonts (using Fontist) and Typst, updated dependencies, changed entrypoint to `build.sh`.
+    - Refactored devcontainer (`.devcontainer/devcontainer.json`, `Dockerfile.ubuntu`) for improved setup and consistency with production image (symlinks for Pandoc/Typst resources).
+- **CI/CD:**
+    - Major refactor of `.github/workflows/ci.yml`: Switched test execution to use devcontainer image, implemented GHCR caching for devcontainer, added conditional push logic for production image, fixed numerous path/permission/tagging issues, integrated security scanning and Dependabot.
+    - Updated `.pre-commit-config.yaml` hooks.
+- **Documentation:**
+    - Significantly updated `README.md` with new usage instructions for `build.sh` and Docker, metadata override details, and feature explanations.
+- **Styling & Templates:**
+    - Refactored `style.typ` to handle metadata overrides (`sys.inputs`) and conditionally display footer links. Updated font weights.
+    - Updated `typst-cv.typ` and `typst-letter.typ` to use the local package import, handle structured dates, and use updated variables.
+- **Lua Filters:**
+    - Updated `typst-cv.lua` to handle photo path and width attributes (`{photo="..." photowidth="..."}`).
+- **Internal:** Replaced `public-email` YAML key with `email`.
+
+### Removed
+- Old build system components: `justfile` (original version), `entrypoint.sh`, `action.yml`.
+- Old example files: `kadykov-*.md`.
+- Git submodules for test dependencies (switched to system packages).
+- Fedora-based Docker build logic.
+- CodeQL analysis workflow (unsupported languages).
+- GitHub Pages deployment job from CI workflow.
+
+### Fixed
+- Handling of custom dates in YAML headers (switched to structured map `year: YYYY, month: M, day: D`).
+- Numerous CI workflow issues (permissions, paths, tagging, caching, entrypoint args, test execution).
+- PDF write permission errors during testing within containers.
+- Handling of stdin input and output paths in `build.sh`.
+- Dependabot CI failures due to missing secrets.
+
 ## [0.3.0] - 2024-11-20
 
 ### Added

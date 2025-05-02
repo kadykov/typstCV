@@ -1,0 +1,7 @@
+# Cline Rules for typstCV Project
+
+This file captures project-specific patterns, preferences, and intelligence to help Cline work more effectively.
+
+## Process Notes
+
+-   **Changelog:** Remember to update `CHANGELOG.md` under the `[Unreleased]` section whenever significant features, changes, or fixes are merged, especially before tagging a new release.
