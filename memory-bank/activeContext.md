@@ -90,10 +90,28 @@ Finalizing CI workflow improvements related to Docker image tagging, push logic,
 -   **Added Dependabot:** Created `.github/dependabot.yml` to configure weekly checks for updates to the base Docker image and GitHub Actions used in workflows.
 -   **Fixed Dependabot CI Failure:** Made the initial Docker Hub login step in `ci.yml` conditional (`if: github.actor != 'dependabot[bot]'`) to prevent errors due to missing secrets in the Dependabot context.
 -   Updated this `activeContext.md`.
+-   **Unified Font Awesome Installation:**
+    -   Modified `Dockerfile` to remove `apk add font-awesome*` and add a new multi-stage build (`fa-builder`) to download and extract Font Awesome v6.7.2 OTF fonts from GitHub releases. Copied fonts from this stage to `/usr/share/fonts/fontawesome6/` in the final image.
+    -   Modified `.devcontainer/Dockerfile.ubuntu` to use an `ARG FA_VERSION=6.7.2` and reference `${FA_VERSION}` in the existing Font Awesome download/extract commands for consistency.
+-   Updated `memory-bank/techContext.md` to reflect the unified Font Awesome installation method.
+-   Updated this `activeContext.md`.
+
+## Decisions & Notes
+
+-   Using system packages for test dependencies simplifies the CI build process.
+-   `.dockerignore` is crucial for keeping production build contexts clean.
+-   Aligning devcontainer resource locations (via symlinks) with production container locations (via copy) simplifies build scripts and testing.
+-   Running tests that write output from within `$BATS_TMPDIR` avoids container volume mount permission issues.
+-   Using an environment variable (`DOCKER_IMAGE_TAG`) allows the Docker usage tests (`tests/docker.bats`) to work correctly in both local (defaulting to `typst-cv:latest`) and CI environments (using the specific testing tag).
+-   When using `docker run` with an `ENTRYPOINT`, the command specified after the image name is passed as arguments *to* the entrypoint script.
+-   **Devcontainer Caching:** Use GHCR (`ghcr.io/${{ github.repository }}/devcontainer`, ensuring lowercase) for caching the devcontainer image. Use a dedicated tag (`:buildcache`) for `cache-from` and `cache-to` refs. Push cache on every run (PRs and pushes). Set the `DEV_IMAGE_NAME` env var dynamically within the job using a `run` step and `$GITHUB_ENV`. Requires `permissions: packages: write` on the job. The image itself should still be tagged with `:latest` (along with other dynamic tags like `pr-X`).
+-   **Production Image Push:** Only push the final tagged production image to Docker Hub on `push` events (to `main` or tags), not on `pull_request` events. Add `type=ref,event=pr` tag to metadata to ensure a tag always exists for PR builds, even though it won't be pushed.
+-   **Redundant Steps Removed:** The `source` job and the explicit `docker pull` for the devcontainer image were removed as they were unnecessary.
+-   **Font Awesome Installation:** Unified approach using GitHub releases (v6.7.2) via multi-stage build in production `Dockerfile` and ARG/variable in devcontainer `Dockerfile.ubuntu`. This ensures consistency and avoids relying on potentially outdated system packages.
 
 ## Immediate Next Steps
 
 -   Update `progress.md`.
--   **User Action:** Commit the changes (including `.github/workflows/ci.yml`, `.github/dependabot.yml`, and Memory Bank files).
--   **User Action:** Trigger the CI workflow (`ci.yml`) and verify it passes, especially on Dependabot PRs if available. Check Dependabot configuration in repository settings.
+-   **User Action:** Commit the changes (including `Dockerfile`, `.devcontainer/Dockerfile.ubuntu`, and Memory Bank files).
+-   **User Action:** Trigger the CI workflow (`ci.yml`) and verify it passes, including the Docker builds.
 -   Complete the task.

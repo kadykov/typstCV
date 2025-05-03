@@ -31,19 +31,26 @@ RUN mkdir -p $TYPST_PACKAGE_PATH/preview/fontawesome/${TYPST_FONTAWESOME_VERSION
     && tar xf typst-fontawesome.tar.gz -C $TYPST_PACKAGE_PATH/preview/fontawesome/${TYPST_FONTAWESOME_VERSION}/ \
     && rm typst-fontawesome.tar.gz
 
+# === BUILDER STAGE: Install Font Awesome from GitHub Release ===
+FROM alpine:3.21 AS fa-builder
+ARG FA_VERSION=6.7.2
+RUN apk add --no-cache wget unzip
+RUN mkdir -p /fa-fonts \
+    && wget -qO /tmp/fontawesome.zip https://github.com/FortAwesome/Font-Awesome/releases/download/${FA_VERSION}/fontawesome-free-${FA_VERSION}-desktop.zip \
+    && unzip -q /tmp/fontawesome.zip -d /tmp/fontawesome-extract 'fontawesome-free-*-desktop/otfs/*' \
+    && mv /tmp/fontawesome-extract/fontawesome-free-*-desktop/otfs/*.otf /fa-fonts/ \
+    && rm -rf /tmp/fontawesome.zip /tmp/fontawesome-extract
+
 # === FINAL STAGE: Alpine Production Image ===
 FROM alpine:3.21
 
 # Install runtime dependencies: bash, pandoc, fontconfig, font-awesome
-# Git is NOT needed here anymore as packages are copied from builder
-# wget/tar are NOT needed here anymore as Typst is copied from builder
+# Git, wget, tar are NOT needed here anymore as they are copied/handled in builder stages
+# Font Awesome is copied from fa-builder, not installed via apk
 RUN apk add --no-cache \
     bash \
     pandoc \
     fontconfig \
-    font-awesome \
-    font-awesome-free \
-    font-awesome-brands \
     && rm -rf /var/cache/apk/*
 
 # --- Copy Assets from Builders ---
@@ -51,8 +58,10 @@ RUN apk add --no-cache \
 COPY --from=typst-builder /usr/local/bin/typst /usr/local/bin/typst
 # Copy Typst packages (fontawesome)
 COPY --from=typst-builder /root/.local/share/typst/packages /usr/share/typst/packages
-# Copy fonts
+# Copy fonts from fontist builder
 COPY --from=fonts-builder /root/.fontist/fonts/ /usr/share/fonts/fontist/
+# Copy fonts from Font Awesome builder
+COPY --from=fa-builder /fa-fonts/ /usr/share/fonts/fontawesome6/
 
 # --- Configure Environment ---
 # Define paths

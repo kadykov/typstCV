@@ -13,8 +13,8 @@
     -   Docker usage tests (`bats`) verify production container interaction (`tests/docker.bats`). CI host runner correctly installs helpers. CI execution fixed by passing the correct image tag via `DOCKER_IMAGE_TAG` environment variable.
     -   `justfile` provides convenient local test execution commands (`just test`, `just test-unit`, `just test-filter`, `just test-e2e`) using system-installed `bats`.
 -   **Docker:**
-    -   Primary production image (`Dockerfile`) is Alpine-based, self-contained, uses multi-stage builds, includes pinned Typst v0.12.0 and necessary packages/fonts. Build context is cleaned via `.dockerignore`. Files (`*.lua`, `*.typ`) copied to standard Pandoc/Typst locations.
-    -   Devcontainer (`.devcontainer/Dockerfile.ubuntu`) is Ubuntu-based with dev tools, Docker-in-Docker, system-installed Bats. Includes built-in symlinks for Pandoc templates/filters (`*.typ`, `*.lua`) into standard system locations, aligning it with the production environment. **CI now builds and caches this image to GHCR.**
+    -   Primary production image (`Dockerfile`) is Alpine-based, self-contained, uses multi-stage builds, includes pinned Typst v0.12.0 and necessary packages/fonts. Build context is cleaned via `.dockerignore`. Files (`*.lua`, `*.typ`) copied to standard Pandoc/Typst locations. **Font Awesome installation unified using GitHub release (v6.7.2) via multi-stage build.**
+    -   Devcontainer (`.devcontainer/Dockerfile.ubuntu`) is Ubuntu-based with dev tools, Docker-in-Docker, system-installed Bats. Includes built-in symlinks for Pandoc templates/filters (`*.typ`, `*.lua`) into standard system locations, aligning it with the production environment. **CI now builds and caches this image to GHCR.** **Font Awesome installation unified using GitHub release (v6.7.2) via ARG.**
 -   **CI:** GitHub Actions workflow:
     -   Lints code (`pre-commit`).
     -   Builds production Docker image (`Dockerfile`) and loads it locally for testing (`${{ env.IMAGE_TAG_TESTING }}`).
@@ -55,7 +55,8 @@
 -   **Added Security Checks:** Integrated Trivy Docker image vulnerability scanning and Dependabot dependency updates into the CI/CD process. (CodeQL was attempted but removed due to language support issues).
 -   **Fixed Dependabot CI Failure:** Made the initial Docker Hub login step conditional (`if: github.actor != 'dependabot[bot]'`) to allow Dependabot runs to succeed without secrets.
 -   **Submodule Cleanup:** Removed submodule configuration (`.gitmodules`) and directories (`tests/bats`, `tests/test_helper/*`). Old `tests/test_e2e.sh` deleted by user.
--   **Ready for Verification:** Project is stable. All known CI issues are resolved. Ready for user to commit changes and trigger the CI workflow (`ci.yml`) to verify the final fixes, caching, conditional push logic, security scans, and Dependabot compatibility. User should also check Dependabot configuration in repository settings.
+-   **Unified Font Awesome:** Installation method for Font Awesome (v6.7.2) unified across production (`Dockerfile`) and development (`.devcontainer/Dockerfile.ubuntu`) environments using GitHub releases and multi-stage builds where appropriate.
+-   **Ready for Verification:** Project is stable. All known CI issues are resolved. Ready for user to commit changes (including Dockerfiles and Memory Bank) and trigger the CI workflow (`ci.yml`) to verify the final fixes, caching, conditional push logic, security scans, and Dependabot compatibility. User should also check Dependabot configuration in repository settings.
 
 ## Known Issues
 

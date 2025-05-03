@@ -29,12 +29,12 @@
 ## Dependencies & Versions (Production Image - `Dockerfile`)
 
 -   Base Image: Alpine 3.21.
--   Builder Stages: Ruby 3.2-slim (for fontist), Alpine 3.21 (for Typst).
--   Runtime Dependencies (installed via `apk`): `bash`, `pandoc`, `fontconfig`, `font-awesome`.
+-   Builder Stages: Ruby 3.4-slim (for fontist), Alpine 3.21 (for Typst, Font Awesome).
+-   Runtime Dependencies (installed via `apk`): `bash`, `pandoc`, `fontconfig`.
 -   Manually Installed: Typst v0.12.0 (downloaded binary).
--   Typst Packages: `@preview/fontawesome` (installed via `typst update` in builder stage).
--   Fonts: Installed via `fontist` (using `fontist-manifest.yml`) and `apk`.
--   `git`, `wget`, `tar` are only present in builder stages.
+-   Typst Packages: `@preview/fontawesome` (downloaded manually in builder stage).
+-   Fonts: Installed via `fontist` (using `fontist-manifest.yml` in builder stage) and Font Awesome (downloaded from GitHub release in builder stage).
+-   `git`, `wget`, `tar`, `unzip`, `build-essential` are only present in builder stages.
 
 ## Build/Execution/Testing Environment
 
