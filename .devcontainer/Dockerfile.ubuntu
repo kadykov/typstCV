@@ -36,12 +36,12 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 # Just is installed via apt-get above
 
 # --- Install Font Awesome 6 ---
-RUN export FA_VERSION=6.7.2 \
-    && export FA_DIR=/usr/local/share/fonts/fontawesome6 \
+ARG FA_VERSION=6.7.2
+RUN export FA_DIR=/usr/local/share/fonts/fontawesome6 \
     && mkdir -p ${FA_DIR} \
     && wget -qO /tmp/fontawesome.zip https://github.com/FortAwesome/Font-Awesome/releases/download/${FA_VERSION}/fontawesome-free-${FA_VERSION}-desktop.zip \
-    && unzip -q /tmp/fontawesome.zip -d /tmp/fontawesome-extract 'fontawesome-free-*-desktop/otfs/*' \
-    && mv /tmp/fontawesome-extract/fontawesome-free-*-desktop/otfs/*.otf ${FA_DIR}/ \
+    && unzip -q /tmp/fontawesome.zip -d /tmp/fontawesome-extract "fontawesome-free-${FA_VERSION}-desktop/otfs/*" \
+    && mv /tmp/fontawesome-extract/fontawesome-free-${FA_VERSION}-desktop/otfs/*.otf ${FA_DIR}/ \
     && fc-cache -f -v \
     && rm -rf /tmp/fontawesome.zip /tmp/fontawesome-extract
 
