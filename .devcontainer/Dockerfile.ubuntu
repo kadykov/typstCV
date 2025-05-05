@@ -47,7 +47,7 @@ RUN export FA_DIR=/usr/local/share/fonts/fontawesome6 \
 
 # Install Typst manually (using musl build might work, or check for glibc build)
 # Let's try the musl build first as it's known
-ARG TYPST_VERSION=v0.12.0
+ARG TYPST_VERSION=v0.13.1
 ARG TARGET=x86_64-unknown-linux-musl
 RUN wget -qO typst.tar.xz https://github.com/typst/typst/releases/download/${TYPST_VERSION}/typst-${TARGET}.tar.xz \
     && tar xf typst.tar.xz \

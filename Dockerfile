@@ -14,8 +14,8 @@ RUN fontist update --quiet \
 FROM alpine:3.21 AS typst-builder
 # Install dependencies needed for download (wget), extraction (tar with xz support), and git (for packages)
 RUN apk add --no-cache wget tar xz git
-# Install Typst v0.12.0 manually
-ARG TYPST_VERSION=v0.12.0
+# Install Typst v0.13.1 manually
+ARG TYPST_VERSION=v0.13.1
 ARG TARGET=x86_64-unknown-linux-musl
 RUN wget -qO typst.tar.xz https://github.com/typst/typst/releases/download/${TYPST_VERSION}/typst-${TARGET}.tar.xz \
     && tar xf typst.tar.xz \
