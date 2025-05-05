@@ -7,13 +7,13 @@ function Header(el)
         local typst_blocks = {}
 
         for key, value in pairs(el.attributes) do
-            if key == "date" then
+            if key == "location" then
                 table.insert(typst_blocks, pandoc.RawBlock("typst", "#body-side(["))
                 table.insert(typst_blocks, el)
                 table.insert(typst_blocks,
                     pandoc.RawBlock("typst", string.format("], side: company-location()[%s])", value)))
                 return typst_blocks
-            elseif key == "location" then
+            elseif key == "date" then
                 table.insert(typst_blocks, pandoc.RawBlock("typst", "#body-side(["))
                 table.insert(typst_blocks, el)
                 table.insert(typst_blocks, pandoc.RawBlock("typst", string.format("], side: event-date()[%s])", value)))
