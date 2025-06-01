@@ -11,7 +11,7 @@ RUN fontist update --quiet \
     && chmod -R 644 /root/.fontist/fonts
 
 # === BUILDER STAGE: Install Typst and packages ===
-FROM alpine:3.21 AS typst-builder
+FROM alpine:3.22 AS typst-builder
 # Install dependencies needed for download (wget), extraction (tar with xz support), and git (for packages)
 RUN apk add --no-cache wget tar xz git
 # Install Typst v0.13.1 manually
@@ -32,7 +32,7 @@ RUN mkdir -p $TYPST_PACKAGE_PATH/preview/fontawesome/${TYPST_FONTAWESOME_VERSION
     && rm typst-fontawesome.tar.gz
 
 # === BUILDER STAGE: Install Font Awesome from GitHub Release ===
-FROM alpine:3.21 AS fa-builder
+FROM alpine:3.22 AS fa-builder
 ARG FA_VERSION=6.7.2
 RUN apk add --no-cache wget unzip
 RUN mkdir -p /fa-fonts \
@@ -42,7 +42,7 @@ RUN mkdir -p /fa-fonts \
     && rm -rf /tmp/fontawesome.zip /tmp/fontawesome-extract
 
 # === FINAL STAGE: Alpine Production Image ===
-FROM alpine:3.21
+FROM alpine:3.22
 
 # Install runtime dependencies: bash, pandoc, fontconfig, font-awesome
 # Git, wget, tar are NOT needed here anymore as they are copied/handled in builder stages
