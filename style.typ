@@ -48,8 +48,8 @@
 
   // Document settings
   set text(
-    font: "Faustina",
-    size: 12pt,
+    font: "Bitter",
+    size: 10.5pt,
     lang: language, // Language might need override too? get-input("language", language)
     fill: text-color,
     hyphenate: hyphenate,
@@ -57,17 +57,14 @@
 
   show heading: set text(
     fill: primary-color,
-    font: "Ruda",
+    font: "Source Sans 3",
     tracking: -0.02em,
-    weight: "semibold",
-    size: 1.1em,
+    weight: "medium",
+    size: 1.4em,
     hyphenate: auto,
   )
 
-  show strong: set text(
-    font: "Faustina",
-    weight: "semibold",
-  )
+  set strong(delta: 200)
 
   set document(
     title: effective-title,
@@ -81,8 +78,8 @@
     margin: (x: 2.5cm, y: 3.0cm),
     header: [
       #set text(
-        font: "Ruda",
-        size: 0.8em,
+        font: "Source Sans 3",
+        size: 0.9em,
       )
       #effective-author // Use effective value
       #h(1fr)
@@ -105,8 +102,8 @@
     ],
     footer: [
       #set text(
-        font: "Ruda",
-        size: 0.8em,
+        font: "Source Sans 3",
+        size: 0.9em,
       )
       #v(-1em)
       #line(length: 100%, stroke: 0.5pt)
@@ -183,8 +180,8 @@
           dx: full-width,
         )[
           #set text(
-            font: "Ruda",
-            size: 0.8em,
+            font: "Source Sans 3",
+            size: 0.9em,
           )
           #side
         ]
@@ -205,14 +202,10 @@
 ]
 
 #let profile-photo(photo) = [
-  #box(
-    clip: true,
-    stroke: 1.5pt + primary-color,
-    radius: (
-      bottom-left: 0pt,
-      bottom-right: 50%,
-      top-left: 50%,
-      top-right: 0pt,
-    ),
-  )[#photo]
+  #box(clip: true, stroke: 1.5pt + primary-color, radius: (
+    bottom-left: 0pt,
+    bottom-right: 50%,
+    top-left: 50%,
+    top-right: 0pt,
+  ))[#photo]
 ]
