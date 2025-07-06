@@ -8,7 +8,7 @@ $-- Ignore Typst linter errors related to Pandoc syntax in this file.          -
 $-- ========================================================================== --
 
 // Import the local package and specific functions/variables needed
-#import "@local/pandoc-cv:0.1.0": setup-style, horizontalrule, bodywidth, body-side, company-location, event-date, profile-photo, hidden-heading
+#import "@local/pandoc-cv:0.1.0": setup-style, horizontalrule, bodywidth, full-width, body-side, company-location, event-date, profile-photo, hidden-heading
 
 // Construct datetime object from structured date if provided via YAML map, else use today
 // TODO: Move date logic into style.typ (see user feedback)
