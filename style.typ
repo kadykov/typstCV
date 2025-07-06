@@ -48,8 +48,8 @@
 
   // Document settings
   set text(
-    font: "IBM Plex Serif",
-    size: 10.5pt,
+    font: "Faustina",
+    size: 12pt,
     lang: language, // Language might need override too? get-input("language", language)
     fill: text-color,
     hyphenate: hyphenate,
@@ -57,14 +57,15 @@
 
   show heading: set text(
     fill: primary-color,
-    font: "Fira Sans",
-    weight: "medium",
+    font: "Ruda",
+    tracking: -0.02em,
+    weight: "semibold",
     size: 1.1em,
     hyphenate: auto,
   )
 
   show strong: set text(
-    font: "IBM Plex Serif",
+    font: "Faustina",
     weight: "semibold",
   )
 
@@ -79,6 +80,10 @@
     paper: "a4",
     margin: (x: 2.5cm, y: 3.0cm),
     header: [
+      #set text(
+        font: "Ruda",
+        size: 0.8em,
+      )
       #effective-author // Use effective value
       #h(1fr)
       // Phone only comes from sys.inputs (no YAML equivalent planned)
@@ -99,13 +104,19 @@
       #v(-1em)
     ],
     footer: [
+      #set text(
+        font: "Ruda",
+        size: 0.8em,
+      )
       #v(-1em)
       #line(length: 100%, stroke: 0.5pt)
       #v(-0.5em)
       // Use effective values for footer links, checking for none
       #if effective-website != none {
-        text(fill: primary-color)[#fa-arrow-up-right-from-square()]
-        link("https://" + effective-website)[#effective-website]
+        [
+          #text(fill: primary-color)[#fa-arrow-up-right-from-square()]
+          #link("https://" + effective-website)[#effective-website]
+        ]
       }
       #h(1fr) // Keep horizontal space regardless
       // Group social links and add separators conditionally
@@ -170,7 +181,13 @@
           right,
           dy: -(body-after-text.height - text-only.height),
           dx: full-width,
-        )[#side]
+        )[
+          #set text(
+            font: "Ruda",
+            size: 0.8em,
+          )
+          #side
+        ]
       ]
       #h(-0.25em)
     ]
@@ -179,12 +196,12 @@
 
 #let company-location(body) = [
   #text(fill: primary-color)[#fa-location-dot()]
-  #emph(body)
+  #body
 ]
 
 #let event-date(body) = [
   #text(fill: primary-color)[#fa-calendar()]
-  #emph(body)
+  #body
 ]
 
 #let profile-photo(photo) = [
