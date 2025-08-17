@@ -21,7 +21,7 @@ jobs:
     name: Pre-commit checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -66,7 +66,7 @@ jobs:
           cache-to: type=inline
 
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         # Submodules are no longer used for testing dependencies
         # submodules: recursive # Keep commented out as reference if needed
 
@@ -177,7 +177,7 @@ jobs:
       security-events: write # Needed for reporting findings (optional)
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master # Use master for latest features/fixes
@@ -202,7 +202,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Get version from tag
         id: tag_name
