@@ -131,7 +131,7 @@ jobs:
           echo "Example PDFs built."
 
       - name: Upload Example PDFs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ env.OUTPUT_ARTIFACTS_NAME }} # Use the same name expected by release job
           path: ./examples/*.pdf
