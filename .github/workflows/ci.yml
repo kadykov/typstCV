@@ -210,7 +210,7 @@ jobs:
         shell: bash
 
       - name: Download Example PDFs
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: ${{ env.OUTPUT_ARTIFACTS_NAME }} # Artifact containing example-cv.pdf, example-letter.pdf
           path: ./release-assets/ # Download to a specific directory
