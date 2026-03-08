@@ -43,7 +43,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Login to GitHub Container Registry # For devcontainer cache
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -52,7 +52,7 @@ jobs:
       - name: Login to Docker Hub # For production image testing cache pull
         # Only run if the actor is NOT dependabot (secrets should be available)
         if: github.actor != 'dependabot[bot]'
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -140,7 +140,7 @@ jobs:
       # Only push final images if tests passed and it's a push to main or a tag
       - name: Login to Docker Hub (for push)
         if: success() && (github.event_name == 'push') # Only push on push events
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
