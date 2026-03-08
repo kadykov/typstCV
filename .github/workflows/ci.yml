@@ -40,7 +40,7 @@ jobs:
       packages: write # Needed to push to GHCR
     steps:
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: Login to GitHub Container Registry # For devcontainer cache
         uses: docker/login-action@v3
