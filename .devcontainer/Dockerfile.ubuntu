@@ -1,5 +1,5 @@
 # Use a Microsoft base image with common dev tools pre-installed
-FROM mcr.microsoft.com/devcontainers/base:ubuntu-24.04
+FROM mcr.microsoft.com/devcontainers/base:ubuntu26.04
 
 # Install system dependencies using apt-get
 # Need: git, pandoc, typst (manual?), shellcheck, just (manual?), poppler-utils,
@@ -35,9 +35,9 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 
 # Just is installed via apt-get above
 
-# --- Install Font Awesome 6 ---
-ARG FA_VERSION=6.7.2
-RUN export FA_DIR=/usr/local/share/fonts/fontawesome6 \
+# --- Install Font Awesome ---
+ARG FA_VERSION=7.3.1
+RUN export FA_DIR=/usr/local/share/fonts/fontawesome7 \
     && mkdir -p ${FA_DIR} \
     && wget -qO /tmp/fontawesome.zip https://github.com/FortAwesome/Font-Awesome/releases/download/${FA_VERSION}/fontawesome-free-${FA_VERSION}-desktop.zip \
     && unzip -q /tmp/fontawesome.zip -d /tmp/fontawesome-extract "fontawesome-free-${FA_VERSION}-desktop/otfs/*" \
@@ -47,7 +47,7 @@ RUN export FA_DIR=/usr/local/share/fonts/fontawesome6 \
 
 # Install Typst manually (using musl build might work, or check for glibc build)
 # Let's try the musl build first as it's known
-ARG TYPST_VERSION=v0.13.1
+ARG TYPST_VERSION=v0.15.1
 ARG TARGET=x86_64-unknown-linux-musl
 RUN wget -qO typst.tar.xz https://github.com/typst/typst/releases/download/${TYPST_VERSION}/typst-${TARGET}.tar.xz \
     && tar xf typst.tar.xz \
@@ -71,6 +71,11 @@ RUN mkdir -p $PANDOC_DATA_DIR/filters && \
     ln -sf /workspaces/typstCV/typst-cv.lua $PANDOC_DATA_DIR/filters/typst-cv.lua && \
     ln -sf /workspaces/typstCV/typst-cv.typ $PANDOC_DATA_DIR/templates/typst-cv.typ && \
     ln -sf /workspaces/typstCV/typst-letter.typ $PANDOC_DATA_DIR/templates/typst-letter.typ
+
+# Install hadolint
+ARG HADOLINT_VERSION=v2.15.1
+RUN wget -qO /usr/local/bin/hadolint https://github.com/hadolint/hadolint/releases/download/${HADOLINT_VERSION}/hadolint-linux-x86_64 \
+    && chmod +x /usr/local/bin/hadolint
 
 # Switch back to vscode user provided by base image
 USER vscode

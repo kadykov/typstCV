@@ -1,5 +1,8 @@
+ARG ALPINE_VERSION=3.24
+ARG RUBY_VERSION=4-slim
+
 # === BUILDER STAGE: Install fonts with fontist ===
-FROM ruby:3.4-slim AS fonts-builder
+FROM ruby:${RUBY_VERSION} AS fonts-builder
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git build-essential \
     && rm -rf /var/lib/apt/lists/*
@@ -11,11 +14,11 @@ RUN fontist update --quiet \
     && chmod -R 644 /root/.fontist/fonts
 
 # === BUILDER STAGE: Install Typst and packages ===
-FROM alpine:3.23 AS typst-builder
+FROM alpine:${ALPINE_VERSION} AS typst-builder
 # Install dependencies needed for download (wget), extraction (tar with xz support), and git (for packages)
 RUN apk add --no-cache wget tar xz git
-# Install Typst v0.13.1 manually
-ARG TYPST_VERSION=v0.13.1
+# Install Typst from GitHub Releases
+ARG TYPST_VERSION=v0.15.1
 ARG TARGET=x86_64-unknown-linux-musl
 RUN wget -qO typst.tar.xz https://github.com/typst/typst/releases/download/${TYPST_VERSION}/typst-${TARGET}.tar.xz \
     && tar xf typst.tar.xz \
@@ -23,8 +26,8 @@ RUN wget -qO typst.tar.xz https://github.com/typst/typst/releases/download/${TYP
     && chmod +x /usr/local/bin/typst \
     && rm -rf typst.tar.xz typst-${TARGET} \
     && typst --version
-# Download and extract typst-fontawesome v0.5.0 manually
-ARG TYPST_FONTAWESOME_VERSION=0.5.0
+# Download and extract typst-fontawesome
+ARG TYPST_FONTAWESOME_VERSION=0.6.2
 ENV TYPST_PACKAGE_PATH=/root/.local/share/typst/packages
 RUN mkdir -p $TYPST_PACKAGE_PATH/preview/fontawesome/${TYPST_FONTAWESOME_VERSION}/ \
     && wget -qO typst-fontawesome.tar.gz https://packages.typst.org/preview/fontawesome-${TYPST_FONTAWESOME_VERSION}.tar.gz \
@@ -32,8 +35,8 @@ RUN mkdir -p $TYPST_PACKAGE_PATH/preview/fontawesome/${TYPST_FONTAWESOME_VERSION
     && rm typst-fontawesome.tar.gz
 
 # === BUILDER STAGE: Install Font Awesome from GitHub Release ===
-FROM alpine:3.23 AS fa-builder
-ARG FA_VERSION=6.7.2
+FROM alpine:${ALPINE_VERSION} AS fa-builder
+ARG FA_VERSION=7.3.1
 RUN apk add --no-cache wget unzip
 RUN mkdir -p /fa-fonts \
     && wget -qO /tmp/fontawesome.zip https://github.com/FortAwesome/Font-Awesome/releases/download/${FA_VERSION}/fontawesome-free-${FA_VERSION}-desktop.zip \
@@ -42,7 +45,7 @@ RUN mkdir -p /fa-fonts \
     && rm -rf /tmp/fontawesome.zip /tmp/fontawesome-extract
 
 # === FINAL STAGE: Alpine Production Image ===
-FROM alpine:3.23
+FROM alpine:${ALPINE_VERSION}
 
 # Install runtime dependencies: bash, pandoc, fontconfig, font-awesome
 # Git, wget, tar are NOT needed here anymore as they are copied/handled in builder stages
@@ -61,7 +64,7 @@ COPY --from=typst-builder /root/.local/share/typst/packages /usr/share/typst/pac
 # Copy fonts from fontist builder
 COPY --from=fonts-builder /root/.fontist/fonts/ /usr/share/fonts/fontist/
 # Copy fonts from Font Awesome builder
-COPY --from=fa-builder /fa-fonts/ /usr/share/fonts/fontawesome6/
+COPY --from=fa-builder /fa-fonts/ /usr/share/fonts/fontawesome7/
 
 # --- Configure Environment ---
 # Define paths

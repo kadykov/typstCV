@@ -1,4 +1,4 @@
-#import "@preview/fontawesome:0.5.0": *
+#import "@preview/fontawesome:0.6.2": *
 
 #let text-color = black
 #let background-color = luma(100%, 0%) // Transparent white
