@@ -12,7 +12,7 @@
     "ghcr.io/devcontainers/features/common-utils:2": {
       "username": "vscode"
     },
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+    "ghcr.io/devcontainers/features/docker-in-docker:4": {
       "version": "latest",
       "moby": true
     }
@@ -28,8 +28,8 @@
         "GitHub.vscode-github-actions",
         "sumneko.lua",
         "yinfei.luahelper",
-        "saoudrizwan.claude-dev",
-        "jetmartin.bats"
+        "jetmartin.bats",
+        "exiasr.hadolint"
       ]
     }
   },
